@@ -5,10 +5,8 @@ import java.util.*;
 
 public class Helper {
 
-
-
     public static void main(String[] args) {
-        deleteLine("testFile.csv", "p1");
+        addData("data/product.csv", "product2,test,100000");
     }
 
     public static ArrayList<String[]> readData(String file) {
@@ -48,6 +46,11 @@ public class Helper {
         return idArr;
     }
 
+    public static String randomID() {
+        String uniqueID = UUID.randomUUID().toString();
+        return uniqueID;
+    }
+
     public static void addData(String file, String newData){
         try {
             File inputFile = new File(file);
@@ -66,7 +69,8 @@ public class Helper {
             }
             // Write new data to file combine with new line
             PrintWriter fileWr = new PrintWriter(inputFile);
-            res += newData;
+            String finalData = randomID() + "," + newData;
+            res += finalData;
             fileWr.print(res);
             // close stream
             fileWr.flush();
