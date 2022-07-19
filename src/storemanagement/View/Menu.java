@@ -4,6 +4,8 @@ import storemanagement.Controller.ProductController;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static storemanagement.Controller.ProductController.searchProduct;
+
 public class Menu {
     public static void main(String[] args) {
         System.out.println("COSC2081 GROUP ASSIGNMENT \n" +
@@ -23,7 +25,8 @@ public class Menu {
                 new ProductController();
                 break;
             case 2:
-                System.out.println("2.Search item by name");
+                System.out.println("2.Search product by name");
+                searchProduct();
                 break;
             case 3:
                 System.out.println("3. Log in your account");
