@@ -1,10 +1,14 @@
+package storemanagement.Service;
+
 import java.io.*;
 import java.util.*;
 
 public class Helper {
 
+
+
     public static void main(String[] args) {
-        deleteLine("testFile.txt", "p1");
+        deleteLine("testFile.csv", "p1");
     }
 
     public static ArrayList<String[]> readData(String file) {
