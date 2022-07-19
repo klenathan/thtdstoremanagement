@@ -6,15 +6,11 @@ import storemanagement.Service.Helper;
 
 public class ProductController  {
     String dataFile = "data/product.csv";
-
-    public static void main(String[] args) {
-        new ProductController();
-    }
-
+//    public static void main(String[] args) {
+//        new ProductController();
+//    }
 
     public ProductController() {
-
-
         String content = "";
         ArrayList<String[]> dataArr = Helper.readData(dataFile);
 
