@@ -1,5 +1,6 @@
+import storemanagement.Service.Helper;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class test {
     public static void main(String[] args) {
@@ -22,6 +23,6 @@ public class test {
             }
             content += "\n";
         }
-        Helper.addData("testFile.txt", content);
+        Helper.addData("testFile.csv", content);
     }
 }

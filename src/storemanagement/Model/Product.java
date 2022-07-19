@@ -1,3 +1,5 @@
+package storemanagement.Model;
+
 public class Product {
     private String productId, productName, category, price;
 
@@ -27,6 +29,4 @@ public class Product {
     public void setPrice(String price) {
         this.price = price;
     }
-
-
 }
