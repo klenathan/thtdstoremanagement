@@ -126,6 +126,30 @@ public class Helper {
         }
     }
 
+    public static String[] getDataFromLine(String file, String id) {
+
+        if (getAllId(file).contains(id)) {
+            try {
+                File inputFile = new File(file);
+                String res = "";
+                Scanner reader = new Scanner(inputFile);
+                // Read current data to String res
+                while (reader.hasNext()) {
+                    String line = reader.nextLine();
+                    String[] lineArray = line.split(",", -1);
+                    return lineArray;
+                }
+            } catch (IOException e) {
+                System.out.println(e);
+                e.getStackTrace();
+            }
+        } else {
+            System.out.println("ID does not exist");
+            return null;
+        }
+        return null;
+    }
+
     public static void modifyField(String file, String id, int index, String newValue) {
         StringBuilder tempRes = new StringBuilder();
         try {
