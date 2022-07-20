@@ -1,28 +1,15 @@
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class test {
     public static void main(String[] args) {
 //        testFileOpen();
-        UUID uuid = UUID.randomUUID();
-        System.out.println(uuid);
-    }
+        String testString = "The quick brown fox jumps over";
+        String[] testArr = testString.split(",");
 
-    public static void testWrite() {
-        String userFile = "./data/user.csv";
-        String productFile = "./data/product.csv";
-        String content = "";
-
-        ArrayList<String[]> dataArr = Helper.readData(productFile);
-
-        for (String[] line : dataArr) {
-            for (String s : line) {
-                content += s + ", ";
-            }
-            content += "\n";
-        }
-        Helper.addData("testFile.csv", content);
+        System.out.println(Arrays.toString(testArr));
     }
 }
