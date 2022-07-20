@@ -1,5 +1,7 @@
 package storemanagement.Controller;
 
-public class OrderController {
+import storemanagement.Model.Order;
 
+public class OrderController {
+    Order currentOrder = new Order();
 }

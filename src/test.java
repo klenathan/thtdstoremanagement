@@ -1,12 +1,13 @@
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class test {
     public static void main(String[] args) {
 //        testFileOpen();
-        testWrite();
-        String userFile = "./data/user.csv";
+        UUID uuid = UUID.randomUUID();
+        System.out.println(uuid);
     }
 
     public static void testWrite() {
@@ -16,10 +17,9 @@ public class test {
 
         ArrayList<String[]> dataArr = Helper.readData(productFile);
 
-        for (int i = 0; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            for (int j = 0; j < line.length; j++) {
-                content += line[j] + ", ";
+        for (String[] line : dataArr) {
+            for (String s : line) {
+                content += s + ", ";
             }
             content += "\n";
         }

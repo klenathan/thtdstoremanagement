@@ -8,7 +8,8 @@ public class Helper {
 
 
     public static void main(String[] args) {
-        deleteLine("testFile.csv", "p1");
+//        deleteLine("testFile.csv", "p1");
+        System.out.println(getLatestId("testFile.csv"));
     }
 
     public static ArrayList<String[]> readData(String file) {
@@ -110,5 +111,17 @@ public class Helper {
             System.out.println("ID does not exist");
         }
     }
+    public static int getLatestId(String file) {
+        ArrayList<String> idArray = getAllId(file);
+        String latestStringId = idArray.get(idArray.size()-1).substring(1);
+        try {
+            return Integer.parseInt(latestStringId);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
+    public static void modifyField(String file) {
+        
+    }
 }
