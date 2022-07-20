@@ -6,15 +6,12 @@ import java.util.*;
 
 public class ProductController {
     static String productDataFile = "data/product.csv";
-    static Scanner inp = new Scanner(System.in);
-    static ArrayList<String[]> dataArr = Helper.readData(productDataFile);
+    Scanner inp = new Scanner(System.in);
+    ArrayList<String[]> dataArr = Helper.readData(productDataFile);
 
     public static void main(String[] args) {
-//        new ProductController();
-//        addProduct();
-//        updatePrice();
-//        sortProduct();
-        searchProduct();
+        ProductController productController = new ProductController();
+        productController.searchProduct();
     }
 
     public ProductController() {
@@ -29,7 +26,15 @@ public class ProductController {
             content += line[line.length - 1];
             content += "\n";
         }
-        System.out.println(content);
+    }
+
+    public void addNewProduct(String productId, String productName, String category, String price) {
+        String newData = productId + "," + productName + "," + category + "," + price;
+        Helper.addData(productDataFile, newData);
+    }
+
+    public void removeProduct(String productId) {
+        Helper.deleteLine(productDataFile, productId);
     }
 
     public static boolean productNameValidate(String productName) {
@@ -52,14 +57,14 @@ public class ProductController {
     }
 
     // 9. An admin can add a new product to the Store
-    public static void addProduct() {
+    public void addProduct() {
         try {
             System.out.println("Enter the Product Name: ");
             String productName = inp.nextLine();
             System.out.println("Enter the Category: ");
             String category = inp.nextLine();
             System.out.println("Enter the Product Price: ");
-            long price = inp.nextLong();
+            long price = this.inp.nextLong();
             long finalPrice = priceValidate(price);
             String dataAdd = productName + "," + category + "," + finalPrice;
 
@@ -75,7 +80,7 @@ public class ProductController {
     }
 
     // 10. An admin can update price for a particular product
-    public static void updatePrice() {
+    public void updatePrice() {
         System.out.println("Enter the product name that you want to change its price: ");
         String productName = inp.nextLine();
 
@@ -98,7 +103,7 @@ public class ProductController {
     }
 
     // 5. A customer can sort all products by product price
-    public static void sortProduct() {
+    public void sortProduct() {
         ArrayList<String> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
             String[] price = dataArr.get(i);
@@ -116,7 +121,7 @@ public class ProductController {
     }
 
     // 4. A customer can search for all available products for a particular category
-    public static void searchProduct() {
+    public void searchProduct() {
         System.out.println("Enter the product name you want to view: ");
         String productName = inp.nextLine();
 
@@ -132,5 +137,7 @@ public class ProductController {
         }
     }
 
-
+    public ArrayList<String[]> getDataArr() {
+        return dataArr;
+    }
 }
