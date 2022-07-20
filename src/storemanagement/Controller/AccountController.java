@@ -6,6 +6,7 @@ import storemanagement.Service.Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class AccountController {
@@ -14,29 +15,37 @@ public class AccountController {
     static ArrayList<String[]> dataArr = Helper.readData(userDataFile);
     private Account account;
 
+    public static void main(String[] args) {
+        AccountController acc = new AccountController();
+        System.out.println(acc.getAccount().getFullName());
+
+//        System.out.println(acc.getUserData("admin")[1]);
+    }
+
     public Account getAccount() {
         return account;
     }
 
     public AccountController() {
         this.login();
-
     }
 
     public void login() {
-        System.out.println("Enter your username:");
+        System.out.print("Enter your username :");
         String username = input.next();
+
         if (usernameValidate(username)) {
-            System.out.println("Enter your password:");
+            System.out.print("Enter your password :");
             String password = input.next();
             String generatePass = hashPassword(password);
             if (passwordValidate(generatePass)) {
-                System.out.println("Ok");
-// TODO: 20/07/2022 FIX THIS PLEASE
-                account = new Account("admin", "admin", "Admin", 123312312, "123");
+                String[] userData = getUserData(username);
+                account = new Account(userData[1], userData[2],userData[3], Integer.parseInt(userData[4]), userData[5]);
             } else {
                 System.out.println("Wrong password, please try again!");
             }
+        } else {
+            System.out.println("Account does not exist");
         }
     }
 
@@ -53,6 +62,17 @@ public class AccountController {
         int phone = input.nextInt();
         String dataAdd = fullName + "," + generatePass + "," + username + "," + phone;
         Helper.addData(userDataFile, dataAdd);
+    }
+
+    public String[] getUserData(String username) {
+        ArrayList<String[]> userData = Helper.readData(userDataFile);
+        for (int i = 0; i < userData.size(); i++) {
+            if(userData.get(i)[1].equalsIgnoreCase(username)){
+                return userData.get(i);
+            }
+        }
+//        return null;
+        return new String[0];
     }
 
     public boolean usernameValidate(String username) {
