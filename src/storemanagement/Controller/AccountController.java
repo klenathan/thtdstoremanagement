@@ -12,11 +12,15 @@ public class AccountController {
     static String userDataFile = "data/user.csv";
     static Scanner input = new Scanner(System.in);
     static ArrayList<String[]> dataArr = Helper.readData(userDataFile);
-
     private Account account;
+
+    public Account getAccount() {
+        return account;
+    }
 
     public AccountController() {
         this.login();
+
     }
 
     public void login() {
@@ -28,6 +32,8 @@ public class AccountController {
             String generatePass = hashPassword(password);
             if (passwordValidate(generatePass)) {
                 System.out.println("Ok");
+// TODO: 20/07/2022 FIX THIS PLEASE
+                account = new Account("admin", "admin", "Admin", 123312312, "123");
             } else {
                 System.out.println("Wrong password, please try again!");
             }
@@ -45,7 +51,7 @@ public class AccountController {
         String generatePass = hashPassword(password);
         System.out.println("Enter phone number:");
         int phone = input.nextInt();
-        String dataAdd = fullName + "," + username + "," + generatePass + "," + phone;
+        String dataAdd = fullName + "," + generatePass + "," + username + "," + phone;
         Helper.addData(userDataFile, dataAdd);
     }
 

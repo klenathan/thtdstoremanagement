@@ -1,4 +1,5 @@
 package storemanagement.View;
+import storemanagement.Controller.AccountController;
 import storemanagement.Controller.ProductController;
 
 import java.util.Arrays;
@@ -7,11 +8,19 @@ import java.util.Scanner;
 public class Menu {
 
     ProductController productController = new ProductController();
+    AccountController accController;
     public static void main(String[] args) {
         new Menu();
     }
 
     Menu() {
+        welcomeScreen();
+
+
+        System.out.println(accController.getAccount().getFullName());;
+    }
+
+    public void welcomeScreen() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
                 STORE ORDER MANAGEMENT SYSTEM
@@ -30,12 +39,14 @@ public class Menu {
                 System.out.println("2.Search product by name");
                 productController.searchProduct();
             }
-            case 3 -> System.out.println("3. Log in your account");
+            case 3 -> {
+                System.out.println("3. Log in your account");
+                accController = new AccountController();
+            }
             case 4 -> System.out.println("4. Sign up your account");
             case 5 -> System.out.println("5. Admin login");
         }
     }
-
     public static int userOption() {
         Scanner input = new Scanner(System.in);
         System.out.println("Choose one of these options:\n" +
@@ -44,7 +55,7 @@ public class Menu {
                 "3. Log in your account             4. Sign up your account\n" +
                 "5. Admin login");
 
-        Integer optionArr[] = {0, 1, 2, 3, 4, 5};
+        Integer[] optionArr = {0, 1, 2, 3, 4, 5};
         int n;
         while (true) {
             try {
