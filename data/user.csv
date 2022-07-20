@@ -1,2 +1,2 @@
-username, customerId, password(hashed), fullName, phoneNum
-one, c1, 123, Customer One, 1234567890
+customerId,username, password(hashed), fullName, phoneNum,membership
+66cd4b42-9dc6-450b-a5f7-8521338e74ed,admin,admin,21232f297a57a5a743894a0e4a801fc3,0
