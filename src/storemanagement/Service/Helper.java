@@ -5,11 +5,8 @@ import java.util.*;
 
 public class Helper {
 
-
-
     public static void main(String[] args) {
-//        deleteLine("testFile.csv", "p1");
-        System.out.println(getLatestId("testFile.csv"));
+        addData("data/product.csv", "product2,test,100000");
     }
 
     public static ArrayList<String[]> readData(String file) {
@@ -18,12 +15,12 @@ public class Helper {
             File inputFile = new File(file);
             Scanner reader = new Scanner(inputFile);
 
-             while (reader.hasNext()) {
-                 String line = reader.nextLine();
-                 String[] lineArray = line.split(",", -1);
-                 dataArr.add(lineArray);
-             }
-             reader.close();
+            while (reader.hasNext()) {
+                String line = reader.nextLine();
+                String[] lineArray = line.split(",", -1);
+                dataArr.add(lineArray);
+            }
+            reader.close();
         } catch (FileNotFoundException e) {
             e.getStackTrace();
         }
@@ -49,7 +46,12 @@ public class Helper {
         return idArr;
     }
 
-    public static void addData(String file, String newData){
+    public static String randomID() {
+        String uniqueID = UUID.randomUUID().toString();
+        return uniqueID;
+    }
+
+    public static void addData(String file, String newData) {
         try {
             File inputFile = new File(file);
             String res = "";
@@ -67,7 +69,8 @@ public class Helper {
             }
             // Write new data to file combine with new line
             PrintWriter fileWr = new PrintWriter(inputFile);
-            res += newData;
+            String finalData = randomID() + "," + newData;
+            res += finalData;
             fileWr.print(res);
             // close stream
             fileWr.flush();
@@ -111,9 +114,10 @@ public class Helper {
             System.out.println("ID does not exist");
         }
     }
+
     public static int getLatestId(String file) {
         ArrayList<String> idArray = getAllId(file);
-        String latestStringId = idArray.get(idArray.size()-1).substring(1);
+        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
         try {
             return Integer.parseInt(latestStringId);
         } catch (Exception e) {
@@ -122,6 +126,6 @@ public class Helper {
     }
 
     public static void modifyField(String file) {
-        
+
     }
 }
