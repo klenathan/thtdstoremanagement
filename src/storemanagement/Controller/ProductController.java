@@ -11,7 +11,7 @@ public class ProductController {
 
     public static void main(String[] args) {
         ProductController productController = new ProductController();
-        productController.searchProduct();
+        productController.addProduct();
     }
 
     public ProductController() {
