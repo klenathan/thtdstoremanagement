@@ -1,4 +1,5 @@
 package storemanagement.View;
+
 import storemanagement.Controller.*;
 
 import java.util.Arrays;
@@ -14,11 +15,12 @@ public class Menu {
         Menu menu = new Menu();
 
     }
+
     public Menu() {
         welcomeScreen();
         accController = new AccountController();
-         productController = new ProductController();
-         orderController = new OrderController();
+        productController = new ProductController();
+        orderController = new OrderController();
     }
 
     public Menu(String hello) {
@@ -62,24 +64,25 @@ public class Menu {
                     case 5 -> System.out.println("5. Admin login");
                 }
             }
-        }   catch(Exception e){
+        } catch (Exception e) {
             e.getStackTrace();
         }
     }
+
     public int userOption() {
         Scanner input = new Scanner(System.in);
         String options = """
-        Choose one of these options:
-        0. Exit
-        1. List all products
-        2. Search item by name
-        --------------------------------
-        3. Log in your account
-        4. Sign up your account
-        5. Admin login""";
+                Choose one of these options:
+                0. Exit
+                1. List all products
+                2. Search item by name
+                --------------------------------
+                3. Log in your account
+                4. Sign up your account
+                5. Admin login""";
         System.out.println(options);
 
-        Integer[] optionArr = {0, 1, 2, 3, 4, 5};
+        Integer[] optionArr = { 0, 1, 2, 3, 4, 5 };
         int n;
         while (true) {
             try {
@@ -104,8 +107,7 @@ public class Menu {
         System.out.print("Input password: ");
         password = loginScan.nextLine();
         accController.login(username, password);
-//        loginScan.close();
+        // loginScan.close();
         System.out.println(username + " " + password);
     }
 }
-

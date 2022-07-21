@@ -7,7 +7,8 @@ public class Helper {
 
     public static void main(String[] args) {
 //        addData("data/product.csv", "product2,test,100000");
-        modifyField("testFile.csv", "321e7f1f-0e96-4fda-9649-da506aac432d", 3, "600");
+//        modifyField("testFile.csv", "321e7f1f-0e96-4fda-9649-da506aac432d", 3, "600");
+        generatedID("data/product.csv");
     }
 
     public static ArrayList<String[]> readData(String file) {
@@ -47,9 +48,18 @@ public class Helper {
         return idArr;
     }
 
-    public static String randomID() {
-        String uniqueID = UUID.randomUUID().toString();
-        return uniqueID;
+    public static String generatedID(String file) {
+        int latestID = getLatestId(file) + 1;
+        String firstChar = "";
+        if (file.equalsIgnoreCase("data/order.csv")) {
+            firstChar = "O";
+        } else if (file.equalsIgnoreCase(("data/product.csv"))) {
+            firstChar = "P";
+        } else if (file.equalsIgnoreCase("data/user.csv")) {
+            firstChar = "U";
+        }
+        System.out.println(firstChar + latestID);
+        return firstChar + latestID;
     }
 
     public static void addData(String file, String newData) {
@@ -70,7 +80,9 @@ public class Helper {
             }
             // Write new data to file combine with new line
             PrintWriter fileWr = new PrintWriter(inputFile);
-            String finalData = randomID() + "," + newData;
+            System.out.println(generatedID(file));
+
+            String finalData = generatedID(file) + "," + newData;
             res += finalData;
             fileWr.print(res);
             // close stream
@@ -118,16 +130,16 @@ public class Helper {
 
     public static int getLatestId(String file) {
         ArrayList<String> idArray = getAllId(file);
-        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
+        System.out.println(getAllId(file).size());
+//        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
         try {
-            return Integer.parseInt(latestStringId);
+            return Integer.parseInt("12");
         } catch (Exception e) {
             return 0;
         }
     }
 
     public static String[] getDataFromLine(String file, String id) {
-
         if (getAllId(file).contains(id)) {
             try {
                 File inputFile = new File(file);
