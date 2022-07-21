@@ -8,9 +8,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class AccountController {
     String userDataFile = "data/user.csv";
+    private Pattern pattern;
+    private String USERNAME_PATTERN = "^/s$";
     Scanner input;
     ArrayList<String[]> dataArr = Helper.readData(userDataFile);
     Account account;
@@ -27,76 +30,25 @@ public class AccountController {
     /**
      *This is the method help user login to our application
      */
-
-    // TODO: 21/07/2022 login(String username, String password) -> boolean login status
-    public void login() {
-//        String username;
-//        while (true) {
-//            System.out.print("Enter your username: ");
-//            username = input.next();
-//            if (usernameValidate(username)) {
-//                break;
-//            } else {
-//                System.out.println("""
-//                        Account does not exist, please sign up!
-//                        Do you want to create the account!(Y/N)""");
-//                String option = input.next();
-//                if (option.equalsIgnoreCase("Y")) {
-//                    input.nextLine();
-//                    signup();
-//                } else {
-//                    new Menu();
-//                }
-//            }
-//        }
-//        String password;
-//        while (true) {
-//            System.out.print("Enter your password: ");
-//            password = input.next();
-//            String generatePass = hashPassword(password);
-//            if (passwordValidate(generatePass)) {
-//                String[] userData = getUserData(username);
-//                account = new Account(userData[1], userData[2], userData[3], userData[4], "none");
-//                break;
-//            } else {
-//                System.out.println("Wrong password, please try again!");
-//            }
-//        }
+    public boolean login (String username, String password){
+        return (usernameValidate(username) && passwordValidate(password));
     }
 
     /**
      * This method help user sign up our application
      */
-    // TODO: 21/07/2022 signup(String username, String password) -> boolean login status
-    public void signup() {
-//        System.out.println("Enter your full name:");
-//        String fullName = input.nextLine();
-//
-//        String username;
-//        while (true) {
-//            System.out.println("Enter your username:");
-//            username = input.next();
-//            if (usernameValidate(username)) {
-//                System.out.println("This username was used, please try again!");
-//            } else break;
-//        }
-//
-//        System.out.println("Enter password:");
-//        String password = input.next();
-//        String generatePass = hashPassword(password);
-//
-//        System.out.println("Enter phone number (10 digits):");
-//        String phone;
-//        while (true) {
-//            phone = input.next();
-//            if (phone.length() == 10) {
-//                break;
-//            } else {
-//                System.out.println("Invalid phone number, please try again!");
-//            }
-//        }
-//        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone;
-//        Helper.addData(userDataFile, dataAdd);
+    public boolean signup(String fullName, String username, String password, String phone) {
+        String generatePass = hashPassword(password);
+        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone;
+        if(usernameValidate(username)){
+            return false;
+        }else if (!usernameValidate(username)){
+            if(!signupUsernameValidate(username)){
+                return false;
+            }
+        }
+        Helper.addData(userDataFile, dataAdd);
+        return true;
     }
 
     /**
@@ -128,16 +80,27 @@ public class AccountController {
     }
 
     /**
+     * This method do not allow user input the whitespace for password
+     * @return boolean
+     */
+    public boolean signupUsernameValidate(String username){
+        pattern = Pattern.compile(USERNAME_PATTERN);
+        return pattern.matcher(username).matches();
+    }
+    
+    /**
      * This method validate password
      * @return boolean
      */
     public boolean passwordValidate(String password) {
+
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (password.equalsIgnoreCase(line[1])) {
                 return false;
             }
         }
+
         return true;
     }
 

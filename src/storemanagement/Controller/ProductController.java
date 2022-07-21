@@ -15,16 +15,15 @@ public class ProductController {
     }
 
     public ProductController() {
-        String content = "";
+        StringBuilder content = new StringBuilder();
         ArrayList<String[]> dataArr = Helper.readData(productDataFile);
 
-        for (int i = 0; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
+        for (String[] line : dataArr) {
             for (int j = 0; j < line.length - 1; j++) {
-                content += line[j] + ",";
+                content.append(line[j]).append(",");
             }
-            content += line[line.length - 1];
-            content += "\n";
+            content.append(line[line.length - 1]);
+            content.append("\n");
         }
     }
 
@@ -110,10 +109,9 @@ public class ProductController {
             priceArr.add(price[3]);
         }
         Collections.sort(priceArr);
-        for (int j = 0; j < priceArr.size(); j++) {
-            for (int i = 0; i < dataArr.size(); i++) {
-                String[] line = dataArr.get(i);
-                if (line[3] == priceArr.get(j)) {
+        for (String s : priceArr) {
+            for (String[] line : dataArr) {
+                if (Objects.equals(line[3], s)) {
                     System.out.println(line[1] + ", " + line[2] + ", " + line[3]);
                 }
             }
@@ -126,8 +124,7 @@ public class ProductController {
         String productName = inp.nextLine();
 
         if (!productNameValidate(productName)) {
-            for (int i = 0; i < dataArr.size(); i++) {
-                String[] line = dataArr.get(i);
+            for (String[] line : dataArr) {
                 if (productName.equalsIgnoreCase(line[1])) {
                     System.out.println("Product name: " + line[1] + "\nCategory: " + line[2] + "\nPrice: " + line[3]);
                 }

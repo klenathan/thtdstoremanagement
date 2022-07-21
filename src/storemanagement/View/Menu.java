@@ -40,12 +40,12 @@ public class Menu {
             case 3 -> {
                 System.out.println("3. Log in your account");
                 accController = new AccountController();
-                accController.login();
+//                accController.login();
             }
             case 4 -> {
 //                System.out.println("4. Sign up your account");
                 accController = new AccountController();
-                accController.signup();
+//                accController.signup();
             }
             case 5 -> System.out.println("5. Admin login");
         }
