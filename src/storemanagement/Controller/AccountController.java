@@ -27,74 +27,76 @@ public class AccountController {
     /**
      *This is the method help user login to our application
      */
-    public void login() {
-        String username;
-        while (true) {
-            System.out.print("Enter your username :");
-            username = input.next();
-            if (usernameValidate(username)) {
-                break;
-            } else {
-                System.out.println("""
-                        Account does not exist, please sign up!
-                        Do you want to create the account!(Y/N)""");
-                String option = input.next();
-                if (option.equalsIgnoreCase("Y")) {
-                    input.nextLine();
-                    signup();
-                } else {
-                    new Menu();
-                }
-            }
-        }
 
-        String password;
-        while (true) {
-            System.out.print("Enter your password :");
-            password = input.next();
-            String generatePass = hashPassword(password);
-            if (passwordValidate(generatePass)) {
-                String[] userData = getUserData(username);
-                account = new Account(userData[1], userData[2], userData[3], userData[4], "none");
-                break;
-            } else {
-                System.out.println("Wrong password, please try again!");
-            }
-        }
+    // TODO: 21/07/2022 login(String username, String password) -> boolean login status
+    public void login() {
+//        String username;
+//        while (true) {
+//            System.out.print("Enter your username: ");
+//            username = input.next();
+//            if (usernameValidate(username)) {
+//                break;
+//            } else {
+//                System.out.println("""
+//                        Account does not exist, please sign up!
+//                        Do you want to create the account!(Y/N)""");
+//                String option = input.next();
+//                if (option.equalsIgnoreCase("Y")) {
+//                    input.nextLine();
+//                    signup();
+//                } else {
+//                    new Menu();
+//                }
+//            }
+//        }
+//        String password;
+//        while (true) {
+//            System.out.print("Enter your password: ");
+//            password = input.next();
+//            String generatePass = hashPassword(password);
+//            if (passwordValidate(generatePass)) {
+//                String[] userData = getUserData(username);
+//                account = new Account(userData[1], userData[2], userData[3], userData[4], "none");
+//                break;
+//            } else {
+//                System.out.println("Wrong password, please try again!");
+//            }
+//        }
     }
 
     /**
      * This method help user sign up our application
      */
+    // TODO: 21/07/2022 signup(String username, String password) -> boolean login status
     public void signup() {
-        System.out.println("Enter your full name:");
-        String fullName = input.nextLine();
-
-        String username;
-        while (true) {
-            System.out.println("Enter your username:");
-            username = input.next();
-            if (usernameValidate(username)) {
-                System.out.println("This username was used, please try again!");
-            } else break;
-        }
-
-        System.out.println("Enter password:");
-        String password = input.next();
-        String generatePass = hashPassword(password);
-
-        System.out.println("Enter phone number (10 digits):");
-        String phone;
-        while (true) {
-            phone = input.next();
-            if (phone.length() == 10) {
-                break;
-            } else {
-                System.out.println("Invalid phone number, please try again!");
-            }
-        }
-        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone;
-        Helper.addData(userDataFile, dataAdd);
+//        System.out.println("Enter your full name:");
+//        String fullName = input.nextLine();
+//
+//        String username;
+//        while (true) {
+//            System.out.println("Enter your username:");
+//            username = input.next();
+//            if (usernameValidate(username)) {
+//                System.out.println("This username was used, please try again!");
+//            } else break;
+//        }
+//
+//        System.out.println("Enter password:");
+//        String password = input.next();
+//        String generatePass = hashPassword(password);
+//
+//        System.out.println("Enter phone number (10 digits):");
+//        String phone;
+//        while (true) {
+//            phone = input.next();
+//            if (phone.length() == 10) {
+//                break;
+//            } else {
+//                System.out.println("Invalid phone number, please try again!");
+//            }
+//        }
+//        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone;
+//        Helper.addData(userDataFile, dataAdd);
     }
 
     /**

@@ -9,10 +9,6 @@ public class Menu {
 
     ProductController productController = new ProductController();
     AccountController accController;
-    public static void main(String[] args) {
-        new Menu();
-    }
-
     public Menu() {
         welcomeScreen();
 
@@ -54,7 +50,7 @@ public class Menu {
             case 5 -> System.out.println("5. Admin login");
         }
     }
-    public static int userOption() {
+    public int userOption() {
         Scanner input = new Scanner(System.in);
         System.out.println("Choose one of these options:\n" +
                 "0. Exit\n" +
@@ -77,5 +73,10 @@ public class Menu {
             }
         }
     }
+
+//    public void loginInput() {
+//        Scanner loginScan = new Scanner(System.in);
+//        String username =
+//    }
 }
 
