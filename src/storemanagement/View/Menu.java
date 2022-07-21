@@ -13,7 +13,7 @@ public class Menu {
         new Menu();
     }
 
-    Menu() {
+    public Menu() {
         welcomeScreen();
 
 
@@ -27,7 +27,9 @@ public class Menu {
                 Instructor: Mr. Minh Vu
                 Group: Group 7
                 s3878246, Pham Anh Thu
-                s3891890, Nam Thai Tran\n""");
+                s3891890, Nam Thai Tran
+                S3891968, Pham Vo Dong
+                """);
         int input = userOption();
         switch (input) {
             case 0 -> System.out.println("Thank you for visiting our store! Hope to see you again!");
@@ -42,8 +44,13 @@ public class Menu {
             case 3 -> {
                 System.out.println("3. Log in your account");
                 accController = new AccountController();
+                accController.login();
             }
-            case 4 -> System.out.println("4. Sign up your account");
+            case 4 -> {
+//                System.out.println("4. Sign up your account");
+                accController = new AccountController();
+                accController.signup();
+            }
             case 5 -> System.out.println("5. Admin login");
         }
     }

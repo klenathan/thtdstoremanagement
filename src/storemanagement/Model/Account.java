@@ -4,12 +4,12 @@ import storemanagement.Service.Helper;
 
 public class Account {
 //    private String cusID;
-    private final String username;
-    private final String password;
-    private final String fullName;
+    private String username;
+    private String password;
+    private String fullName;
     public String membership;
-    int phone;
-    public Account(String username, String password, String fullName, int phone, String membership){
+    public String phone;
+    public Account(String username, String password, String fullName, String phone, String membership){
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -33,7 +33,7 @@ public class Account {
         return membership;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 }
