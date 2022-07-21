@@ -9,6 +9,7 @@ public class Helper {
 //        addData("data/product.csv", "product2,test,100000");
 //        modifyField("testFile.csv", "321e7f1f-0e96-4fda-9649-da506aac432d", 3, "600");
         generatedID("data/product.csv");
+        addData("data/product.csv", "product3,test,100000");
     }
 
     public static ArrayList<String[]> readData(String file) {
@@ -58,7 +59,6 @@ public class Helper {
         } else if (file.equalsIgnoreCase("data/user.csv")) {
             firstChar = "U";
         }
-        System.out.println(firstChar + latestID);
         return firstChar + latestID;
     }
 
@@ -79,10 +79,10 @@ public class Helper {
                 res += "\n";
             }
             // Write new data to file combine with new line
+            String newId = generatedID(file);
             PrintWriter fileWr = new PrintWriter(inputFile);
-            System.out.println(generatedID(file));
 
-            String finalData = generatedID(file) + "," + newData;
+            String finalData = newId + "," + newData;
             res += finalData;
             fileWr.print(res);
             // close stream
@@ -130,10 +130,9 @@ public class Helper {
 
     public static int getLatestId(String file) {
         ArrayList<String> idArray = getAllId(file);
-        System.out.println(getAllId(file).size());
-//        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
+        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
         try {
-            return Integer.parseInt("12");
+            return Integer.parseInt(latestStringId);
         } catch (Exception e) {
             return 0;
         }
@@ -162,6 +161,7 @@ public class Helper {
         return null;
     }
 
+    // TODO: 21/07/2022 FIX THIS
     public static void modifyField(String file, String id, int index, String newValue) {
         StringBuilder tempRes = new StringBuilder();
         try {

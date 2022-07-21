@@ -58,22 +58,16 @@ public class ProductController {
 
     // 9. An admin can add a new product to the Store
     public void addProduct(String productName, String category, long price) {
-//            System.out.println("Enter the product name: ");
-//            String productName = inp.nextLine();
-//            System.out.println("Enter the category: ");
-//            String category = inp.nextLine();
-//            System.out.println("Enter the product price: ");
-//            long price = this.inp.nextLong();
-            long finalPrice = priceValidate(price);
-            String dataAdd = productName + "," + category + "," + finalPrice;
 
-            if (productNameValidate(productName)) {
-                System.out.println("Successfully added new product to the store!");
-                Helper.addData(productDataFile, dataAdd);
-            } else {
-                System.out.println("The product \"" + productName + "\" already exists in the store!");
-            }
+        long finalPrice = priceValidate(price);
+        String dataAdd = productName + "," + category + "," + finalPrice;
 
+        if (productNameValidate(productName)) {
+            System.out.println("Successfully added new product to the store!");
+            Helper.addData(productDataFile, dataAdd);
+        } else {
+            System.out.println("The product \"" + productName + "\" already exists in the store!");
+        }
     }
 
     // 10. An admin can update price for a particular product
