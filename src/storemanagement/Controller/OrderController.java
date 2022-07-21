@@ -11,7 +11,7 @@ public class OrderController {
     private final String orderDataFile = "data/order.csv";
     ArrayList<String[]> dataArr;
 
-    OrderController() {
+    public OrderController() {
         dataArr = Helper.readData(orderDataFile);
     }
 

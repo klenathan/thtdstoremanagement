@@ -29,7 +29,7 @@ public class AccountController {
      */
 
     // TODO: 21/07/2022 login(String username, String password) -> boolean login status
-    public void login() {
+    public void login(String username, String password) {
 //        String username;
 //        while (true) {
 //            System.out.print("Enter your username: ");
