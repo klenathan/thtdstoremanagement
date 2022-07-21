@@ -24,7 +24,7 @@ public class Menu {
     }
 
     public Menu(String hello) {
-        System.out.println(hello);
+        System.out.println("test");
         inputLogin();
     }
 
@@ -107,7 +107,7 @@ public class Menu {
         System.out.print("Input password: ");
         password = loginScan.nextLine();
         accController.login(username, password);
-        // loginScan.close();
+         loginScan.close();
         System.out.println(username + " " + password);
     }
 }

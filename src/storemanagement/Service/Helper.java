@@ -6,10 +6,8 @@ import java.util.*;
 public class Helper {
 
     public static void main(String[] args) {
-//        addData("data/product.csv", "product2,test,100000");
-//        modifyField("testFile.csv", "321e7f1f-0e96-4fda-9649-da506aac432d", 3, "600");
-        generatedID("data/product.csv");
-        addData("data/product.csv", "product3,test,100000");
+//        generatedID("data/product.csv");
+//        addData("data/product.csv", "product3,test,100000");
     }
 
     public static ArrayList<String[]> readData(String file) {
