@@ -8,8 +8,7 @@ import java.util.UUID;
 public class test {
     public static void main(String[] args) {
         AccountController a = new AccountController();
-        if(a.signup("Pham Vo Dong", "admin", " ", "0392612231")){
-            System.out.println("Login successes");
+        System.out.println(a.signup("Pham Vo Dong", " ", "dong", "0392612231"));
         }
-    }
+
 }

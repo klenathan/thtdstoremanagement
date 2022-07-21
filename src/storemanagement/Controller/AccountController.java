@@ -37,18 +37,18 @@ public class AccountController {
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) {
+    public String signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone;
         if(usernameValidate(username)){
-            return false;
-        }else if (!usernameValidate(username)){
+            return "This username has been used";
+        }else{
             if(!signupUsernameValidate(username)){
-                return false;
+                return "Invalid username";
             }
         }
         Helper.addData(userDataFile, dataAdd);
-        return true;
+        return dataAdd;
     }
 
     /**
