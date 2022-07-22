@@ -50,7 +50,7 @@ public class ProductController {
     /**
      * This method helps admin add new product to the store
      *
-     * @param productName
+     * @param productName: new product's information
      * @param category
      * @param price
      */

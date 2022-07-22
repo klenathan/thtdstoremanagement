@@ -19,6 +19,10 @@ public class OrderController {
         this.dataArr = Helper.readData(orderDataFile);
     }
 
+    public ArrayList<String[]> getDataArr() {
+        return dataArr;
+    }
+
     public void createOrder(String productId, String userId, int quantity, long price){
         long totalBill = quantity * price;
 
@@ -71,6 +75,21 @@ public class OrderController {
             discount = 0;
         }
         return discount;
+    }
+
+        
+    public ArrayList<String[]> getCurrenUserOrders(String userId) {
+        ArrayList<String[]> res = new ArrayList<>();
+        for (int i = 0; i < this.dataArr.size(); i++) {
+            String orderUserId = this.dataArr.get(i)[2];
+            System.out.println(userId + " orderUserId: " + orderUserId +" "+ orderUserId.equalsIgnoreCase(userId));
+            // TODO: 22/07/2022 : This check always return false :(( SOS 
+            if (orderUserId.equalsIgnoreCase(userId)) {
+
+                res.add(this.dataArr.get(i));
+            }
+        }
+        return res;
     }
 
 

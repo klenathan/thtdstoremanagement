@@ -52,7 +52,7 @@ public class AccountController {
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) {
+    public boolean signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
         if (usernameValidate(username)) {

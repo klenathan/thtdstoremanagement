@@ -17,6 +17,10 @@ public class Account {
         this.membership = membership;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public String getUsername() {
         return username;
     }

@@ -2,6 +2,7 @@ package storemanagement.View;
 
 import storemanagement.Controller.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -24,6 +25,10 @@ public class Menu {
         welcomeScreen();
     }
 
+    public Menu(String a) {
+        System.out.println("Test purpose");
+    }
+
     public void welcomeScreen() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
@@ -35,10 +40,12 @@ public class Menu {
                 S3891968, Pham Vo Dong
                 """);
         int input;
-        if (accController.getAccount() != null) {
-            // LOGGED IN MENU
-            try {
-                while (true) {
+        System.out.println("test account exist: " + accController.getAccount() != null);
+        while (true) {
+            if (accController.getAccount() != null) {
+                // LOGGED IN MENU
+                try {
+
                     input = userOption();
                     if (input == 0){
                         System.out.println("Thank you for visiting our store! Hope to see you again!");
@@ -49,23 +56,21 @@ public class Menu {
                     } else if (input == 2) {
                         System.out.println("2.Search product by name");
                     }else if (input == 3){
-                        System.out.println("================================");
-                        System.out.println("Please type in your account");
-                        this.inputLogin();
+                        System.out.println("ORDERS LIST | This is your order list");
+                        System.out.println(accController.getAccount().getUserId());
+                        this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
                     }else if (input == 4){
                         System.out.println("4 is now blank");
                     }else if (input == 5) {
                         System.out.println("5 is blank");
                     }
+                } catch (Exception e) {
+                    e.getStackTrace();
+                    System.out.println(e);
                 }
-            } catch (Exception e) {
-                e.getStackTrace();
-                System.out.println(e);
-            }
-        } else {
-            // GUEST MENU
-            try {
-                while (true) {
+            } else {
+                // GUEST MENU
+                try {
                     input = userOption();
                     if (input == 0){
                         System.out.println("Thank you for visiting our store! Hope to see you again!");
@@ -85,12 +90,14 @@ public class Menu {
                     }else if (input == 5) {
                         System.out.println("5. Admin login");
                     }
+
+                } catch (Exception e) {
+                    e.getStackTrace();
+                    System.out.println(e);
                 }
-            } catch (Exception e) {
-                e.getStackTrace();
-                System.out.println(e);
             }
         }
+
     }
 
     public int userOption() {
@@ -115,7 +122,8 @@ public class Menu {
                 1. List all products
                 2. Search item by name
                 --------------------------------
-                3. Log in your account
+                3. List my orders
+                --------------------------------
                 4. BLANK
                 5. BLANK
                 ================================""";
@@ -160,9 +168,9 @@ public class Menu {
         System.out.print("\n");
     }
 
-    private void inputSignup(){
+    private void inputSignup() throws Exception {
         Scanner signupScan = new Scanner(System.in);
-        System.out.print("Enter your username: ");
+        System.out.print("Enter your username (username cannot contain space): ");
         String username = signupScan.nextLine();
         System.out.print("Enter your password: ");
         String password = signupScan.nextLine();
@@ -175,12 +183,44 @@ public class Menu {
             accController.setCurrentAccount(username);
             System.out.println("Sign up successfully!");
         } else {
-            System.out.println(this.error("USERNAME EXIST"));
+            System.out.println(this.error("USERNAME EXIST OR INVALID USERNAME"));
         }
         System.out.print("\n");
+    }
+
+    public void tableDisplay(ArrayList<String[]> displayData) {
+        int colWidth = 15;
+        for (int i = 0; i < displayData.size(); i++) {
+            String[] line = displayData.get(i);
+            for (int j = 0; j < line.length; j++) {
+                if (line[j].length() > 15) {
+                    line[j] = line[j].substring(0, Math.min(line[j].length(), 12)) + "...";
+//                    System.out.println(line[j].length());
+                }
+                System.out.print(" " + line[j] + " ".repeat(colWidth-line[j].length()) + "||");
+            }
+            System.out.print("\n" + "=".repeat((colWidth + 3)* line.length ));
+            System.out.print("\n");
+        }
     }
 
     private String error(String message) {
         return Coloring.RED + message + Coloring.RESET;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
