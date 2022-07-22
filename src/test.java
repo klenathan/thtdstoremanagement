@@ -1,3 +1,4 @@
+import storemanagement.Controller.AccountController;
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
@@ -6,10 +7,9 @@ import java.util.UUID;
 
 public class test {
     public static void main(String[] args) {
-//        testFileOpen();
-        String testString = "The quick brown fox jumps over";
-        String[] testArr = testString.split(",");
-
-        System.out.println(Arrays.toString(testArr));
+        AccountController a = new AccountController();
+        if(a.signup("Pham Vo Dong", "admin", " ", "0392612231")){
+            System.out.println("Login successes");
+        }
     }
 }

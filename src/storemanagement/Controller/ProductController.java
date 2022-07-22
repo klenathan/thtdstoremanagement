@@ -15,16 +15,15 @@ public class ProductController {
     }
 
     public ProductController() {
-        String content = "";
+        StringBuilder content = new StringBuilder();
         ArrayList<String[]> dataArr = Helper.readData(productDataFile);
 
-        for (int i = 0; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
+        for (String[] line : dataArr) {
             for (int j = 0; j < line.length - 1; j++) {
-                content += line[j] + ",";
+                content.append(line[j]).append(",");
             }
-            content += line[line.length - 1];
-            content += "\n";
+            content.append(line[line.length - 1]);
+            content.append("\n");
         }
     }
 
@@ -72,11 +71,12 @@ public class ProductController {
 
     // 10. An admin can update price for a particular product
     public void updatePrice(String productName, long newPrice) {
-//        System.out.println("Enter the product name that you want to change its price: ");
-//        String productName = inp.nextLine();
-//
-//        System.out.println("Enter the new price: ");
-//        long newPrice = inp.nextLong();
+        // System.out.println("Enter the product name that you want to change its price:
+        // ");
+        // String productName = inp.nextLine();
+        //
+        // System.out.println("Enter the new price: ");
+        // long newPrice = inp.nextLong();
 
         long finalPrice = priceValidate(newPrice);
 
@@ -101,20 +101,10 @@ public class ProductController {
             String[] line = dataArr.get(i);
             priceArr.add(line[3]);
         }
-
-//        System.out.println("Enter A for ascending order or D for descending order: ");
-//        String productName = inp.nextLine();
-
-        if (input.equalsIgnoreCase("A")) {
-            Collections.sort(priceArr);
-        } else if (input.equalsIgnoreCase(("D"))) {
-            Collections.sort(priceArr, Collections.reverseOrder());
-        }
-
-        for (int j = 0; j < priceArr.size(); j++) {
-            for (int i = 0; i < dataArr.size(); i++) {
-                String[] line = dataArr.get(i);
-                if (line[3] == priceArr.get(j)) {
+        Collections.sort(priceArr);
+        for (String s : priceArr) {
+            for (String[] line : dataArr) {
+                if (Objects.equals(line[3], s)) {
                     System.out.println(line[1] + ", " + line[2] + ", " + line[3]);
                 }
             }
@@ -123,14 +113,13 @@ public class ProductController {
 
     // 4. A customer can search for all available products for a particular category
     public String searchProduct(String productName) {
-//        System.out.println("Enter the product name you want to view: ");
-//        String productName = inp.nextLine();
+        // System.out.println("Enter the product name you want to view: ");
+        // String productName = inp.nextLine();
         String product = "";
         if (!productNameValidate(productName)) {
-            for (int i = 0; i < dataArr.size(); i++) {
-                String[] line = dataArr.get(i);
+            for (String[] line : dataArr) {
                 if (productName.equalsIgnoreCase(line[1])) {
-                    product =  "Product name: " + line[1] + "\nCategory: " + line[2] + "\nPrice: " + line[3];
+                    product = "Product name: " + line[1] + "\nCategory: " + line[2] + "\nPrice: " + line[3];
                 }
             }
         } else {

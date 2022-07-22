@@ -53,7 +53,7 @@ public class Menu {
                     }
                     case 2 -> {
                         System.out.println("2.Search product by name");
-//                        productController.searchProduct();
+                        // productController.searchProduct();
                     }
                     case 3 -> {
                         System.out.println("3. Log in your account");
@@ -107,7 +107,7 @@ public class Menu {
         System.out.print("Input password: ");
         password = loginScan.nextLine();
         accController.login(username, password);
-         loginScan.close();
+        loginScan.close();
         System.out.println(username + " " + password);
     }
 }
