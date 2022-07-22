@@ -31,7 +31,8 @@ public class AccountController {
      *This is the method help user login to our application
      */
     public boolean login (String username, String password){
-        return (usernameValidate(username) && passwordValidate(password));
+        String generate = hashPassword(password);
+        return (usernameValidate(username) && passwordValidate(generate));
     }
 
     /**
