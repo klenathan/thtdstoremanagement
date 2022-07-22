@@ -153,7 +153,7 @@ public class Helper {
         return null;
     }
 
-    // TODO: 21/07/2022 FIX THIS
+    // DONE
     public static void modifyField(String file, String id, int index, String newValue) {
         StringBuilder tempRes = new StringBuilder();
         try {
@@ -162,24 +162,22 @@ public class Helper {
 
             while(reader.hasNext()) {
                 String lineStr = reader.nextLine();
-//                String newLine = null;
-                if (lineStr.split(",")[0] == id) {
-                    System.out.println("Match");
+                if (lineStr.split(",")[0].equalsIgnoreCase(id)) {
                     String newLine = "";
                     String[] line = lineStr.split(",");
                     line[index] = newValue;
-                    for (int i = 0; i < line.length - 1; i++) {
+                    for (int i = 0; i < line.length; i++) {
                         newLine += line[i] + ",";
                     }
-                    newLine += "\n";
+                    newLine = newLine.substring(0, newLine.length() - 1);
+                    newLine +=  "\n";
                     tempRes.append(newLine);
                 } else {
                     tempRes.append(lineStr).append("\n");
                 }
 
                 FileWriter fileWr = new FileWriter(file);
-                System.out.println(lineStr);
-                fileWr.write(lineStr);
+                fileWr.write(String.valueOf(tempRes));
                 // close stream
                 fileWr.flush();
                 fileWr.close();
@@ -191,4 +189,16 @@ public class Helper {
             System.out.println(e);
         }
     }
+
+    public static void listAll(String datafile) {
+        ArrayList<String[]> dataArr = Helper.readData(datafile);
+        for (int i = 0; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            for (String j: line) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+        }
+    }
+
 }
