@@ -13,7 +13,7 @@ public class AccountController {
     private Pattern pattern;
     private String USERNAME_PATTERN = "^/s$";
     private ArrayList<String[]> dataArr;
-    private Account account;
+    private Account account = null;
 
     public static void main(String[] args) {
         AccountController acc = new AccountController();
@@ -28,7 +28,6 @@ public class AccountController {
     }
 
     public void setCurrentAccount(String username) {
-        System.out.println("here");
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (username.equalsIgnoreCase(line[1])) {
@@ -48,7 +47,7 @@ public class AccountController {
     /**
      * This method help user sign up our application
      */
-    public String signup(String fullName, String username, String password, String phone) {
+    public boolean signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
         if (usernameValidate(username)) {
@@ -59,7 +58,7 @@ public class AccountController {
             }
         }
         Helper.addData(userDataFile, dataAdd);
-        return dataAdd;
+        return true;
     }
 
     /**

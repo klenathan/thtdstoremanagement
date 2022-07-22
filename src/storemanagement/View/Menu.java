@@ -17,17 +17,16 @@ public class Menu {
     }
 
     public Menu() {
-        accController = new AccountController();
-        System.out.println("herer" + accController.getAccount() != null);
-        productController = new ProductController();
-        orderController = new OrderController();
+        this.accController = new AccountController();
+        this.productController = new ProductController();
+        this.orderController = new OrderController();
         welcomeScreen();
     }
 
-    public Menu(String hello) {
-        System.out.println("test");
-        inputLogin();
-    }
+//    public Menu(String hello) {
+//        System.out.println("test");
+//        inputLogin();
+//    }
 
     public void welcomeScreen() {
         System.out.println("""
@@ -56,7 +55,6 @@ public class Menu {
                 }else if (input == 3){
                     System.out.println("Please type in your account");
                     inputLogin();
-                    System.out.println("Why off?");
                 }else if (input == 4){
                     System.out.println("SIGN UP | Please type in your account");
                 }else if (input == 5) {
@@ -69,8 +67,10 @@ public class Menu {
     }
 
     public int userOption() {
-        Scanner input = new Scanner(System.in);
+
+        String username = accController.getAccount() != null ? accController.getAccount().getUsername(): "";
         String optionsTxt = """
+                ================================
                 Choose one of these options:
                 0. Exit
                 1. List all products
@@ -78,22 +78,51 @@ public class Menu {
                 --------------------------------
                 3. Log in your account
                 4. Sign up your account
-                5. Admin login""";
-        System.out.println(optionsTxt);
+                5. Admin login
+                ================================""";
+        String optionTxtWithName = """
+                ================================
+                Welcome,"""+ " \u001B[1m\u001B[31m" + username + "\033[0;0m! " + """
+                Choose one of these options:
+                0. Exit
+                1. List all products
+                2. Search item by name
+                --------------------------------
+                3. Log in your account
+                4. Sign up your account
+                5. Admin login
+                ================================""";
 
+        if (accController.getAccount() != null) {
+            System.out.println(optionTxtWithName);
+        } else {
+            System.out.println(optionsTxt);
+        }
+
+        Scanner input = new Scanner(System.in);
         Integer[] optionArr = { 0, 1, 2, 3, 4, 5 };
         int n;
+        // TODO: 22/07/2022 Fix auto break loop after logged in :( 
         while (true) {
-            try {
-                do {
-                    System.out.print("Enter one of the options above: ");
-                    n = input.nextInt();
-                } while (!Arrays.asList(optionArr).contains(n));
+            System.out.print("Enter one of the options above: ");
+            n = input.nextInt();
+            if(!Arrays.asList(optionArr).contains(n)) {
                 return n;
-            } catch (Exception e) {
+            } else {
                 input.next();
                 System.out.print("Invalid Input! Please enter again! ");
             }
+
+//            try {
+//                do {
+//                    System.out.print("Enter one of the options above: ");
+//                    n = input.nextInt();
+//                } while (!Arrays.asList(optionArr).contains(n));
+//                return n;
+//            } catch (Exception e) {
+//                input.next();
+//                System.out.print("Invalid Input! Please enter again! ");
+//            }
         }
     }
 
@@ -107,14 +136,13 @@ public class Menu {
         password = loginScan.nextLine();
         loginScan.close();
 //        boolean loginState = accController.login(username, password);
-        System.out.println(accController.login(username, password));
-//        if (accController.login(username, password)) {
-//            System.out.println(username + " " + password);
-//            accController.setCurrentAccount(username);
-//            System.out.println("Login successfully!");
-//        } else {
-//            System.out.println("wrong username or password");
-//        }
+        if (accController.login(username, password)) {
+            accController.setCurrentAccount(username);
+            System.out.println("Login successfully!");
+        } else {
+            System.out.println("wrong username or password");
+        }
+        System.out.print("\n");
         loginScan.close();
     }
 }
