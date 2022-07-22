@@ -14,7 +14,7 @@ public class AccountController {
     String userDataFile = "data/user.csv";
     private Pattern pattern;
     private String USERNAME_PATTERN = "^/s$";
-    Scanner input;
+    Scanner input = new Scanner(System.in);;
     ArrayList<String[]> dataArr = Helper.readData(userDataFile);
     Account account;
 
@@ -24,7 +24,7 @@ public class AccountController {
     }
 
     public AccountController() {
-        input = new Scanner(System.in);
+        System.out.println("init Account");
     }
 
     /**

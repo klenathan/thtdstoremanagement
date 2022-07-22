@@ -17,10 +17,10 @@ public class Menu {
     }
 
     public Menu() {
-        welcomeScreen();
         accController = new AccountController();
         productController = new ProductController();
         orderController = new OrderController();
+        welcomeScreen();
     }
 
     public Menu(String hello) {
