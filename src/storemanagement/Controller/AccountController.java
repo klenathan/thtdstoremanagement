@@ -97,12 +97,12 @@ public class AccountController {
 
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
-            if (password.equalsIgnoreCase(line[1])) {
-                return false;
+            if (password.equalsIgnoreCase(line[2])) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
