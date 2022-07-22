@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class AccountController {
     private String userDataFile = "data/user.csv";
     private Pattern pattern;
-    private String USERNAME_PATTERN = "^/s$";
+//    private String USERNAME_PATTERN = " \\s ";
     private ArrayList<String[]> dataArr;
     private Account account = null;
 
@@ -55,12 +55,8 @@ public class AccountController {
     public boolean signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
-        if (usernameValidate(username)) {
+        if (usernameValidate(username) || username.contains(" ")) {
             return false;
-        } else if (!usernameValidate(username)) {
-            if (!signupUsernameValidate(username)) {
-                return false;
-            }
         }
         Helper.addData(userDataFile, dataAdd);
         return true;
@@ -101,10 +97,11 @@ public class AccountController {
      * 
      * @return boolean
      */
-    public boolean signupUsernameValidate(String username) {
-        pattern = Pattern.compile(USERNAME_PATTERN);
-        return pattern.matcher(username).matches();
-    }
+//    public boolean signupUsernameValidate(String username) {
+////        pattern = Pattern.compile(USERNAME_PATTERN);
+////        return pattern.matcher(username).matches();
+//        return (username.contains(" "));
+//    }
 
     /**
      * This method validate password
