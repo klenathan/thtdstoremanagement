@@ -5,11 +5,6 @@ import java.util.*;
 
 public class Helper {
 
-    public static void main(String[] args) {
-//        generatedID("data/product.csv");
-//        addData("data/product.csv", "product3,test,100000");
-    }
-
     public static ArrayList<String[]> readData(String file) {
         ArrayList<String[]> dataArr = new ArrayList<>();
         try {
@@ -145,8 +140,7 @@ public class Helper {
                 // Read current data to String res
                 while (reader.hasNext()) {
                     String line = reader.nextLine();
-                    String[] lineArray = line.split(",", -1);
-                    return lineArray;
+                    return line.split(",", -1);
                 }
             } catch (IOException e) {
                 System.out.println(e);

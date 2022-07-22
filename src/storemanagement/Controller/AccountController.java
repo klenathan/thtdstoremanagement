@@ -2,36 +2,58 @@ package storemanagement.Controller;
 
 import storemanagement.Model.Account;
 import storemanagement.Service.Helper;
-import storemanagement.View.Menu;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class AccountController {
-    String userDataFile = "data/user.csv";
+    private String userDataFile = "data/user.csv";
     private Pattern pattern;
     private String USERNAME_PATTERN = "^/s$";
+<<<<<<< Updated upstream
     Scanner input = new Scanner(System.in);;
     ArrayList<String[]> dataArr = Helper.readData(userDataFile);
     Account account;
+=======
+    private ArrayList<String[]> dataArr;
+    private Account account;
+>>>>>>> Stashed changes
+
+    public static void main(String[] args) {
+        AccountController acc = new AccountController();
+    }
 
     public Account getAccount() {
-
         return account;
     }
 
     public AccountController() {
+<<<<<<< Updated upstream
         System.out.println("init Account");
+=======
+        this.dataArr = Helper.readData(userDataFile);
+    }
+
+    public void setCurrentAccount(String username) {
+        System.out.println("here");
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                this.account = new Account(line[0], line[1], line[3], line[4], line[5]);
+            }
+        }
+>>>>>>> Stashed changes
     }
 
     /**
      * This is the method help user login to our application
      */
     public boolean login(String username, String password) {
-        return (usernameValidate(username) && passwordValidate(password));
+        System.out.println("Login init");
+//        return (usernameValidate(username) && passwordValidate(password));
+        return true;
     }
 
     /**
@@ -39,7 +61,7 @@ public class AccountController {
      */
     public boolean signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
-        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone;
+        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
         if (usernameValidate(username)) {
             return false;
         } else if (!usernameValidate(username)) {
@@ -72,8 +94,8 @@ public class AccountController {
      * @return boolean
      */
     public boolean usernameValidate(String username) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
+        for (int i = 1; i < this.dataArr.size(); i++) {
+            String[] line = this.dataArr.get(i);
             if (username.equalsIgnoreCase(line[1])) {
                 return true;
             }
@@ -96,16 +118,15 @@ public class AccountController {
      * 
      * @return boolean
      */
+    // TODO: 22/07/2022 Password validate nhung ma chua hash password?? 
     public boolean passwordValidate(String password) {
-
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (password.equalsIgnoreCase(line[1])) {
-                return false;
+                return true;
             }
         }
-
-        return true;
+        return false;
     }
 
     /**

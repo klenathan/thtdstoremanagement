@@ -18,6 +18,7 @@ public class Menu {
 
     public Menu() {
         accController = new AccountController();
+        System.out.println("herer" + accController.getAccount() != null);
         productController = new ProductController();
         orderController = new OrderController();
         welcomeScreen();
@@ -38,30 +39,28 @@ public class Menu {
                 s3891890, Nam Thai Tran
                 S3891968, Pham Vo Dong
                 """);
-        int input = userOption();
+        int input;
         boolean runMenu = true;
         try {
-            while (runMenu) {
-                switch (input) {
-                    case 0 -> {
-                        System.out.println("Thank you for visiting our store! Hope to see you again!");
-                        runMenu = false;
-                    }
-                    case 1 -> {
-                        System.out.println("1. List all products");
-                        new ProductController();
-                    }
-                    case 2 -> {
-                        System.out.println("2.Search product by name");
-                        // productController.searchProduct();
-                    }
-                    case 3 -> {
-                        System.out.println("3. Log in your account");
-                        inputLogin();
-                    }
-                    case 4 -> {
-                    }
-                    case 5 -> System.out.println("5. Admin login");
+            while (true) {
+                input = userOption();
+                if (input == 0){
+                    System.out.println("Thank you for visiting our store! Hope to see you again!");
+                    break;
+                } else if (input == 1) {
+                    System.out.println("1. List all products");
+                    new ProductController();
+                } else if (input == 2) {
+                    System.out.println("2.Search product by name");
+                    // productController.searchProduct();
+                }else if (input == 3){
+                    System.out.println("Please type in your account");
+                    inputLogin();
+                    System.out.println("Why off?");
+                }else if (input == 4){
+                    System.out.println("SIGN UP | Please type in your account");
+                }else if (input == 5) {
+                    System.out.println("5. Admin login");
                 }
             }
         } catch (Exception e) {
@@ -71,7 +70,7 @@ public class Menu {
 
     public int userOption() {
         Scanner input = new Scanner(System.in);
-        String options = """
+        String optionsTxt = """
                 Choose one of these options:
                 0. Exit
                 1. List all products
@@ -80,7 +79,7 @@ public class Menu {
                 3. Log in your account
                 4. Sign up your account
                 5. Admin login""";
-        System.out.println(options);
+        System.out.println(optionsTxt);
 
         Integer[] optionArr = { 0, 1, 2, 3, 4, 5 };
         int n;
@@ -106,8 +105,16 @@ public class Menu {
         username = loginScan.nextLine();
         System.out.print("Input password: ");
         password = loginScan.nextLine();
-        accController.login(username, password);
         loginScan.close();
-        System.out.println(username + " " + password);
+//        boolean loginState = accController.login(username, password);
+        System.out.println(accController.login(username, password));
+//        if (accController.login(username, password)) {
+//            System.out.println(username + " " + password);
+//            accController.setCurrentAccount(username);
+//            System.out.println("Login successfully!");
+//        } else {
+//            System.out.println("wrong username or password");
+//        }
+        loginScan.close();
     }
 }
