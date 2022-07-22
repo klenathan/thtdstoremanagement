@@ -41,15 +41,14 @@ public class AccountController {
      * This is the method help user login to our application
      */
     public boolean login(String username, String password) {
-        System.out.println("Login init");
-        // return (usernameValidate(username) && passwordValidate(password));
-        return true;
+        String generate = hashPassword(password);
+        return (usernameValidate(username) && passwordValidate(generate));
     }
 
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) {
+    public String signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
         if (usernameValidate(username)) {
@@ -60,7 +59,7 @@ public class AccountController {
             }
         }
         Helper.addData(userDataFile, dataAdd);
-        return true;
+        return dataAdd;
     }
 
     /**
