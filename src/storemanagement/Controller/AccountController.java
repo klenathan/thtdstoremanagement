@@ -17,6 +17,7 @@ public class AccountController {
 
     public static void main(String[] args) {
         AccountController acc = new AccountController();
+        acc.listAllUser();
     }
 
     public Account getAccount() {
@@ -25,6 +26,10 @@ public class AccountController {
 
     public AccountController() {
         this.dataArr = Helper.readData(userDataFile);
+    }
+
+    public void listAllUser() {
+        Helper.listAll(userDataFile);
     }
 
     public void setCurrentAccount(String username) {
