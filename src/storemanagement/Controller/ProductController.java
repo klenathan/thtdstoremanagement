@@ -5,17 +5,13 @@ import storemanagement.Service.Helper;
 import java.util.*;
 
 public class ProductController {
-    private static String productDataFile = "data/product.csv";
+    private final String productDataFile = "data/product.csv";
     private ArrayList<String[]> dataArr;
 
-    public static void main(String[] args) {
-        ProductController productController = new ProductController();
-//        productController.listAllProduct();
-//        productController.addProduct("product4", "test", 200000);
-//        productController.sortProduct("a");
-//        System.out.println(productController.searchProduct("product4"));
-        productController.updatePrice("P4", 100000);
-    }
+//    public static void main(String[] args) {
+//        ProductController productController = new ProductController();
+//        productController.updatePrice("P4", 100000);
+//    }
 
     public ProductController() {
         this.dataArr = Helper.readData(productDataFile);
@@ -100,10 +96,6 @@ public class ProductController {
             priceArr.add(line[3]);
         }
 
-//        System.out.println("Enter A for ascending order or D for descending order: ");
-//        System.out.println("Enter \"A\" for ascending order or \"D\" for descending order: ");
-//        String productName = inp.nextLine();
-
         if (input.equalsIgnoreCase("A")) {
             Collections.sort(priceArr);
         } else if (input.equalsIgnoreCase(("D"))) {
@@ -127,8 +119,6 @@ public class ProductController {
      * @return product
      */
     public String searchProduct(String productName) {
-        // System.out.println("Enter the product name you want to view: ");
-        // String productName = inp.nextLine();
         String product = "";
         if (!productNameValidate(productName)) {
             for (String[] line : dataArr) {

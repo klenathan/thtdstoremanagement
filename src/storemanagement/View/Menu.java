@@ -36,6 +36,7 @@ public class Menu {
                 """);
         int input;
         if (accController.getAccount() != null) {
+            // LOGGED IN MENU
             try {
                 while (true) {
                     input = userOption();
@@ -44,7 +45,7 @@ public class Menu {
                         break;
                     } else if (input == 1) {
                         System.out.println("1. List all products");
-                        new ProductController();
+                        productController.listAllProduct();
                     } else if (input == 2) {
                         System.out.println("2.Search product by name");
                     }else if (input == 3){
@@ -62,6 +63,7 @@ public class Menu {
                 System.out.println(e);
             }
         } else {
+            // GUEST MENU
             try {
                 while (true) {
                     input = userOption();
@@ -70,16 +72,16 @@ public class Menu {
                         break;
                     } else if (input == 1) {
                         System.out.println("1. List all products");
-                        new ProductController();
+                        productController.listAllProduct();
                     } else if (input == 2) {
                         System.out.println("2.Search product by name");
                     }else if (input == 3){
                         System.out.println("================================");
-                        System.out.println("Please type in your account");
+                        System.out.println("LOGIN | Please type in your account");
                         this.inputLogin();
                     }else if (input == 4){
-                        System.out.println("SIGN UP | Please type in your account");
-                        this.inputLogin();
+                        System.out.println("SIGN UP | Please type in your information");
+                        this.inputSignup();
                     }else if (input == 5) {
                         System.out.println("5. Admin login");
                     }
@@ -141,7 +143,7 @@ public class Menu {
         }
     }
 
-    public void inputLogin() {
+    private void inputLogin() {
         Scanner loginScan = new Scanner(System.in);
         String username;
         String password;
@@ -154,6 +156,26 @@ public class Menu {
             System.out.println("Login successfully!");
         } else {
             System.out.println(this.error("WRONG USERNAME OR PASSWORD"));
+        }
+        System.out.print("\n");
+    }
+
+    private void inputSignup(){
+        Scanner signupScan = new Scanner(System.in);
+        System.out.print("Enter your username: ");
+        String username = signupScan.nextLine();
+        System.out.print("Enter your password: ");
+        String password = signupScan.nextLine();
+        System.out.print("Enter your full name: ");
+        String fullName = signupScan.nextLine();
+        System.out.print("Enter your phone number: ");
+        String phoneNum = signupScan.nextLine();
+
+        if (accController.signup(fullName, username, password, phoneNum)) {
+            accController.setCurrentAccount(username);
+            System.out.println("Sign up successfully!");
+        } else {
+            System.out.println(this.error("USERNAME EXIST"));
         }
         System.out.print("\n");
     }
