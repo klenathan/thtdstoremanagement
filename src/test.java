@@ -8,7 +8,7 @@ import java.util.UUID;
 public class test {
     public static void main(String[] args) {
         AccountController a = new AccountController();
-        if (a.login("admin", "admin")) {
+        if (a.login("admin", "ádad")) {
             System.out.println("success");
         }
     }
