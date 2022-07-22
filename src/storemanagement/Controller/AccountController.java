@@ -111,7 +111,7 @@ public class AccountController {
      * 
      * @return boolean
      */
-    // TODO: 22/07/2022 Password validate nhung ma chua hash password??
+
     public boolean passwordValidate(String password) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
