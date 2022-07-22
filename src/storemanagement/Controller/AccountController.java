@@ -12,14 +12,8 @@ public class AccountController {
     private String userDataFile = "data/user.csv";
     private Pattern pattern;
     private String USERNAME_PATTERN = "^/s$";
-<<<<<<< Updated upstream
-    Scanner input = new Scanner(System.in);;
-    ArrayList<String[]> dataArr = Helper.readData(userDataFile);
-    Account account;
-=======
     private ArrayList<String[]> dataArr;
     private Account account;
->>>>>>> Stashed changes
 
     public static void main(String[] args) {
         AccountController acc = new AccountController();
@@ -30,9 +24,6 @@ public class AccountController {
     }
 
     public AccountController() {
-<<<<<<< Updated upstream
-        System.out.println("init Account");
-=======
         this.dataArr = Helper.readData(userDataFile);
     }
 
@@ -44,7 +35,6 @@ public class AccountController {
                 this.account = new Account(line[0], line[1], line[3], line[4], line[5]);
             }
         }
->>>>>>> Stashed changes
     }
 
     /**
@@ -52,7 +42,7 @@ public class AccountController {
      */
     public boolean login(String username, String password) {
         System.out.println("Login init");
-//        return (usernameValidate(username) && passwordValidate(password));
+        // return (usernameValidate(username) && passwordValidate(password));
         return true;
     }
 
@@ -118,7 +108,7 @@ public class AccountController {
      * 
      * @return boolean
      */
-    // TODO: 22/07/2022 Password validate nhung ma chua hash password?? 
+    // TODO: 22/07/2022 Password validate nhung ma chua hash password??
     public boolean passwordValidate(String password) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
