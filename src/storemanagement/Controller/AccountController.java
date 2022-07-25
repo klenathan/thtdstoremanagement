@@ -3,10 +3,10 @@ package storemanagement.Controller;
 import storemanagement.Model.Account;
 import storemanagement.Service.Helper;
 
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AccountController {
     private String userDataFile = "data/user.csv";
@@ -183,19 +183,18 @@ Admin feature
                     Helper.modifyField(userDataFile, line[0], 5, "Platinum");
                 } else {
                     Helper.modifyField(userDataFile, line[0], 5, null);
-
                 }
             }
 
         }
     }
 
-    public double totalPayment(String userID) {
+    public BigDecimal totalPayment(String userID) {
         double totalPayment = 0;
 
         for (int i = 1; i < orderArr.size(); i++) {
             String[] line = orderArr.get(i);
-            if (userID.equalsIgnoreCase(line[2])) {
+            if (userID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("PAID")) {
                 double orderBill = Double.parseDouble(line[4]);
                 totalPayment += orderBill;
             }
@@ -205,21 +204,17 @@ Admin feature
             if (userID.equalsIgnoreCase(line1[0])) {
                 double payment = Double.parseDouble(line1[7]);
                 totalPayment += payment;
-
             }
         }
-        return totalPayment;
+        return BigDecimal.valueOf(totalPayment);
     }
-
-    /*
-    Error input modifyField infinity in user.csv
-     */
-    public void addTotalPayment(String username) {
+    
+    public void addTotalPayment(String userID) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1])) {
-                String value = String.valueOf(totalPayment(line[0]));
-                Helper.modifyField(userDataFile, line[0], 7, value);
+            if (userID.equalsIgnoreCase(line[0])) {
+                BigDecimal value = totalPayment(userID);
+                Helper.modifyField(userDataFile, line[0], 7, value.toPlainString());
             }
 
         }
