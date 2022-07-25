@@ -4,7 +4,7 @@ import storemanagement.Controller.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Menu {
@@ -15,7 +15,6 @@ public class Menu {
 
     public static void main(String[] args) {
         Menu menu = new Menu();
-
     }
 
     public Menu() {
@@ -40,12 +39,11 @@ public class Menu {
                 S3891968, Pham Vo Dong
                 """);
         int input;
-        System.out.println("test account exist: " + accController.getAccount() != null);
+//        System.out.println("test account exist: " + accController.getAccount() != null);
         while (true) {
             if (accController.getAccount() != null) {
                 // LOGGED IN MENU
                 try {
-
                     input = userOption();
                     if (input == 0){
                         System.out.println("Thank you for visiting our store! Hope to see you again!");
@@ -57,7 +55,9 @@ public class Menu {
                         System.out.println("2.Search product by name");
                     }else if (input == 3){
                         System.out.println("ORDERS LIST | This is your order list");
-                        System.out.println(accController.getAccount().getUserId());
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
+                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+                        this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
                     }else if (input == 4){
                         System.out.println("4 is now blank");

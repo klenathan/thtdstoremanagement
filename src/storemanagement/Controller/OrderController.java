@@ -5,6 +5,8 @@ import storemanagement.Model.Order;
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class OrderController {
 
@@ -80,12 +82,10 @@ public class OrderController {
         
     public ArrayList<String[]> getCurrenUserOrders(String userId) {
         ArrayList<String[]> res = new ArrayList<>();
+        String orderUserId;
         for (int i = 0; i < this.dataArr.size(); i++) {
-            String orderUserId = this.dataArr.get(i)[2];
-            System.out.println(userId + " orderUserId: " + orderUserId +" "+ orderUserId.equalsIgnoreCase(userId));
-            // TODO: 22/07/2022 : This check always return false :(( SOS 
+            orderUserId = this.dataArr.get(i)[2];
             if (orderUserId.equalsIgnoreCase(userId)) {
-
                 res.add(this.dataArr.get(i));
             }
         }

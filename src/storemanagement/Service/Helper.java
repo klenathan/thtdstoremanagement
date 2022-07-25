@@ -138,6 +138,7 @@ public class Helper {
                 String res = "";
                 Scanner reader = new Scanner(inputFile);
                 // Read current data to String res
+                /// TODO: 25/07/2022 cái này đã xong đâu nhẻ :) 
                 while (reader.hasNext()) {
                     String line = reader.nextLine();
                     return line.split(",", -1);
