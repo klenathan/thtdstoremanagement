@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 
 public class AccountController {
     private String userDataFile = "data/user.csv";
-    private Pattern pattern;
-//    private String USERNAME_PATTERN = " \\s ";
     private ArrayList<String[]> dataArr;
     private Account account = null;
 
@@ -144,5 +142,18 @@ public class AccountController {
             e.printStackTrace();
         }
         return generatedPassword;
+    }
+
+
+    public boolean checkRole(String username){
+        for(int i = 1; i < dataArr.size(); i++){
+            String[] line = dataArr.get(i);
+            if(username.equalsIgnoreCase(line[1])){
+                if(line[6].equalsIgnoreCase("admin")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
