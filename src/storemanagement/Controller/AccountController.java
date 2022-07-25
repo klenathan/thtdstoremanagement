@@ -6,10 +6,15 @@ import storemanagement.Service.Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AccountController {
     private String userDataFile = "data/user.csv";
+    private String order = "data/order.csv";
+
     private ArrayList<String[]> dataArr;
+    private ArrayList<String[]> orderArr;
+
     private Account account = null;
 
     public Account getAccount() {
@@ -18,6 +23,8 @@ public class AccountController {
 
     public AccountController() {
         this.dataArr = Helper.readData(userDataFile);
+        this.orderArr = Helper.readData(order);
+
     }
 
 
@@ -167,16 +174,54 @@ Admin feature
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (username.equalsIgnoreCase(line[1])) {
-                int payment = Integer.parseInt(line[7]);
+                double payment = Double.parseDouble(line[7]);
                 if (payment >= 5000000 && payment < 10000000) {
                     Helper.modifyField(userDataFile, line[0], 5, "Silver");
                 } else if (payment >= 10000000 && payment < 25000000) {
                     Helper.modifyField(userDataFile, line[0], 5, "Gold");
                 } else if (payment >= 25000000) {
                     Helper.modifyField(userDataFile, line[0], 5, "Platinum");
+                } else {
+                    Helper.modifyField(userDataFile, line[0], 5, null);
+
                 }
             }
 
         }
     }
-}
+
+    public double totalPayment(String userID) {
+        double totalPayment = 0;
+
+        for (int i = 1; i < orderArr.size(); i++) {
+            String[] line = orderArr.get(i);
+            if (userID.equalsIgnoreCase(line[2])) {
+                double orderBill = Double.parseDouble(line[4]);
+                totalPayment += orderBill;
+            }
+        }
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line1 = dataArr.get(i);
+            if (userID.equalsIgnoreCase(line1[0])) {
+                double payment = Double.parseDouble(line1[7]);
+                totalPayment += payment;
+
+            }
+        }
+        return totalPayment;
+    }
+
+    /*
+    Error input modifyField infinity in user.csv
+     */
+    public void addTotalPayment(String username) {
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                String value = String.valueOf(totalPayment(line[0]));
+                Helper.modifyField(userDataFile, line[0], 7, value);
+            }
+
+        }
+    }
+ }
