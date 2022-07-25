@@ -6,17 +6,11 @@ import storemanagement.Service.Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class AccountController {
     private String userDataFile = "data/user.csv";
     private ArrayList<String[]> dataArr;
     private Account account = null;
-
-    public static void main(String[] args) {
-        AccountController acc = new AccountController();
-        acc.listAllUser();
-    }
 
     public Account getAccount() {
         return account;
@@ -26,9 +20,6 @@ public class AccountController {
         this.dataArr = Helper.readData(userDataFile);
     }
 
-    public void listAllUser() {
-        Helper.listAll(userDataFile);
-    }
 
     public void setCurrentAccount(String username) {
         for (int i = 1; i < dataArr.size(); i++) {
@@ -62,7 +53,7 @@ public class AccountController {
 
     /**
      * This method get user data
-     * 
+     *
      * @return String[]
      */
     public String[] getUserData(String username) {
@@ -77,7 +68,7 @@ public class AccountController {
 
     /**
      * This method validate the username
-     * 
+     *
      * @return boolean
      */
     public boolean usernameValidate(String username) {
@@ -91,22 +82,10 @@ public class AccountController {
     }
 
     /**
-     * This method do not allow user input the whitespace for password
-     * 
-     * @return boolean
-     */
-//    public boolean signupUsernameValidate(String username) {
-////        pattern = Pattern.compile(USERNAME_PATTERN);
-////        return pattern.matcher(username).matches();
-//        return (username.contains(" "));
-//    }
-
-    /**
      * This method validate password
-     * 
+     *
      * @return boolean
      */
-
     public boolean passwordValidate(String password) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -114,13 +93,12 @@ public class AccountController {
                 return true;
             }
         }
-
         return false;
     }
 
     /**
      * This method hash the user password
-     * 
+     *
      * @return String
      */
     public String hashPassword(String password) {
@@ -143,17 +121,62 @@ public class AccountController {
         }
         return generatedPassword;
     }
+/*
+Admin feature
+ */
 
-
-    public boolean checkRole(String username){
-        for(int i = 1; i < dataArr.size(); i++){
+    /**
+     * This medthod check the role of account
+     *
+     * @return boolean
+     */
+    public boolean checkRole(String username) {
+        for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
-            if(username.equalsIgnoreCase(line[1])){
-                if(line[6].equalsIgnoreCase("admin")){
+            if (username.equalsIgnoreCase(line[1])) {
+                if (line[6].equalsIgnoreCase("admin")) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * This method set the Role for account
+     */
+    public void setRole(String uID, String role) {
+        if (Helper.getAllId(userDataFile).contains(uID)) {
+            switch (role) {
+                case "admin":
+                    Helper.modifyField(userDataFile, uID, 6, "admin");
+                case "user":
+                    Helper.modifyField(userDataFile, uID, 6, "user");
+            }
+        }
+    }
+
+    /**
+     * This method list all the user information
+     */
+    public void listAllUser() {
+        Helper.listAll(userDataFile);
+    }
+
+    public void membership(String username) {
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                int payment = Integer.parseInt(line[7]);
+                if (payment >= 5000000 && payment < 10000000) {
+                    Helper.modifyField(userDataFile, line[0], 5, "Silver");
+                } else if (payment >= 10000000 && payment < 25000000) {
+                    Helper.modifyField(userDataFile, line[0], 5, "Gold");
+                } else if (payment >= 25000000) {
+                    Helper.modifyField(userDataFile, line[0], 5, "Platinum");
+                }
+            }
+
+        }
     }
 }

@@ -7,8 +7,10 @@ public class Account {
     private String userId;
     private String username;
     private String fullName;
-    public String membership;
     public String phone;
+    public String membership;
+
+
     public Account(String userId, String username, String fullName, String phone, String membership){
         this.userId = userId;
         this.username = username;

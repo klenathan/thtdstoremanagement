@@ -1,8 +1,8 @@
-import java.util.Arrays;
+import storemanagement.Controller.AccountController;
 
 public class test {
     public static void main(String[] args) {
-        AdminController a = new AdminController();
-        System.out.println(Arrays.toString(a.takeAccount()));
+        AccountController a = new AccountController();
+        a.membership("Dong");
     }
 }
