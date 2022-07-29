@@ -1,7 +1,8 @@
 package storemanagement.Model;
 
 public class Product {
-    private String productId, productName, category;
+    private String productId;
+    private String productName, category;
     private long price;
 
     public Product(String productId, String productName, String category, long price) {
@@ -11,6 +12,9 @@ public class Product {
         setPrice(price);
     }
 
+    public String getProductId() {
+        return productId;
+    }
 
     public String getProductName() {
         return productName;
