@@ -137,11 +137,13 @@ public class Helper {
                 File inputFile = new File(file);
                 String res = "";
                 Scanner reader = new Scanner(inputFile);
-                // Read current data to String res
-                /// TODO: 25/07/2022 cái này đã xong đâu nhẻ :) 
                 while (reader.hasNext()) {
                     String line = reader.nextLine();
-                    return line.split(",", -1);
+                    String[] lineArr = line.split(",", -1);
+
+                    if (lineArr[0].equalsIgnoreCase(id)) {
+                        return lineArr;
+                    }
                 }
             } catch (IOException e) {
                 System.out.println(e);

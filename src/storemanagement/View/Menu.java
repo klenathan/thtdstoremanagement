@@ -1,11 +1,10 @@
 package storemanagement.View;
 
 import storemanagement.Controller.*;
+import storemanagement.Model.Product;
+import storemanagement.Service.Helper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
 
@@ -50,7 +49,8 @@ public class Menu {
                         break;
                     } else if (input == 1) {
                         System.out.println("1. List all products");
-                        productController.listAllProduct();
+                        this.tableDisplay(productController.getDataArr());
+                        this.selectProduct();
                     } else if (input == 2) {
                         System.out.println("2.Search product by name");
                     }else if (input == 3){
@@ -68,6 +68,31 @@ public class Menu {
                     e.getStackTrace();
                     System.out.println(e);
                 }
+            } else if (accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+                //ADMIN MENU
+                try {
+                    input = userOption();
+                    Scanner adminScan = new Scanner(System.in);
+                    if (input == 0){
+                        System.out.println("Program exited");
+                        break;
+                    } else if (input == 1) {
+                        System.out.println("1. List all products");
+                        this.tableDisplay(productController.getDataArr());
+                        this.selectProduct();
+                    } else if (input == 2) {
+                        System.out.println("2.Search product by name");
+                    }else if (input == 3){
+                        System.out.println("ORDERS LIST | Get all orders from user ID");
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
+                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+                        this.tableDisplay(headingArr);
+                        this.tableDisplay(orderController.getCurrenUserOrders(adminScan.nextLine()));
+                    }
+                } catch (Exception e) {
+                    e.getStackTrace();
+                    System.out.println(e);
+                }
             } else {
                 // GUEST MENU
                 try {
@@ -77,7 +102,7 @@ public class Menu {
                         break;
                     } else if (input == 1) {
                         System.out.println("1. List all products");
-                        productController.listAllProduct();
+                        this.tableDisplay(productController.getDataArr());
                     } else if (input == 2) {
                         System.out.println("2.Search product by name");
                     }else if (input == 3){
@@ -128,8 +153,21 @@ public class Menu {
                 5. BLANK
                 ================================""";
 
+        String adminOpttxt = """
+                ================================
+                Welcome,"""+ Coloring.GREEN + Coloring.BLACK_BACKGROUND + username + "\033[0;0m! " + """
+                Choose one of these options:
+                0. Exit
+                1. List all products
+                2. Search item by name
+                --------------------------------
+                3. List user's orders from userID
+                ================================""";
+
         if (accController.getAccount() != null) {
             System.out.println(optionTxtWithName);
+        } else if (accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+            System.out.println(adminOpttxt);
         } else {
             System.out.println(optionsTxt);
         }
@@ -188,6 +226,25 @@ public class Menu {
         System.out.print("\n");
     }
 
+    private void selectProduct() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Input product ID to create order or \"0\" to escape: ");
+        String userInput = scan.nextLine().toUpperCase();
+
+        if (productController.checkProductExist(userInput)) {
+            System.out.println("How many do you want to get? ");
+            int quantity = Integer.parseInt(scan.nextLine());
+            Product targetProduct = productController.getProductDetails(userInput);
+            long price = targetProduct.getPrice();
+            orderController.createOrder(userInput, accController.getAccount().getUserId(), quantity, price);
+            System.out.println("You ordered: " + green(String.valueOf(quantity)) + " * " + green(targetProduct.getProductName())
+                    + " for " + green(String.valueOf(quantity * price)) + " VND");
+            System.out.println("Order created! Thank you for ordering from us!");
+        } else {
+            System.out.println("Failed to find desired product, please try again");
+        }
+    }
+
     public void tableDisplay(ArrayList<String[]> displayData) {
         int colWidth = 15;
         for (int i = 0; i < displayData.size(); i++) {
@@ -195,7 +252,6 @@ public class Menu {
             for (int j = 0; j < line.length; j++) {
                 if (line[j].length() > 15) {
                     line[j] = line[j].substring(0, Math.min(line[j].length(), 12)) + "...";
-//                    System.out.println(line[j].length());
                 }
                 System.out.print(" " + line[j] + " ".repeat(colWidth-line[j].length()) + "||");
             }
@@ -206,6 +262,10 @@ public class Menu {
 
     private String error(String message) {
         return Coloring.RED + message + Coloring.RESET;
+    }
+
+    private String green(String mes) {
+        return Coloring.GREEN + mes + Coloring.RESET;
     }
 }
 

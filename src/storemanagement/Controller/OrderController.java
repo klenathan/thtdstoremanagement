@@ -24,8 +24,12 @@ public class OrderController {
     public ArrayList<String[]> getDataArr() {
         return dataArr;
     }
+//    public void newOrder(String productId, String userId, int quantity) {
+//
+//    }
 
     public void createOrder(String productId, String userId, int quantity, long price){
+
         long totalBill = quantity * price;
 
         String orderDetail = productId

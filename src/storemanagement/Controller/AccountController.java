@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class AccountController {
+    // TODO: 29/07/2022 User view their information 
     private String userDataFile = "data/user.csv";
     private Pattern pattern;
     private String USERNAME_PATTERN = "^/s$";
