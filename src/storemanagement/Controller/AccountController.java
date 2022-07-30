@@ -54,7 +54,7 @@ public class AccountController {
     public boolean signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
-        if (usernameValidate(username) || username.contains(" ")) {
+        if (usernameValidate(username)) {
             return false;
         } else if (!usernameValidate(username)) {
             Helper.addData(userDataFile, dataAdd);
@@ -91,7 +91,7 @@ public class AccountController {
     public boolean usernameValidate(String username) {
         for (int i = 1; i < this.dataArr.size(); i++) {
             String[] line = this.dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1])) {
+            if (username.equalsIgnoreCase(line[1]) || username.contains(" ")) {
                 return true;
             }
         }
