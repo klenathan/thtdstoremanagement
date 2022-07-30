@@ -83,18 +83,6 @@ public class OrderController {
             }
 
         }
-        // String membership = membershipCheck(customerID);
-
-        // double discount;
-        // if (membership.equalsIgnoreCase("Silver")) {
-        // discount = 0.05;
-        // } else if (membership.equalsIgnoreCase("Gold")) {
-        // discount = 0.1;
-        // } else if (membership.equalsIgnoreCase("Platinum")) {
-        // discount = 0.15;
-        // } else {
-        // discount = 0;
-        // }
         return discount;
     }
 

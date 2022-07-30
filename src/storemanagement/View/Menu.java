@@ -15,6 +15,7 @@ public class Menu {
         Menu menu = new Menu();
     }
 
+    // TODO: 30/07/2022 : Fix write data bug 
     public Menu() {
         this.accController = new AccountController();
         this.productController = new ProductController();
@@ -109,7 +110,9 @@ public class Menu {
                         long price = Long.parseLong(adminScan.nextLine());
                         productController.updatePrice(productId, price);
                     } else if (input == 6) {
-
+                        System.out.println("Please input order ID: ");
+                        String orderId =  adminScan.nextLine();
+                        orderController.updateOrderStatus(orderId);
                     }
                 } catch (Exception e) {
                     e.getStackTrace();
