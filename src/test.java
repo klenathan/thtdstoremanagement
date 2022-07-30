@@ -6,9 +6,7 @@ import java.util.Arrays;
 
 public class test {
     public static void main(String[] args) {
-        ProductController productController = new ProductController();
-        OrderController order = new OrderController();
-        System.out.println(Arrays.toString(Helper.getDataFromLine("data/order.csv", "O1")));
-
+       AccountController a = new AccountController();
+        System.out.println(a.phoneValidate(" 12231"));
     }
 }

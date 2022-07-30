@@ -6,7 +6,10 @@ import storemanagement.Service.Helper;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AccountController {
     // TODO: 29/07/2022 User view their information 
@@ -89,6 +92,11 @@ public class AccountController {
         return false;
     }
 
+    public boolean phoneValidate(String phone){
+        Pattern pattern = Pattern.compile("^\\d{10}$");
+        Matcher m = pattern.matcher(phone);
+        return m.matches();
+    }
     /**
      * This method validate password
      *
