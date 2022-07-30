@@ -9,11 +9,6 @@ public class ProductController {
     private final String productDataFile = "data/product.csv";
     private ArrayList<String[]> dataArr;
 
-//    public static void main(String[] args) {
-//        ProductController productController = new ProductController();
-//        productController.updatePrice("P4", 100000);
-//    }
-
     public ProductController() {
         this.dataArr = Helper.readData(productDataFile);
     }
@@ -61,8 +56,8 @@ public class ProductController {
         String dataAdd = productName + "," + category + "," + finalPrice;
 
         if (productNameValidate(productName)) {
-            System.out.println("Successfully added new product to the store!");
             Helper.addData(productDataFile, dataAdd);
+            System.out.println("Successfully added new product to the store!");
         } else {
             System.out.println("The product \"" + productName + "\" already exists in the store!");
         }

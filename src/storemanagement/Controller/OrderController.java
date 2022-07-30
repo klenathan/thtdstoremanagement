@@ -1,12 +1,8 @@
 package storemanagement.Controller;
 
-import com.sun.tools.javac.Main;
-import storemanagement.Model.Order;
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class OrderController {
 
@@ -93,6 +89,10 @@ public class OrderController {
         return res;
     }
 
+    public String[] getOrderInfo(String orderId){
+
+        return Helper.getDataFromLine(orderDataFile, orderId);
+    }
 
     public void listAllOrder() {
         Helper.listAll(orderDataFile);
