@@ -33,12 +33,14 @@ public class OrderController {
         String orderDetail = productId
                 + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
         Helper.addData(orderDataFile, orderDetail);
+        this.dataArr = Helper.readData(orderDataFile);
     }
 
     public void updateOrderStatus(String orderId) {
         // String tempData;
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
+            this.dataArr = Helper.readData(orderDataFile);
         } else {
             System.out.println("The product ID \"" + orderId + "\" does not exists in the store!");
         }

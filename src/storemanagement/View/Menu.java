@@ -56,7 +56,7 @@ public class Menu {
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
-                        System.out.print("");
+                        System.out.println("");
                     }else if (input == 4){
                         System.out.println("4. Get order information");
                         System.out.print("Please input order ID: ");

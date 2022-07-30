@@ -25,7 +25,6 @@ public class AccountController {
     public AccountController() {
         this.dataArr = Helper.readData(userDataFile);
         this.orderArr = Helper.readData(order);
-
     }
 
 
@@ -54,9 +53,14 @@ public class AccountController {
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
         if (usernameValidate(username) || username.contains(" ")) {
             return false;
+        } else if (!usernameValidate(username)) {
+            Helper.addData(userDataFile, dataAdd);
+            this.dataArr = Helper.readData(userDataFile);
+            return true;
+        } else {
+            System.out.println("Unknown error");
+            return false;
         }
-        Helper.addData(userDataFile, dataAdd);
-        return true;
     }
 
     /**
@@ -76,6 +80,8 @@ public class AccountController {
 
     /**
      * This method validate the username
+     *
+     * return true when username exist
      *
      * @return boolean
      */

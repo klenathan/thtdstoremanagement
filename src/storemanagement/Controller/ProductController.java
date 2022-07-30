@@ -57,6 +57,7 @@ public class ProductController {
 
         if (productNameValidate(productName)) {
             Helper.addData(productDataFile, dataAdd);
+            this.dataArr = Helper.readData(productDataFile);
             System.out.println("Successfully added new product to the store!");
         } else {
             System.out.println("The product \"" + productName + "\" already exists in the store!");
@@ -73,6 +74,7 @@ public class ProductController {
         long finalPrice = priceValidate(newPrice);
         if(Helper.getAllId(productDataFile).contains(productID)) {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
+            this.dataArr = Helper.readData(productDataFile);
         } else {
             System.out.println("The product ID \"" + productID + "\" does not exists in the store!");
         }
