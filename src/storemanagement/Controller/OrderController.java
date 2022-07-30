@@ -1,15 +1,14 @@
 package storemanagement.Controller;
 
+import storemanagement.Model.Order;
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
 
 public class OrderController {
 
-    public static void main(String[] args) {
-        OrderController orderController = new OrderController();
-        orderController.updateOrderStatus("O1");
-    }
+//    public static void main(String[] args) {
+//    }
 
     private final String orderDataFile = "data/order.csv";
     private String userDataFile = "data/user.csv";
@@ -20,7 +19,12 @@ public class OrderController {
     public OrderController() {
         this.dataArr = Helper.readData(orderDataFile);
         this.nDataArr = Helper.readData(userDataFile);
+    }
 
+    public static void main(String[] args) {
+//        OrderController a = new OrderController();
+//        a.updateOrderStatus("O2");
+//        System.out.println(a.membershipCheck("U4"));
     }
 
     public ArrayList<String[]> getDataArr() {
@@ -28,7 +32,7 @@ public class OrderController {
     }
 
     public void createOrder(String productId, String userId, int quantity, long price) {
-        double totalBill = quantity * price * membershipDiscount(userId);
+        double totalBill = (quantity * price) - (quantity * price) * membershipDiscount(userId);
 
         String orderDetail = productId
                 + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
@@ -42,48 +46,45 @@ public class OrderController {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
         } else {
-            System.out.println("The product ID \"" + orderId + "\" does not exists in the store!");
+            System.out.println("The product ID \"" + orderId + "\" does not exist in the store!");
         }
     }
 
     public String membershipCheck(String customerID) {
-        long totalBill = 0;
-        String membership;
+        double totalBill = 0;
+        String membership = "";
         for (String[] line : dataArr) {
             if (customerID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("paid")) {
-                totalBill += Integer.parseInt(line[4]);
+                totalBill += Double.parseDouble(line[4]);
             }
         }
-
-        if (totalBill > 25000000) {
+        if (totalBill > 25000000.0) {
+            Helper.modifyField(userDataFile, customerID, 5, "Platinum");
             membership = "Platinum";
-        } else if (totalBill > 10000000) {
+        } else if (totalBill > 10000000.0) {
+            Helper.modifyField(userDataFile, customerID, 5, "Gold");
             membership = "Gold";
-        } else if (totalBill > 5000000) {
+        } else if (totalBill > 5000000.0) {
+            Helper.modifyField(userDataFile, customerID, 5, "Silver");
             membership = "Silver";
         } else {
-            membership = "None";
+            membership = null;
         }
+        System.out.println(membership);
         return membership;
     }
 
     public double membershipDiscount(String customerID) {
-        // I think this is better , don't need membershipCheck
-        double discount = 0;
-        for (String[] line : nDataArr) {
-            if (customerID.equalsIgnoreCase(line[0])) {
-                String membership = line[5];
-                if (membership.equalsIgnoreCase("Silver")) {
-                    discount = 0.05;
-                } else if (membership.equalsIgnoreCase("Gold")) {
-                    discount = 0.1;
-                } else if (membership.equalsIgnoreCase("Platinum")) {
-                    discount = 0.15;
-                } else {
-                    discount = 0;
-                }
-            }
-
+        String membership = membershipCheck(customerID);
+        double discount;
+        if (membership.equalsIgnoreCase("Silver")) {
+            discount = 0.05;
+        } else if (membership.equalsIgnoreCase("Gold")) {
+            discount = 0.1;
+        } else if (membership.equalsIgnoreCase("Platinum")) {
+            discount = 0.15;
+        } else {
+            discount = 0;
         }
         return discount;
     }
@@ -101,7 +102,6 @@ public class OrderController {
     }
 
     public String[] getOrderInfo(String orderId) {
-
         return Helper.getDataFromLine(orderDataFile, orderId);
     }
 
