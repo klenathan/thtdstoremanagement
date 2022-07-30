@@ -3,23 +3,20 @@ package storemanagement.Controller;
 import storemanagement.Model.Account;
 import storemanagement.Service.Helper;
 
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class AccountController {
     // TODO: 29/07/2022 User view their information 
     private String userDataFile = "data/user.csv";
-    private Pattern pattern;
-    private String USERNAME_PATTERN = "^/s$";
-    private ArrayList<String[]> dataArr;
-    private Account account = null;
+    private String order = "data/order.csv";
 
-    public static void main(String[] args) {
-        AccountController acc = new AccountController();
-        acc.listAllUser();
-    }
+    private ArrayList<String[]> dataArr;
+    private ArrayList<String[]> orderArr;
+
+    private Account account = null;
 
     public Account getAccount() {
         return account;
@@ -27,11 +24,10 @@ public class AccountController {
 
     public AccountController() {
         this.dataArr = Helper.readData(userDataFile);
+        this.orderArr = Helper.readData(order);
+
     }
 
-    public void listAllUser() {
-        Helper.listAll(userDataFile);
-    }
 
     public void setCurrentAccount(String username) {
         for (int i = 1; i < dataArr.size(); i++) {
@@ -56,12 +52,8 @@ public class AccountController {
     public boolean signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
-        if (usernameValidate(username)) {
+        if (usernameValidate(username) || username.contains(" ")) {
             return false;
-        } else if (!usernameValidate(username)) {
-            if (!signupUsernameValidate(username)) {
-                return false;
-            }
         }
         Helper.addData(userDataFile, dataAdd);
         return true;
@@ -69,7 +61,7 @@ public class AccountController {
 
     /**
      * This method get user data
-     * 
+     *
      * @return String[]
      */
     public String[] getUserData(String username) {
@@ -84,7 +76,7 @@ public class AccountController {
 
     /**
      * This method validate the username
-     * 
+     *
      * @return boolean
      */
     public boolean usernameValidate(String username) {
@@ -98,21 +90,10 @@ public class AccountController {
     }
 
     /**
-     * This method do not allow user input the whitespace for password
-     * 
-     * @return boolean
-     */
-    public boolean signupUsernameValidate(String username) {
-        pattern = Pattern.compile(USERNAME_PATTERN);
-        return pattern.matcher(username).matches();
-    }
-
-    /**
      * This method validate password
-     * 
+     *
      * @return boolean
      */
-
     public boolean passwordValidate(String password) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -120,13 +101,12 @@ public class AccountController {
                 return true;
             }
         }
-
         return false;
     }
 
     /**
      * This method hash the user password
-     * 
+     *
      * @return String
      */
     public String hashPassword(String password) {
@@ -149,4 +129,95 @@ public class AccountController {
         }
         return generatedPassword;
     }
-}
+/*
+Admin feature
+ */
+
+    /**
+     * This medthod check the role of account
+     *
+     * @return boolean
+     */
+    public boolean checkRole(String username) {
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                if (line[6].equalsIgnoreCase("admin")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method set the Role for account
+     */
+    public void setRole(String uID, String role) {
+        if (Helper.getAllId(userDataFile).contains(uID)) {
+            switch (role) {
+                case "admin":
+                    Helper.modifyField(userDataFile, uID, 6, "admin");
+                case "user":
+                    Helper.modifyField(userDataFile, uID, 6, "user");
+            }
+        }
+    }
+
+    /**
+     * This method list all the user information
+     */
+    public void listAllUser() {
+        Helper.listAll(userDataFile);
+    }
+
+    public void membership(String username) {
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                double payment = Double.parseDouble(line[7]);
+                if (payment >= 5000000 && payment < 10000000) {
+                    Helper.modifyField(userDataFile, line[0], 5, "Silver");
+                } else if (payment >= 10000000 && payment < 25000000) {
+                    Helper.modifyField(userDataFile, line[0], 5, "Gold");
+                } else if (payment >= 25000000) {
+                    Helper.modifyField(userDataFile, line[0], 5, "Platinum");
+                } else {
+                    Helper.modifyField(userDataFile, line[0], 5, null);
+                }
+            }
+
+        }
+    }
+
+    public BigDecimal totalPayment(String userID) {
+        double totalPayment = 0;
+
+        for (int i = 1; i < orderArr.size(); i++) {
+            String[] line = orderArr.get(i);
+            if (userID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("PAID")) {
+                double orderBill = Double.parseDouble(line[4]);
+                totalPayment += orderBill;
+            }
+        }
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line1 = dataArr.get(i);
+            if (userID.equalsIgnoreCase(line1[0])) {
+                double payment = Double.parseDouble(line1[7]);
+                totalPayment += payment;
+            }
+        }
+        return BigDecimal.valueOf(totalPayment);
+    }
+    
+    public void addTotalPayment(String userID) {
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (userID.equalsIgnoreCase(line[0])) {
+                BigDecimal value = totalPayment(userID);
+                Helper.modifyField(userDataFile, line[0], 7, value.toPlainString());
+            }
+
+        }
+    }
+ }
