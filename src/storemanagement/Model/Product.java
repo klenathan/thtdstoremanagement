@@ -1,15 +1,20 @@
 package storemanagement.Model;
 
 public class Product {
+    private String productId;
     private String productName, category;
     private long price;
 
-    public Product(String productName, String category, long price) {
+    public Product(String productId, String productName, String category, long price) {
+        this.productId = productId;
         this.productName = productName;
         this.category = category;
         setPrice(price);
     }
 
+    public String getProductId() {
+        return productId;
+    }
 
     public String getProductName() {
         return productName;

@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class AccountController {
+    // TODO: 29/07/2022 User view their information 
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
@@ -48,7 +49,7 @@ public class AccountController {
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) {
+    public boolean signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
         if (usernameValidate(username) || username.contains(" ")) {

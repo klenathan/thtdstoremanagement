@@ -1,5 +1,6 @@
 package storemanagement.Controller;
 
+import storemanagement.Model.Product;
 import storemanagement.Service.Helper;
 
 import java.util.*;
@@ -7,11 +8,6 @@ import java.util.*;
 public class ProductController {
     private final String productDataFile = "data/product.csv";
     private ArrayList<String[]> dataArr;
-
-//    public static void main(String[] args) {
-//        ProductController productController = new ProductController();
-//        productController.updatePrice("P4", 100000);
-//    }
 
     public ProductController() {
         this.dataArr = Helper.readData(productDataFile);
@@ -50,7 +46,7 @@ public class ProductController {
     /**
      * This method helps admin add new product to the store
      *
-     * @param productName
+     * @param productName: new product's information
      * @param category
      * @param price
      */
@@ -60,8 +56,8 @@ public class ProductController {
         String dataAdd = productName + "," + category + "," + finalPrice;
 
         if (productNameValidate(productName)) {
-            System.out.println("Successfully added new product to the store!");
             Helper.addData(productDataFile, dataAdd);
+            System.out.println("Successfully added new product to the store!");
         } else {
             System.out.println("The product \"" + productName + "\" already exists in the store!");
         }
@@ -137,6 +133,21 @@ public class ProductController {
      */
     public void listAllProduct() {
         Helper.listAll(productDataFile);
+    }
+
+
+    public boolean checkProductExist(String id){
+        return Helper.getAllId(this.productDataFile).contains(id);
+    }
+
+    public Product getProductDetails(String productId) {
+        if (checkProductExist(productId)) {
+            String[] lineData = Helper.getDataFromLine(productDataFile, productId);
+            assert lineData != null;
+            return new Product(lineData[0], lineData[1], lineData[2], Long.parseLong(lineData[3]));
+        } else {
+            return null;
+        }
     }
 
     public ArrayList<String[]> getDataArr() {
