@@ -6,7 +6,18 @@ import java.util.Arrays;
 
 public class test {
     public static void main(String[] args) {
-       AccountController a = new AccountController();
-        System.out.println(a.phoneValidate(" 12231"));
+        ProductController productController = new ProductController();
+        OrderController order = new OrderController();
+
+        System.out.println(Arrays.toString(Helper.getDataFromLine("data/order.csv", "O1")));
+
+        int counter = 0;
+        while (counter < 100) {
+            counter ++;
+            Helper.addData("testFile.csv", "qwe,qwe");
+            System.out.println("Added " + counter);
+        }
+
+        System.out.println("Done");
     }
 }

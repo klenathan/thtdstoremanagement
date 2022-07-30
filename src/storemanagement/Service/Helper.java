@@ -1,6 +1,8 @@
 package storemanagement.Service;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 
 public class Helper {
@@ -73,10 +75,12 @@ public class Helper {
             }
             // Write new data to file combine with new line
             String newId = generatedID(file);
+
             PrintWriter fileWr = new PrintWriter(inputFile);
 
             String finalData = newId + "," + newData;
             res += finalData;
+
             fileWr.print(res);
             // close stream
             fileWr.flush();
@@ -91,7 +95,7 @@ public class Helper {
         if (getAllId(file).contains(id)) {
             try {
                 File inputFile = new File(file);
-                String res = "";
+                StringBuilder res = new StringBuilder();
                 Scanner reader = new Scanner(inputFile);
                 // Read current data to String res
                 while (reader.hasNext()) {
@@ -100,15 +104,15 @@ public class Helper {
                     // Only add non-equal id line
                     if (!Objects.equals(lineArray[0], id)) {
                         for (int i = 0; i < lineArray.length - 1; i++) {
-                            res += lineArray[i] + ",";
+                            res.append(lineArray[i]).append(",");
                         }
-                        res += lineArray[lineArray.length - 1];
-                        res += "\n";
+                        res.append(lineArray[lineArray.length - 1]);
+                        res.append("\n");
                     }
                 }
                 // Write new data to file combine with new line
                 FileWriter fileWr = new FileWriter(file);
-                fileWr.write(res);
+                fileWr.write(res.toString());
                 // close stream
                 fileWr.flush();
                 fileWr.close();
