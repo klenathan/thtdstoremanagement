@@ -1,17 +1,14 @@
-import storemanagement.Controller.AccountController;
-import storemanagement.Controller.OrderController;
-import storemanagement.Service.Helper;
+import storemanagement.Controller.*;
+import storemanagement.Service.*;
+import storemanagement.View.*;
 
-import java.io.PrintStream;
+import java.util.Arrays;
 
 public class test {
     public static void main(String[] args) {
-//        OrderController a = new OrderController();
-//        System.out.println(a.membershipDiscount("u1"));
+        ProductController productController = new ProductController();
+        OrderController order = new OrderController();
+        System.out.println(Arrays.toString(Helper.getDataFromLine("data/order.csv", "O1")));
 
-        OrderController o = new OrderController();
-        o.createOrder("P2", "u1", 32,123120);
-        AccountController a = new AccountController();
-        System.out.println(a.totalPayment("u1"));
     }
 }
