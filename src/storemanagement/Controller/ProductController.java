@@ -152,6 +152,24 @@ public class ProductController {
         }
     }
 
+    public HashSet<String> getAllCategory() {
+        HashSet<String> res = new HashSet<>();
+        for (int i = 1; i < this.dataArr.size(); i++) {
+            res.add(this.dataArr.get(i)[2]);
+        }
+        return res;
+    }
+
+    public ArrayList<String[]> getAllFromCat(String category) {
+        ArrayList<String[]> res = new ArrayList<>();
+        for (int i = 0; i < dataArr.size(); i++) {
+            if (this.dataArr.get(i)[2].equalsIgnoreCase(category)) {
+                res.add(dataArr.get(i));
+            }
+        }
+        return res;
+    }
+
     public ArrayList<String[]> getDataArr() {
         return dataArr;
     }
