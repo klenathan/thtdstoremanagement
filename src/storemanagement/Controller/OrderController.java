@@ -26,7 +26,6 @@ public class OrderController {
 
     public void createOrder(String productId, String userId, int quantity, long price) {
         double totalBill = (quantity * price) * (1 - membershipDiscount(userId));
-
         String orderDetail = productId
                 + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
         Helper.addData(orderDataFile, orderDetail);
@@ -34,7 +33,6 @@ public class OrderController {
     }
 
     public void updateOrderStatus(String orderId) {
-        // String tempData;
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
