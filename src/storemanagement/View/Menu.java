@@ -77,6 +77,14 @@ public class Menu {
                         System.out.println("Please input order ID: ");
                         String orderId = adminScan.nextLine();
                         orderController.updateOrderStatus(orderId);
+                    }else if (input == 7){
+                        accController.listAllUser();
+                    } else if (input == 8) {
+                        System.out.println("Please input customer ID");
+                        String cusID = adminScan.nextLine();
+                        System.out.println("PLease input the role of this customer (admin or user)");
+                        String role =  adminScan.nextLine();
+                        accController.setRole(cusID, role);
                     }
                 } catch (Exception e) {
                     e.getStackTrace();
@@ -190,7 +198,9 @@ public class Menu {
                 3. List user's orders from userID
                 4. Add new product
                 5. Change product price
-                6. Get order detail by orderID""";
+                6. Get order detail by orderID
+                7. List all user information
+                8. Set role for account""";
 
         if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
@@ -199,7 +209,7 @@ public class Menu {
         } else {
             System.out.println(optionsTxt);
         }
-        Integer[] optionArr = { 0, 1, 2, 3, 4, 5, 6 };
+        Integer[] optionArr = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
 
         while (true) {
             Scanner input = new Scanner(System.in);
