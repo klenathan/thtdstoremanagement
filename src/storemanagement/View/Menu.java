@@ -188,13 +188,11 @@ public class Menu {
                 1. List all products
                 2. Search item by name
                 3. List user's orders from userID
-                
                 4. Add new product
                 5. Change product price
-                
                 6. Get order detail by orderID""";
 
-        if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+        if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
         } else if (accController.getAccount() != null) {
             System.out.println(optionTxtWithName);
