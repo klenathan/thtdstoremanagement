@@ -6,19 +6,14 @@ import storemanagement.Service.Helper;
 import java.util.ArrayList;
 
 public class OrderController {
-
-//    public static void main(String[] args) {
-//    }
-
+    // TODO: 31/07/2022 Fix: null membership when order new product
     private final String orderDataFile = "data/order.csv";
-    private String userDataFile = "data/user.csv";
+    private final String userDataFile = "data/user.csv";
 
     private ArrayList<String[]> dataArr;
-    private ArrayList<String[]> nDataArr;
 
     public OrderController() {
         this.dataArr = Helper.readData(orderDataFile);
-        this.nDataArr = Helper.readData(userDataFile);
     }
 
     public static void main(String[] args) {
@@ -57,13 +52,13 @@ public class OrderController {
         }
         if (totalBill > 25000000.0) {
             Helper.modifyField(userDataFile, customerID, 5, "Platinum");
-            membership = "Platinum";
+            membership = "platinum";
         } else if (totalBill > 10000000.0) {
             Helper.modifyField(userDataFile, customerID, 5, "Gold");
-            membership = "Gold";
+            membership = "gold";
         } else if (totalBill > 5000000.0) {
             Helper.modifyField(userDataFile, customerID, 5, "Silver");
-            membership = "Silver";
+            membership = "silver";
         } else {
             membership = null;
         }
@@ -74,11 +69,11 @@ public class OrderController {
     public double membershipDiscount(String customerID) {
         String membership = membershipCheck(customerID);
         double discount;
-        if (membership.equalsIgnoreCase("Silver")) {
+        if (membership.equalsIgnoreCase("silver")) {
             discount = 0.05;
-        } else if (membership.equalsIgnoreCase("Gold")) {
+        } else if (membership.equalsIgnoreCase("gold")) {
             discount = 0.1;
-        } else if (membership.equalsIgnoreCase("Platinum")) {
+        } else if (membership.equalsIgnoreCase("platinum")) {
             discount = 0.15;
         } else {
             discount = 0;

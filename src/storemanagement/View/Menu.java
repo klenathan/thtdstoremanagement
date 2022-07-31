@@ -35,67 +35,28 @@ public class Menu {
                 """);
         int input;
         while (true) {
-            if (accController.getAccount() != null) {
-                // LOGGED IN MENU
-                Scanner scan = new Scanner(System.in);
-                try {
-                    input = userOption();
-                    if (input == 0){
-                        System.out.println("Thank you for visiting our store! Hope to see you again!");
-                        break;
-                    } else if (input == 1) {
-                        System.out.println("\nPRODUCT LIST | List all product in database");
-                        this.tableDisplay(productController.getDataArr());
-                        this.selectProduct();
-                        System.out.println("");
-                    } else if (input == 2) {
-                        System.out.println("2.Search product by name");
-                    }else if (input == 3){
-                        System.out.println("ORDERS LIST | This is your order list");
-                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
-                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-                        this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
-                        System.out.println("");
-                    }else if (input == 4){
-                        System.out.println("4. Get order information");
-                        System.out.print("Please input order ID: ");
-                        String orderId = scan.nextLine();
-
-                        ArrayList<String[]> res = new ArrayList<>();
-                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
-                        res.add(heading);
-                        res.add(orderController.getOrderInfo(orderId));
-                        this.tableDisplay(res);
-                    }else if (input == 5) {
-                        System.out.println("5 is blank");
-                    }
-                } catch (Exception e) {
-                    e.getStackTrace();
-                    System.out.println(e);
-                }
-            } else if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+            if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
                 //ADMIN MENU
                 try {
                     input = userOption();
                     Scanner adminScan = new Scanner(System.in);
-                    if (input == 0){
+                    if (input == 0) {
                         System.out.println("Program exited");
                         break;
                     } else if (input == 1) {
-                        System.out.println("1. List all products");
+                        System.out.println("PRODUCT LIST | List all product from the store");
                         this.tableDisplay(productController.getDataArr());
                         this.selectProduct();
                         System.out.println("");
                     } else if (input == 2) {
                         System.out.println("2.Search product by name");
-                    }else if (input == 3){
+                    } else if (input == 3) {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(adminScan.nextLine()));
-                    }else if (input == 4){
+                    } else if (input == 4) {
                         System.out.print("New product name: ");
                         String productName = adminScan.nextLine();
                         System.out.print("New product category: ");
@@ -111,8 +72,47 @@ public class Menu {
                         productController.updatePrice(productId, price);
                     } else if (input == 6) {
                         System.out.println("Please input order ID: ");
-                        String orderId =  adminScan.nextLine();
+                        String orderId = adminScan.nextLine();
                         orderController.updateOrderStatus(orderId);
+                    }
+                } catch (Exception e) {
+                    e.getStackTrace();
+                    System.out.println(e);
+                }
+            }else if (accController.getAccount() != null) {
+                // LOGGED IN MENU
+                Scanner scan = new Scanner(System.in);
+                try {
+                    input = userOption();
+                    if (input == 0) {
+                        System.out.println("Thank you for visiting our store! Hope to see you again!");
+                        break;
+                    } else if (input == 1) {
+                        System.out.println("\nPRODUCT LIST | List all product from the store");
+                        this.tableDisplay(productController.getDataArr());
+                        this.selectProduct();
+                        System.out.println("");
+                    } else if (input == 2) {
+                        System.out.println("2.Search product by name");
+                    } else if (input == 3) {
+                        System.out.println("ORDERS LIST | This is your order list");
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
+                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+                        this.tableDisplay(headingArr);
+                        this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
+                        System.out.println("");
+                    } else if (input == 4) {
+                        System.out.println("4. Get order information");
+                        System.out.print("Please input order ID: ");
+                        String orderId = scan.nextLine();
+
+                        ArrayList<String[]> res = new ArrayList<>();
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
+                        res.add(heading);
+                        res.add(orderController.getOrderInfo(orderId));
+                        this.tableDisplay(res);
+                    } else if (input == 5) {
+                        System.out.println("5 is blank");
                     }
                 } catch (Exception e) {
                     e.getStackTrace();
@@ -178,7 +178,7 @@ public class Menu {
 
         String adminOpttxt = """
                 ================================
-                Welcome,"""+ Coloring.GREEN + Coloring.BLACK_BACKGROUND + username + "\033[0;0m! " + """
+                Welcome to admin menu,"""+ Coloring.GREEN + Coloring.BLACK_BACKGROUND + username + "\033[0;0m! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
@@ -186,10 +186,10 @@ public class Menu {
                 3. List user's orders from userID
                 ================================""";
 
-        if (accController.getAccount() != null) {
-            System.out.println(optionTxtWithName);
-        } else if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+        if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
+        } else if (accController.getAccount() != null) {
+            System.out.println(optionTxtWithName);
         } else {
             System.out.println(optionsTxt);
         }
