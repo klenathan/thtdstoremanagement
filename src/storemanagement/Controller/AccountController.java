@@ -181,8 +181,8 @@ Admin feature
     /**
      * This method list all the user information
      */
-    public void listAllUser() {
-        Helper.listAll(userDataFile);
+    public ArrayList<String[]> getDataArr() {
+        return dataArr;
     }
 
     public void membership(String username) {

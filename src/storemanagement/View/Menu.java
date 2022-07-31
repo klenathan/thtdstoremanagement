@@ -78,7 +78,9 @@ public class Menu {
                         String orderId = adminScan.nextLine();
                         orderController.updateOrderStatus(orderId);
                     }else if (input == 7){
-                        accController.listAllUser();
+                        this.tableDisplay(accController.getDataArr());
+                        System.out.println("Enter to continue");
+                        System.out.println(adminScan.nextLine());
                     } else if (input == 8) {
                         System.out.println("Please input customer ID");
                         String cusID = adminScan.nextLine();
