@@ -1,7 +1,5 @@
 package storemanagement.Model;
 
-import storemanagement.Service.Helper;
-
 public class Account {
 //    private String cusID;
     private String userId;

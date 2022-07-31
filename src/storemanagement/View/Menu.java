@@ -10,9 +10,9 @@ public class Menu {
     private AccountController accController;
     private OrderController orderController;
     private final String RED = "\u001B[31m";
-    private final String GREEN = "\u001B[32m";
+    private static final String GREEN = "\u001B[32m";
     private final String BLACK_BACKGROUND = "\u001B[40m";
-    private final String RESET = "\u001B[0m";
+    private static final String RESET = "\u001B[0m";
     public static void main(String[] args) {
         Menu menu = new Menu();
     }
@@ -93,7 +93,7 @@ public class Menu {
                         String cusID = adminScan.nextLine();
                         System.out.println("PLease input the role of this customer (admin or user)");
                         String role =  adminScan.nextLine();
-                        accController.setRole(cusID, role);
+                        System.out.println(accController.setRole(cusID, role));
                     } else {
                         System.out.println("Invalid input!");
                     }
@@ -137,7 +137,7 @@ public class Menu {
                         ArrayList<String[]> res = new ArrayList<>();
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
                         res.add(heading);
-                        res.add(orderController.getOrderInfo(orderId));
+                        res.add(orderController.getOrderInfo(orderId, accController.getAccount().getUserId()));
                         this.tableDisplay(res);
                     } else {
                         System.out.println("Invalid input!");
@@ -193,7 +193,6 @@ public class Menu {
                 2. Search item by name
                 3. Log in your account
                 4. Sign up your account
-                5. Admin login
                 ================================""";
         String optionTxtWithName = """
                 ================================
@@ -295,8 +294,9 @@ public class Menu {
             Product targetProduct = productController.getProductDetails(userInput);
             long price = targetProduct.getPrice();
             orderController.createOrder(userInput, accController.getAccount().getUserId(), quantity, price);
-            System.out.println("You ordered: " + green(String.valueOf(quantity)) + " * " + green(targetProduct.getProductName())
-                    + " for " + green(String.valueOf(quantity * price)) + " VND");
+            double discount = orderController.membershipDiscount(accController.getAccount().getUserId());
+            System.out.println("You have got " + green(discount * 100 + "% discount") + ".\nYou ordered: " + green(String.valueOf(quantity)) + " * " + green(String.valueOf(price))
+                    + " * " + green(String.valueOf((1 - discount))) + " for " + green(String.valueOf(quantity * price * (1 - discount))) + " VND");
             System.out.println("Order created! Thank you for ordering from us!");
         } else if (userInput.equalsIgnoreCase("0")) {
             System.out.println("");
@@ -338,11 +338,11 @@ public class Menu {
         }
     }
 
-    private String error(String message) {
+    public String error(String message) {
         return RED + message + RESET;
     }
 
-    private String green(String mes) {
+    public static String green(String mes) {
         return GREEN + mes + RESET;
     }
 }

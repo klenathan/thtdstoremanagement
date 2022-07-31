@@ -44,6 +44,7 @@ public class AccountController {
      */
     public boolean login(String username, String password) {
         String generate = hashPassword(password);
+        addTotalPayment(username);
         return (usernameValidate(username) && passwordValidate(generate));
     }
 
@@ -148,34 +149,19 @@ Admin feature
  */
 
     /**
-     * This medthod check the role of account
-     *
-     * @return boolean
-     */
-    public boolean checkRole(String username) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1])) {
-                if (line[6].equalsIgnoreCase("admin")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * This method set the Role for account
      */
-    public void setRole(String uID, String role) {
+    public String setRole(String uID, String role) {
+        String message = "Change role success";
         if (Helper.getAllId(userDataFile).contains(uID)) {
             switch (role) {
-                case "admin":
-                    Helper.modifyField(userDataFile, uID, 6, "admin");
-                case "user":
-                    Helper.modifyField(userDataFile, uID, 6, "user");
+                case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
+                case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
             }
+        }else{
+            return message = "This users does not exist";
         }
+        return message;
     }
 
     /**
@@ -185,26 +171,7 @@ Admin feature
         return dataArr;
     }
 
-    public void membership(String username) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1])) {
-                double payment = Double.parseDouble(line[7]);
-                if (payment >= 5000000 && payment < 10000000) {
-                    Helper.modifyField(userDataFile, line[0], 5, "Silver");
-                } else if (payment >= 10000000 && payment < 25000000) {
-                    Helper.modifyField(userDataFile, line[0], 5, "Gold");
-                } else if (payment >= 25000000) {
-                    Helper.modifyField(userDataFile, line[0], 5, "Platinum");
-                } else {
-                    Helper.modifyField(userDataFile, line[0], 5, null);
-                }
-            }
-
-        }
-    }
-
-    public BigDecimal totalPayment(String userID) {
+    public String totalPayment(String userID) {
         double totalPayment = 0;
 
         for (int i = 1; i < orderArr.size(); i++) {
@@ -221,15 +188,14 @@ Admin feature
                 totalPayment += payment;
             }
         }
-        return BigDecimal.valueOf(totalPayment);
+        return String.valueOf(totalPayment);
     }
 
     public void addTotalPayment(String userID) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (userID.equalsIgnoreCase(line[0])) {
-                BigDecimal value = totalPayment(userID);
-                Helper.modifyField(userDataFile, line[0], 7, value.toPlainString());
+                Helper.modifyField(userDataFile, line[0], 7, totalPayment(userID));
             }
 
         }

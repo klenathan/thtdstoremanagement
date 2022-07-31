@@ -2,6 +2,7 @@ package storemanagement.Controller;
 
 import storemanagement.Model.Product;
 import storemanagement.Service.Helper;
+import storemanagement.View.Menu;
 
 import java.util.*;
 
@@ -121,20 +122,13 @@ public class ProductController {
         if (!productNameValidate(productName)) {
             for (String[] line : dataArr) {
                 if (productName.equalsIgnoreCase(line[1])) {
-                    product = "Product name: " + line[1] + "\nCategory: " + line[2] + "\nPrice: " + line[3];
+                    product = Menu.green("Product name: ") + line[1] + "\n" + Menu.green("Category: ") + line[2] + "\n" + Menu.green("Price: ") + line[3];
                 }
             }
         } else {
             product = "Product \"" + productName + "\" does not exist.";
         }
         return product;
-    }
-
-    /**
-     * This method is to list all the products in the store
-     */
-    public void listAllProduct() {
-        Helper.listAll(productDataFile);
     }
 
 

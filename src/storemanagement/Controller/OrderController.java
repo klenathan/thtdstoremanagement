@@ -1,9 +1,9 @@
 package storemanagement.Controller;
 
-import storemanagement.Model.Order;
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OrderController {
 
@@ -12,11 +12,12 @@ public class OrderController {
 
     private ArrayList<String[]> dataArr;
 
+    public static void main(String[] args) {
+        OrderController a = new OrderController();
+        System.out.println(Arrays.toString(a.getOrderInfo("O5", "U4")));
+    }
     public OrderController() {
         this.dataArr = Helper.readData(orderDataFile);
-    }
-
-    public static void main(String[] args) {
     }
 
     public ArrayList<String[]> getDataArr() {
@@ -25,6 +26,7 @@ public class OrderController {
 
     public void createOrder(String productId, String userId, int quantity, long price) {
         double totalBill = (quantity * price) * (1 - membershipDiscount(userId));
+
         String orderDetail = productId
                 + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
         Helper.addData(orderDataFile, orderDetail);
@@ -32,6 +34,7 @@ public class OrderController {
     }
 
     public void updateOrderStatus(String orderId) {
+        // String tempData;
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
@@ -42,20 +45,20 @@ public class OrderController {
 
     public String membershipCheck(String customerID) {
         double totalBill = 0;
-        String membership = "";
+        String membership;
         for (String[] line : dataArr) {
             if (customerID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("paid")) {
                 totalBill += Double.parseDouble(line[4]);
             }
         }
         if (totalBill > 25000000.0) {
-            Helper.modifyField(userDataFile, customerID, 5, "Platinum");
+            Helper.modifyField(userDataFile, customerID, 5, "platinum");
             membership = "platinum";
         } else if (totalBill > 10000000.0) {
-            Helper.modifyField(userDataFile, customerID, 5, "Gold");
+            Helper.modifyField(userDataFile, customerID, 5, "gold");
             membership = "gold";
         } else if (totalBill > 5000000.0) {
-            Helper.modifyField(userDataFile, customerID, 5, "Silver");
+            Helper.modifyField(userDataFile, customerID, 5, "silver");
             membership = "silver";
         } else {
             membership = "none";
@@ -65,7 +68,7 @@ public class OrderController {
 
     public double membershipDiscount(String customerID) {
         String membership = membershipCheck(customerID);
-        double discount = 0;
+        double discount;
         if (membership.equalsIgnoreCase("silver")) {
             discount = 0.05;
         } else if (membership.equalsIgnoreCase("gold")) {
@@ -90,11 +93,14 @@ public class OrderController {
         return res;
     }
 
-    public String[] getOrderInfo(String orderId) {
-        return Helper.getDataFromLine(orderDataFile, orderId);
+
+    public String[] getOrderInfo(String orderId, String userID) {
+        String[] arr = Helper.getDataFromLine(orderDataFile, orderId.toUpperCase());
+        if (userID.equalsIgnoreCase(arr[2])) {
+            return arr;
+        } else {
+            return new String[0];
+        }
     }
 
-    public void listAllOrder() {
-        Helper.listAll(orderDataFile);
-    }
 }
