@@ -58,7 +58,11 @@ public class Menu {
                         System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
                         System.out.print("Input product name: ");
                         String productName = adminScan.nextLine();
-                        System.out.println("\n" + productController.searchProduct(productName) + "\n");
+                        ArrayList<String[]> res = new ArrayList<>();
+                        String[] heading = {"Product ID", "Product Name", "Category", "Price"};
+                        res.add(heading);
+                        res.add(productController.searchProduct(productName));
+                        this.tableDisplay(res);
                     } else if (input == 3) {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
@@ -113,12 +117,16 @@ public class Menu {
                         System.out.println("\nPRODUCT LIST | List all product from the store");
                         this.tableDisplay(productController.getDataArr());
                         this.selectProduct();
-                        System.out.println("");
+                        System.out.println();
                     } else if (input == 2) {
                         System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
                         System.out.print("Input product name: ");
                         String productName = scan.nextLine();
-                        System.out.println("\n" + productController.searchProduct(productName) + "\n");
+                        ArrayList<String[]> res = new ArrayList<>();
+                        String[] heading = {"Product ID", "Product Name", "Category", "Price"};
+                        res.add(heading);
+                        res.add(productController.searchProduct(productName));
+                        this.tableDisplay(res);
                     } else if (input == 3) {
                         System.out.println("CATEGORY VIEW | View by category");
                         this.categoryView();
@@ -129,7 +137,7 @@ public class Menu {
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
-                        System.out.println("");
+                        System.out.println();
                     } else if (input == 5) {
                         System.out.println("5. Get order information");
                         System.out.print("Please input order ID: ");
@@ -139,6 +147,7 @@ public class Menu {
                         res.add(heading);
                         res.add(orderController.getOrderInfo(orderId, accController.getAccount().getUserId()));
                         this.tableDisplay(res);
+                        System.out.println();
                     } else {
                         System.out.println("Invalid input!");
                     }
@@ -164,7 +173,11 @@ public class Menu {
                         System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
                         System.out.print("Input product name: ");
                         String productName = scan.nextLine();
-                        System.out.println("\n" + productController.searchProduct(productName) + "\n");
+                        ArrayList<String[]> res = new ArrayList<>();
+                        String[] heading = {"Product ID", "Product Name", "Category", "Price"};
+                        res.add(heading);
+                        res.add(productController.searchProduct(productName));
+                        this.tableDisplay(res);
                     }else if (input == 3){
                         System.out.println("================================");
                         System.out.println("LOGIN | Please type in your account");

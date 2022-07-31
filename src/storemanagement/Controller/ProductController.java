@@ -2,7 +2,6 @@ package storemanagement.Controller;
 
 import storemanagement.Model.Product;
 import storemanagement.Service.Helper;
-import storemanagement.View.Menu;
 
 import java.util.*;
 
@@ -14,6 +13,10 @@ public class ProductController {
         this.dataArr = Helper.readData(productDataFile);
     }
 
+    public static void main(String[] args) {
+        ProductController a = new ProductController();
+        System.out.println(Arrays.toString(a.searchProduct("product1")));
+    }
     /**
      * This method validates the product name
      *
@@ -117,20 +120,15 @@ public class ProductController {
      * @param productName
      * @return product
      */
-    public String searchProduct(String productName) {
-        String product = "";
-        if (!productNameValidate(productName)) {
-            for (String[] line : dataArr) {
-                if (productName.equalsIgnoreCase(line[1])) {
-                    product = Menu.green("Product name: ") + line[1] + "\n" + Menu.green("Category: ") + line[2] + "\n" + Menu.green("Price: ") + line[3];
-                }
-            }
-        } else {
-            product = "Product \"" + productName + "\" does not exist.";
-        }
-        return product;
-    }
 
+    public String[] searchProduct(String productName) {
+        for (int i = 0; i < dataArr.size(); i++) {
+            if (this.dataArr.get(i)[1].equalsIgnoreCase(productName)) {
+                return dataArr.get(i);
+            }
+        }
+        return new String[0];
+    }
 
     public boolean checkProductExist(String id){
         return Helper.getAllId(this.productDataFile).contains(id);
