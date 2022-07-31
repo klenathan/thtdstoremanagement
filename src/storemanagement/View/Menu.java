@@ -7,15 +7,18 @@ import java.util.*;
 
 public class Menu {
 
-    ProductController productController;
-    AccountController accController;
-    OrderController orderController;
+    private ProductController productController;
+    private AccountController accController;
+    private OrderController orderController;
+
+    private final String RED = "\u001B[31m";
+    private final String GREEN = "\u001B[32m";
+    private final String BLACK_BACKGROUND = "\u001B[40m";
+    private final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
         Menu menu = new Menu();
     }
-
-    // TODO: 30/07/2022 : Fix write data bug 
     public Menu() {
         this.accController = new AccountController();
         this.productController = new ProductController();
@@ -49,7 +52,7 @@ public class Menu {
                         this.selectProduct();
                         System.out.println("");
                     } else if (input == 2) {
-                        System.out.println("2.Search product by name");
+                        System.out.println("2.Search product by name | WORKING ");
                     } else if (input == 3) {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
@@ -114,7 +117,9 @@ public class Menu {
                     } else if (input == 5) {
                         System.out.println("5 is blank");
                     }
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
+                    System.out.println(error("Please input a number"));
+                }  catch (Exception e) {
                     e.getStackTrace();
                     System.out.println(e);
                 }
@@ -152,7 +157,6 @@ public class Menu {
     }
 
     public int userOption() {
-
         String username = accController.getAccount() != null ? accController.getAccount().getUsername(): "";
         String optionsTxt = """
                 ================================
@@ -166,7 +170,7 @@ public class Menu {
                 ================================""";
         String optionTxtWithName = """
                 ================================
-                Welcome,"""+ Coloring.GREEN + Coloring.BLACK_BACKGROUND + username + "\033[0;0m! " + """
+                Welcome,"""+ GREEN + BLACK_BACKGROUND + username + RESET + "! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
@@ -178,17 +182,19 @@ public class Menu {
 
         String adminOpttxt = """
                 ================================
-                Welcome to admin menu,"""+ Coloring.GREEN + Coloring.BLACK_BACKGROUND + username + "\033[0;0m! " + """
+                Welcome to admin menu,"""+ GREEN + BLACK_BACKGROUND + username + RESET + "! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
                 2. Search item by name
                 3. List user's orders from userID
-                4. List all user information
-                5. Set role for account
-                ================================""";
+                
+                4. Add new product
+                5. Change product price
+                
+                6. Get order detail by orderID""";
 
-        if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
+        if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
         } else if (accController.getAccount() != null) {
             System.out.println(optionTxtWithName);
@@ -243,7 +249,7 @@ public class Menu {
 
         if (accController.signup(fullName, username, password, phoneNum)) {
             accController.setCurrentAccount(username);
-            System.out.println("Sign up successfully!");
+            System.out.println(this.green("Sign up successfully!"));
         } else {
             System.out.println(this.error("USERNAME EXIST OR INVALID USERNAME"));
         }
@@ -252,11 +258,11 @@ public class Menu {
 
     private void selectProduct() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Input product ID to create order or \"0\" to escape: ");
+        System.out.print("Input product ID to create order or \"0\" to escape: ");
         String userInput = scan.nextLine().toUpperCase();
 
         if (productController.checkProductExist(userInput)) {
-            System.out.println("How many do you want to get? ");
+            System.out.print("How many do you want to get? ");
             int quantity = Integer.parseInt(scan.nextLine());
             Product targetProduct = productController.getProductDetails(userInput);
             long price = targetProduct.getPrice();
@@ -264,6 +270,8 @@ public class Menu {
             System.out.println("You ordered: " + green(String.valueOf(quantity)) + " * " + green(targetProduct.getProductName())
                     + " for " + green(String.valueOf(quantity * price)) + " VND");
             System.out.println("Order created! Thank you for ordering from us!");
+        } else if (userInput.equalsIgnoreCase("0")) {
+            System.out.println("");
         } else {
             System.out.println("Failed to find desired product, please try again");
         }
@@ -285,11 +293,11 @@ public class Menu {
     }
 
     private String error(String message) {
-        return Coloring.RED + message + Coloring.RESET;
+        return RED + message + RESET;
     }
 
     private String green(String mes) {
-        return Coloring.GREEN + mes + Coloring.RESET;
+        return GREEN + mes + RESET;
     }
 }
 

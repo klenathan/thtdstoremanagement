@@ -6,7 +6,7 @@ import storemanagement.Service.Helper;
 import java.util.ArrayList;
 
 public class OrderController {
-    // TODO: 31/07/2022 Fix: null membership when order new product
+
     private final String orderDataFile = "data/order.csv";
     private final String userDataFile = "data/user.csv";
 
@@ -25,6 +25,7 @@ public class OrderController {
 
     public void createOrder(String productId, String userId, int quantity, long price) {
         double totalBill = (quantity * price) * (1 - membershipDiscount(userId));
+//        System.out.println("check " + membershipDiscount(userId));
 
         String orderDetail = productId
                 + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
@@ -60,7 +61,7 @@ public class OrderController {
             Helper.modifyField(userDataFile, customerID, 5, "Silver");
             membership = "silver";
         } else {
-            membership = null;
+            membership = "none";
         }
         System.out.println(membership);
         return membership;
@@ -68,7 +69,7 @@ public class OrderController {
 
     public double membershipDiscount(String customerID) {
         String membership = membershipCheck(customerID);
-        double discount;
+        double discount = 0;
         if (membership.equalsIgnoreCase("silver")) {
             discount = 0.05;
         } else if (membership.equalsIgnoreCase("gold")) {
