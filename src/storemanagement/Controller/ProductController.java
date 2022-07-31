@@ -16,8 +16,8 @@ public class ProductController {
     /**
      * This method validates the product name
      *
-     * @param productName
-     * @return true/false
+     * @param productName product name input in String
+     * @return true false when product name is found
      */
     public boolean productNameValidate(String productName) {
         for (int i = 1; i < dataArr.size(); i++) {
@@ -150,6 +150,24 @@ public class ProductController {
         } else {
             return null;
         }
+    }
+
+    public HashSet<String> getAllCategory() {
+        HashSet<String> res = new HashSet<>();
+        for (int i = 1; i < this.dataArr.size(); i++) {
+            res.add(this.dataArr.get(i)[2]);
+        }
+        return res;
+    }
+
+    public ArrayList<String[]> getAllFromCat(String category) {
+        ArrayList<String[]> res = new ArrayList<>();
+        for (int i = 0; i < dataArr.size(); i++) {
+            if (this.dataArr.get(i)[2].equalsIgnoreCase(category)) {
+                res.add(dataArr.get(i));
+            }
+        }
+        return res;
     }
 
     public ArrayList<String[]> getDataArr() {

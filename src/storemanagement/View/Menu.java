@@ -6,16 +6,13 @@ import storemanagement.Model.Product;
 import java.util.*;
 
 public class Menu {
-
     private ProductController productController;
     private AccountController accController;
     private OrderController orderController;
-
     private final String RED = "\u001B[31m";
     private final String GREEN = "\u001B[32m";
     private final String BLACK_BACKGROUND = "\u001B[40m";
     private final String RESET = "\u001B[0m";
-
     public static void main(String[] args) {
         Menu menu = new Menu();
     }
@@ -26,6 +23,12 @@ public class Menu {
         welcomeScreen();
     }
 
+    public Menu(String a) {
+        System.out.println("Test purpose constructor");
+        this.accController = new AccountController();
+        this.productController = new ProductController();
+        this.orderController = new OrderController();
+    }
     public void welcomeScreen() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
@@ -52,7 +55,10 @@ public class Menu {
                         this.selectProduct();
                         System.out.println("");
                     } else if (input == 2) {
-                        System.out.println("2.Search product by name | WORKING ");
+                        System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
+                        System.out.print("Input product name: ");
+                        String productName = adminScan.nextLine();
+                        System.out.println("\n" + productController.searchProduct(productName) + "\n");
                     } else if (input == 3) {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
@@ -60,6 +66,7 @@ public class Menu {
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(adminScan.nextLine()));
                     } else if (input == 4) {
+                        System.out.println("NEW PRODUCT | Add new product to the store");
                         System.out.print("New product name: ");
                         String productName = adminScan.nextLine();
                         System.out.print("New product category: ");
@@ -77,6 +84,8 @@ public class Menu {
                         System.out.println("Please input order ID: ");
                         String orderId = adminScan.nextLine();
                         orderController.updateOrderStatus(orderId);
+                    } else {
+                        System.out.println("Invalid input!");
                     }
                 } catch (Exception e) {
                     e.getStackTrace();
@@ -96,26 +105,32 @@ public class Menu {
                         this.selectProduct();
                         System.out.println("");
                     } else if (input == 2) {
-                        System.out.println("2.Search product by name");
+                        System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
+                        System.out.print("Input product name: ");
+                        String productName = scan.nextLine();
+                        System.out.println("\n" + productController.searchProduct(productName) + "\n");
                     } else if (input == 3) {
+                        System.out.println("CATEGORY VIEW | View by category");
+                        this.categoryView();
+                        this.selectProduct();
+                    }else if (input == 4) {
                         System.out.println("ORDERS LIST | This is your order list");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
                         System.out.println("");
-                    } else if (input == 4) {
-                        System.out.println("4. Get order information");
+                    } else if (input == 5) {
+                        System.out.println("5. Get order information");
                         System.out.print("Please input order ID: ");
                         String orderId = scan.nextLine();
-
                         ArrayList<String[]> res = new ArrayList<>();
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
                         res.add(heading);
                         res.add(orderController.getOrderInfo(orderId));
                         this.tableDisplay(res);
-                    } else if (input == 5) {
-                        System.out.println("5 is blank");
+                    } else {
+                        System.out.println("Invalid input!");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println(error("Please input a number"));
@@ -127,6 +142,7 @@ public class Menu {
                 // GUEST MENU
                 try {
                     input = userOption();
+                    Scanner scan = new Scanner(System.in);
                     if (input == 0){
                         System.out.println("Thank you for visiting our store! Hope to see you again!");
                         break;
@@ -135,7 +151,10 @@ public class Menu {
                         this.tableDisplay(productController.getDataArr());
                         System.out.println("");
                     } else if (input == 2) {
-                        System.out.println("2.Search product by name");
+                        System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
+                        System.out.print("Input product name: ");
+                        String productName = scan.nextLine();
+                        System.out.println("\n" + productController.searchProduct(productName) + "\n");
                     }else if (input == 3){
                         System.out.println("================================");
                         System.out.println("LOGIN | Please type in your account");
@@ -143,17 +162,15 @@ public class Menu {
                     }else if (input == 4){
                         System.out.println("SIGN UP | Please type in your information");
                         this.inputSignup();
-                    }else if (input == 5) {
-                        System.out.println("5. Admin login");
+                    } else {
+                        System.out.println("Invalid input!");
                     }
-
                 } catch (Exception e) {
                     e.getStackTrace();
                     System.out.println(e);
                 }
             }
         }
-
     }
 
     public int userOption() {
@@ -175,9 +192,10 @@ public class Menu {
                 0. Exit
                 1. List all products
                 2. Search item by name
-                3. List my orders
-                4. Get order information
-                5. BLANK
+                3. List all category
+                4. List my orders
+                5. Get order information
+                6. BLANK
                 ================================""";
 
         String adminOpttxt = """
@@ -275,6 +293,24 @@ public class Menu {
         }
     }
 
+    public void categoryView() {
+        Scanner scan = new Scanner(System.in);
+        int count = 1;
+
+        HashMap<Integer, String> categoryMenuMap = new HashMap<>();
+        for (String cat : productController.getAllCategory()) {
+            System.out.println(count + ". " + cat);
+            categoryMenuMap.put(count, cat);
+            count++;
+        }
+        System.out.print("Choose desired category number or \"0\" to exit: ");
+        int userInput = scan.nextInt();
+        String[] heading = {"ProductId", "ProductName", "Category", "Price"};
+        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+        this.tableDisplay(headingArr);
+        this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(userInput)));
+    }
+
     private void tableDisplay(ArrayList<String[]> displayData) {
         int colWidth = 15;
         for (int i = 0; i < displayData.size(); i++) {
@@ -298,19 +334,3 @@ public class Menu {
         return GREEN + mes + RESET;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
