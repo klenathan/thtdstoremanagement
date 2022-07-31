@@ -3,7 +3,6 @@ package storemanagement.Controller;
 import storemanagement.Model.Account;
 import storemanagement.Service.Helper;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -51,20 +50,12 @@ public class AccountController {
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) throws Exception {
+    public void signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String role = "user";
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role;
-        if (usernameValidate(username) || username.contains(" ")) {
-            return false;
-        } else if (!usernameValidate(username)) {
-            Helper.addData(userDataFile, dataAdd);
-            this.dataArr = Helper.readData(userDataFile);
-            return true;
-        } else {
-            System.out.println("Unknown error");
-            return false;
-        }
+        Helper.addData(userDataFile, dataAdd);
+        this.dataArr = Helper.readData(userDataFile);
     }
 
     /**
@@ -98,6 +89,11 @@ public class AccountController {
         return false;
     }
 
+    /**
+     * This method validate the phone number 10 digits integer
+     *
+     * @return boolean
+     */
     public boolean phoneValidate(String phone) {
         Pattern pattern = Pattern.compile("^\\d{10}$");
         Matcher m = pattern.matcher(phone);
@@ -158,7 +154,7 @@ Admin feature
                 case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
                 case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
             }
-        }else{
+        } else {
             return message = "This users does not exist";
         }
         return message;

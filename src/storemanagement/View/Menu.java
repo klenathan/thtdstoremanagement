@@ -271,14 +271,16 @@ public class Menu {
         String password = signupScan.nextLine();
         System.out.print("Enter your full name: ");
         String fullName = signupScan.nextLine();
-        System.out.print("Enter your phone number: ");
+        System.out.print("Enter your phone number(10 digits): ");
         String phoneNum = signupScan.nextLine();
-
-        if (accController.signup(fullName, username, password, phoneNum)) {
-            accController.setCurrentAccount(username);
-            System.out.println(this.green("Sign up successfully!"));
-        } else {
+        if(accController.usernameValidate(username) || username.contains(" ")){
             System.out.println(this.error("USERNAME EXIST OR INVALID USERNAME"));
+        }else if(!accController.phoneValidate(phoneNum)){
+            System.out.println(this.error("INVALID PHONE NUMBER"));
+        }else{
+            accController.signup(fullName, username, password, phoneNum);
+            accController.setCurrentAccount(username);
+            System.out.println(green("Sign up successfully!"));
         }
         System.out.print("\n");
     }
