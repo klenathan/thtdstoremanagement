@@ -22,9 +22,6 @@ public class OrderController {
     }
 
     public static void main(String[] args) {
-//        OrderController a = new OrderController();
-//        a.updateOrderStatus("O2");
-//        System.out.println(a.membershipCheck("U4"));
     }
 
     public ArrayList<String[]> getDataArr() {
@@ -32,7 +29,7 @@ public class OrderController {
     }
 
     public void createOrder(String productId, String userId, int quantity, long price) {
-        double totalBill = (quantity * price) - (quantity * price) * membershipDiscount(userId);
+        double totalBill = (quantity * price) * (1 - membershipDiscount(userId));
 
         String orderDetail = productId
                 + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
