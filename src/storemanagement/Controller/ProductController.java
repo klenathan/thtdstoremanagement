@@ -16,8 +16,8 @@ public class ProductController {
     /**
      * This method validates the product name
      *
-     * @param productName
-     * @return true/false
+     * @param productName product name input in String
+     * @return true false when product name is found
      */
     public boolean productNameValidate(String productName) {
         for (int i = 1; i < dataArr.size(); i++) {

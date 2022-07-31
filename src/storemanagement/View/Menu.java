@@ -174,7 +174,6 @@ public class Menu {
                 }
             }
         }
-
     }
 
     public int userOption() {
@@ -338,19 +337,3 @@ public class Menu {
         return GREEN + mes + RESET;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
