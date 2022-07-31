@@ -93,7 +93,7 @@ public class Menu {
                         String cusID = adminScan.nextLine();
                         System.out.println("PLease input the role of this customer (admin or user)");
                         String role =  adminScan.nextLine();
-                        accController.setRole(cusID, role);
+                        System.out.println(accController.setRole(cusID, role));
                     } else {
                         System.out.println("Invalid input!");
                     }
@@ -193,7 +193,6 @@ public class Menu {
                 2. Search item by name
                 3. Log in your account
                 4. Sign up your account
-                5. Admin login
                 ================================""";
         String optionTxtWithName = """
                 ================================
