@@ -38,7 +38,7 @@ public class Menu {
                 """);
         int input;
         while (true) {
-            if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+            if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
                 //ADMIN MENU
                 try {
                     input = userOption();
