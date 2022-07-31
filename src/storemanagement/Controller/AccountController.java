@@ -6,7 +6,6 @@ import storemanagement.Service.Helper;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +34,7 @@ public class AccountController {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (username.equalsIgnoreCase(line[1])) {
-                this.account = new Account(line[0], line[1], line[3], line[4], line[5]);
+                this.account = new Account(line[0], line[1], line[3], line[4], line[5], line[6]);
             }
         }
     }
@@ -53,8 +52,9 @@ public class AccountController {
      */
     public boolean signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
-        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none";
-        if (usernameValidate(username)) {
+        String role = "user";
+        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role;
+        if (usernameValidate(username) || username.contains(" ")) {
             return false;
         } else if (!usernameValidate(username)) {
             Helper.addData(userDataFile, dataAdd);
@@ -83,7 +83,6 @@ public class AccountController {
 
     /**
      * This method validate the username
-     *
      * return true when username exist
      *
      * @return boolean
@@ -91,18 +90,19 @@ public class AccountController {
     public boolean usernameValidate(String username) {
         for (int i = 1; i < this.dataArr.size(); i++) {
             String[] line = this.dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1]) || username.contains(" ")) {
+            if (username.equalsIgnoreCase(line[1])) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean phoneValidate(String phone){
+    public boolean phoneValidate(String phone) {
         Pattern pattern = Pattern.compile("^\\d{10}$");
         Matcher m = pattern.matcher(phone);
         return m.matches();
     }
+
     /**
      * This method validate password
      *
@@ -223,7 +223,7 @@ Admin feature
         }
         return BigDecimal.valueOf(totalPayment);
     }
-    
+
     public void addTotalPayment(String userID) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -234,4 +234,4 @@ Admin feature
 
         }
     }
- }
+}

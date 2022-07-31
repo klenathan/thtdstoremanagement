@@ -9,14 +9,16 @@ public class Account {
     private String fullName;
     public String phone;
     public String membership;
+    private String role;
 
 
-    public Account(String userId, String username, String fullName, String phone, String membership){
+    public Account(String userId, String username, String fullName, String phone, String membership, String role){
         this.userId = userId;
         this.username = username;
         this.fullName = fullName;
         this.phone = phone;
         this.membership = membership;
+        this.role = role;
     }
 
     public String getUserId() {
@@ -38,4 +40,5 @@ public class Account {
     public String getPhone() {
         return phone;
     }
+    public String getRole(){return role;}
 }

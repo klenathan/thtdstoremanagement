@@ -184,9 +184,11 @@ public class Menu {
                 1. List all products
                 2. Search item by name
                 3. List user's orders from userID
+                4. List all user information
+                5. Set role for account
                 ================================""";
 
-        if (accController.getAccount() != null && accController.getAccount().getUsername().equalsIgnoreCase("admin")) {
+        if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
         } else if (accController.getAccount() != null) {
             System.out.println(optionTxtWithName);

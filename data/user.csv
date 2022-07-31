@@ -1,5 +1,5 @@
-customerId,username, password(hashed), fullName, phoneNum,membership
-U1,admin,21232f297a57a5a743894a0e4a801fc3,admin,0,platinum
-U2,Dong,c882562a8d769253400f7bc8b045573e,Pham Vo Dong,0392612231, gold
-U3,qwe,76d80224611fc919a5d54f0ff9fba446,qwe,qwe,none
-U4,thu,526e19af394628551701ca28f657af7f,anh thu,1234567890,silver
+customerId,username, password(hashed), fullName, phoneNum,membership,role
+U1,admin,21232f297a57a5a743894a0e4a801fc3,admin,0,platinum,admin
+U2,Dong,c882562a8d769253400f7bc8b045573e,Pham Vo Dong,0392612231,gold,user
+U3,qwe,76d80224611fc919a5d54f0ff9fba446,qwe,qwe,none,user
+U4,thu,526e19af394628551701ca28f657af7f,anh thu,1234567890,silver,user
