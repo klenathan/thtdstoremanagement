@@ -6,16 +6,13 @@ import storemanagement.Model.Product;
 import java.util.*;
 
 public class Menu {
-
     private ProductController productController;
     private AccountController accController;
     private OrderController orderController;
-
     private final String RED = "\u001B[31m";
     private final String GREEN = "\u001B[32m";
     private final String BLACK_BACKGROUND = "\u001B[40m";
     private final String RESET = "\u001B[0m";
-
     public static void main(String[] args) {
         Menu menu = new Menu();
     }
