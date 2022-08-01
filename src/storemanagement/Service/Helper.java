@@ -166,14 +166,13 @@ public class Helper {
         return new String[0];
     }
 
-    // DONE
     public static void modifyField(String file, String id, int index, String newValue) {
         StringBuilder tempRes = new StringBuilder();
         try {
             File inputFile = new File(file);
             Scanner reader = new Scanner(inputFile);
 
-            while(reader.hasNext()) {
+            while (reader.hasNext()) {
                 String lineStr = reader.nextLine();
                 if (lineStr.split(",")[0].equalsIgnoreCase(id)) {
                     String newLine = "";
@@ -183,40 +182,22 @@ public class Helper {
                         newLine += line[i] + ",";
                     }
                     newLine = newLine.substring(0, newLine.length() - 1);
-                    newLine +=  "\n";
+                    newLine += "\n";
                     tempRes.append(newLine);
                 } else {
                     tempRes.append(lineStr).append("\n");
                 }
-
-                FileWriter fileWr = new FileWriter(file);
-                fileWr.write(String.valueOf(tempRes));
-                // close stream
-                fileWr.flush();
-                fileWr.close();
             }
+            FileWriter fileWr = new FileWriter(file);
+            fileWr.write(String.valueOf(tempRes));
+            // close stream
+            fileWr.flush();
+            fileWr.close();
             reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("File does not exist");
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
-
-    public static void listAll(String datafile) {
-        ArrayList<String[]> dataArr = Helper.readData(datafile);
-        for (int i = 0; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            for (String j: line) {
-                System.out.print(j + " ");
-            }
-            System.out.println();
-        }
-    }
-    public static String green(String mes) {
-        return GREEN + mes + RESET;
-    }
-    public static String error(String message) {
-        return RED + message + RESET;
     }
 }

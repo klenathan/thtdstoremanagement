@@ -61,6 +61,7 @@ public class Menu {
                         String productName = adminScan.nextLine();
                         System.out.println(productController.searchProduct(productName));
                     } else if (input == 3) {
+                        // TODO: 01/08/2022 FIX INPUT 3
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status" };
@@ -88,15 +89,15 @@ public class Menu {
                         System.out.println();
                         System.out.println("Please input order ID: ");
                         String orderId = adminScan.nextLine();
-                        orderController.updateOrderStatus(orderId);
+                        orderController.updateOrderStatus(orderId.toUpperCase());
                     } else if (input == 7) {
                         System.out.println("ALL USER INFO | List all user information");
                         this.tableDisplay(accController.getDataArr());
                         System.out.println("Enter to continue");
                         adminScan.nextLine();
                     } else if (input == 8) {
-                        System.out.println("SET ROLE | Set role for account");
-                        System.out.print("Please input customer ID: ");
+                        // TODO: 01/08/2022 CHECK THIS AGAIN
+                        System.out.println("Please input customer ID");
                         String cusID = adminScan.nextLine();
                         System.out.print("PLease input the role of this customer (admin or user): ");
                         String role = adminScan.nextLine();
@@ -127,7 +128,7 @@ public class Menu {
                         System.out.println("\nPRODUCT LIST | List all product from the store");
                         this.tableDisplay(productController.getDataArr());
                         System.out.println(
-                                "Do you want to sort the product list? Press \"Y\" for YES or any keys for NO");
+                                "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
                         String inp = scan.nextLine();
                         this.productSort(inp);
                         this.selectProduct();
@@ -156,7 +157,8 @@ public class Menu {
                         String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status" };
                         res.add(heading);
-                        res.add(orderController.getOrderInfo(orderId, accController.getAccount().getUserId()));
+                        res.add(orderController.getOrderInfo(orderId.toUpperCase(),
+                                accController.getAccount().getUserId()));
                         this.tableDisplay(res);
                         System.out.println();
                     } else if (input == 6) {
@@ -186,7 +188,7 @@ public class Menu {
                         System.out.println("\nPRODUCT LIST | Please Login to place orders");
                         this.tableDisplay(productController.getDataArr());
                         System.out.println(
-                                "Do you want to sort the product list? Press \"Y\" for YES or any keys for NO");
+                                "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
                         String inp = scan.nextLine();
                         this.productSort(inp);
                     } else if (input == 2) {
@@ -246,7 +248,7 @@ public class Menu {
                 3. List user's orders from userID
                 4. Add new product
                 5. Change product price
-                6. Get order detail by orderID
+                6. Change order status (UNPAID -> PAID)
                 7. List all user information
                 8. Set role for account
                 9. View customer information""";

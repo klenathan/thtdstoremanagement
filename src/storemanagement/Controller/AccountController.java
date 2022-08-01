@@ -45,17 +45,17 @@ public class AccountController {
      */
     public boolean login(String username, String password) {
         String generate = hashPassword(password);
-        addTotalPayment(username);
         return (usernameValidate(username) && passwordValidate(generate));
     }
 
     /**
      * This method help user sign up our application
      */
-    public void signup(String fullName, String username, String password, String phone) throws Exception {
+    public void signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
         String role = "user";
-        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role;
+        long totalPayment = 0;
+        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role + "," + totalPayment;
         Helper.addData(userDataFile, dataAdd);
         this.dataArr = Helper.readData(userDataFile);
     }
@@ -175,35 +175,6 @@ Admin feature
         return dataArr;
     }
 
-    public String totalPayment(String userID) {
-        double totalPayment = 0;
-
-        for (int i = 1; i < orderArr.size(); i++) {
-            String[] line = orderArr.get(i);
-            if (userID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("PAID")) {
-                double orderBill = Double.parseDouble(line[4]);
-                totalPayment += orderBill;
-            }
-        }
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line1 = dataArr.get(i);
-            if (userID.equalsIgnoreCase(line1[0])) {
-                double payment = Double.parseDouble(line1[7]);
-                totalPayment += payment;
-            }
-        }
-        return String.valueOf(totalPayment);
-    }
-
-    public void addTotalPayment(String userID) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            if (userID.equalsIgnoreCase(line[0])) {
-                Helper.modifyField(userDataFile, line[0], 7, totalPayment(userID));
-            }
-
-        }
-    }
 
     public String userViewInformation(String username) {
         String message = null;
@@ -214,11 +185,13 @@ Admin feature
                 String fname = line[3];
                 String phone = line[4];
                 String member = line[5];
-                message = "================================\n" + RED + "\t\tYour information\n" + RESET
-                        + "Username:" + GREEN + uname + RESET + "\n"
-                        + "Fullname:" + GREEN + fname + RESET + "\n"
-                        + "Phone:" + GREEN + phone + RESET + "\n"
-                        + "Membership:" + GREEN + member + RESET + "\n"
+                String totalPay = line[7];
+                message = "================================\n" + RED + "\t\t" + uname + "'s information\n" + RESET
+                        + "Username: " + GREEN + uname + RESET + "\n"
+                        + "Fullname: " + GREEN + fname + RESET + "\n"
+                        + "Phone: " + GREEN + phone + RESET + "\n"
+                        + "Membership: " + GREEN + member + RESET + "\n"
+                        + "Total Payment: " + GREEN + totalPay + RESET + "\n"
                         + "================================";
             }
         }

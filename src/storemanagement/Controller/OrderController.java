@@ -3,7 +3,6 @@ package storemanagement.Controller;
 import storemanagement.Service.Helper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class OrderController {
 
@@ -11,11 +10,6 @@ public class OrderController {
     private final String userDataFile = "data/user.csv";
 
     private ArrayList<String[]> dataArr;
-
-    public static void main(String[] args) {
-        OrderController a = new OrderController();
-        System.out.println(Arrays.toString(a.getOrderInfo("O5", "U4")));
-    }
 
     public OrderController() {
         this.dataArr = Helper.readData(orderDataFile);
@@ -46,19 +40,31 @@ public class OrderController {
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
+            String userID;
+            String[] line = Helper.getDataFromLine(orderDataFile, orderId);
+            userID = (line[2]);
+            membershipCheck(userID);
         } else {
-            System.out.println("The product ID \"" + orderId + "\" does not exist in the store!");
+            System.out.println("The product ID \"" + orderId + "\" does not exist!");
         }
     }
 
-    public String membershipCheck(String customerID) {
+    public double totalPayment(String customerID) {
         double totalBill = 0;
-        String membership;
+
         for (String[] line : dataArr) {
             if (customerID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("paid")) {
                 totalBill += Double.parseDouble(line[4]);
             }
         }
+
+        Helper.modifyField(userDataFile, customerID, 7, Double.toString(totalBill));
+        return totalBill;
+    }
+
+    public String membershipCheck(String customerID) {
+        double totalBill = totalPayment(customerID);
+        String membership;
         if (totalBill > 25000000.0) {
             Helper.modifyField(userDataFile, customerID, 5, "platinum");
             membership = "platinum";
@@ -71,6 +77,7 @@ public class OrderController {
         } else {
             membership = "none";
         }
+
         return membership;
     }
 
