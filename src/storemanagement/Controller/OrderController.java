@@ -24,10 +24,18 @@ public class OrderController {
         return dataArr;
     }
 
+    public int quantityValidate(int quantity) {
+        if (quantity < 0) {
+            return 0;
+        } else {
+            return quantity;
+        }
+    }
     public void createOrder(String productId, String userId, int quantity, long price) {
-        double totalBill = (quantity * price) * (1 - membershipDiscount(userId));
+        int finalQuantity = quantityValidate(quantity);
+        double totalBill = (finalQuantity * price) * (1 - membershipDiscount(userId));
         String orderDetail = productId
-                + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
+                + "," + userId + "," + finalQuantity + "," + totalBill + "," + "UNPAID";
         Helper.addData(orderDataFile, orderDetail);
         this.dataArr = Helper.readData(orderDataFile);
     }
