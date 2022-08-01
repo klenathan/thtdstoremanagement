@@ -2,7 +2,6 @@ package storemanagement.Controller;
 
 import storemanagement.Model.Product;
 import storemanagement.Service.Helper;
-import storemanagement.View.Menu;
 
 import java.util.*;
 
@@ -12,6 +11,11 @@ public class ProductController {
 
     public ProductController() {
         this.dataArr = Helper.readData(productDataFile);
+    }
+
+    public static void main(String[] args) {
+        ProductController a = new ProductController();
+        System.out.println(a.sortProduct("a"));
     }
 
     /**
@@ -73,7 +77,7 @@ public class ProductController {
      */
     public void updatePrice(String productID, long newPrice) {
         long finalPrice = priceValidate(newPrice);
-        if(Helper.getAllId(productDataFile).contains(productID)) {
+        if (Helper.getAllId(productDataFile).contains(productID)) {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
             this.dataArr = Helper.readData(productDataFile);
         } else {
@@ -83,12 +87,13 @@ public class ProductController {
     }
 
     /**
-     * This method helps customer sort the product in an ascending order or descending order
+     * This method helps customer sort the product in an ascending order or
+     * descending order
      *
      * @param input
      */
     // 5. A customer can sort all products by product price
-    public void sortProduct(String input) {
+    public ArrayList<String[]> sortProduct(String input) {
         ArrayList<String> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -101,18 +106,22 @@ public class ProductController {
             Collections.sort(priceArr, Collections.reverseOrder());
         }
 
+        ArrayList<String[]> res = new ArrayList<>();
+
         for (int j = 0; j < priceArr.size(); j++) {
             for (int i = 0; i < dataArr.size(); i++) {
                 String[] line = dataArr.get(i);
                 if (line[3] == priceArr.get(j)) {
-                    System.out.println(line[1] + ", " + line[2] + ", " + line[3]);
+                    res.add(dataArr.get(i));
                 }
             }
         }
+        return res;
     }
 
     /**
-     * This method helps customer to search for available products for a particular category
+     * This method helps customer to search for available products for a particular
+     * category
      *
      * @param productName
      * @return product
@@ -133,8 +142,7 @@ public class ProductController {
         return product;
     }
 
-
-    public boolean checkProductExist(String id){
+    public boolean checkProductExist(String id) {
         return Helper.getAllId(this.productDataFile).contains(id);
     }
 
