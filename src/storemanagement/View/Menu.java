@@ -97,6 +97,7 @@ public class Menu {
                         adminScan.nextLine();
                     } else if (input == 8) {
                         // TODO: 01/08/2022 CHECK THIS AGAIN
+                        System.out.println("MODIFY ROLE | Modify a user's role");
                         System.out.println("Please input customer ID");
                         String cusID = adminScan.nextLine();
                         System.out.print("PLease input the role of this customer (admin or user): ");
