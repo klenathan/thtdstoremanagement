@@ -137,7 +137,7 @@ public class ProductController {
                 }
             }
         } else {
-            product = "Product \"" + productName + "\" does not exist.";
+            product = "Product \"" + Helper.error(productName) + "\" does not exist.";
         }
         return product;
     }
