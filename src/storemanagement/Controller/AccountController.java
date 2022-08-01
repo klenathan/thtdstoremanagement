@@ -5,19 +5,14 @@ import storemanagement.Service.Helper;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
     private final String RED = "\u001B[31m";
     private final String GREEN = "\u001B[32m";
-    private final String BLACK_BACKGROUND = "\u001B[40m";
     private final String RESET = "\u001B[0m";
-    public final String YELLOW = "\u001B[33m";
-    // TODO: 29/07/2022 User view their information 
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
@@ -43,7 +38,6 @@ public class AccountController {
                 this.account = new Account(line[0], line[1], line[3], line[4], line[5], line[6]);
             }
         }
-
     }
 
     /**
@@ -158,14 +152,18 @@ Admin feature
      * This method set the Role for account
      */
     public String setRole(String uID, String role) {
-        String message = "Change role success";
+        String message = "CHANGE ROLE SUCCESS";
         if (Helper.getAllId(userDataFile).contains(uID)) {
-            switch (role) {
-                case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
-                case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
+            if (uID.equals("U0")){
+                message = "THIS USER CAN NOT CHANGE THE ROLE\t";
+            }else{
+                switch (role) {
+                    case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
+                    case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
+                }
             }
         } else {
-            message = "This users does not exist";
+            message = "THIS USER IS NOT EXIST";
         }
         return message;
     }
