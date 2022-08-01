@@ -13,7 +13,6 @@ public class AccountController {
     private final String RED = "\u001B[31m";
     private final String GREEN = "\u001B[32m";
     private final String RESET = "\u001B[0m";
-    // TODO: 29/07/2022 User view their information
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
@@ -39,7 +38,6 @@ public class AccountController {
                 this.account = new Account(line[0], line[1], line[3], line[4], line[5], line[6]);
             }
         }
-
     }
 
     /**
@@ -47,17 +45,17 @@ public class AccountController {
      */
     public boolean login(String username, String password) {
         String generate = hashPassword(password);
-        addTotalPayment(username);
         return (usernameValidate(username) && passwordValidate(generate));
     }
 
     /**
      * This method help user sign up our application
      */
-    public void signup(String fullName, String username, String password, String phone) throws Exception {
+    public void signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
         String role = "user";
-        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role;
+        long totalPayment = 0;
+        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role + totalPayment;
         Helper.addData(userDataFile, dataAdd);
         this.dataArr = Helper.readData(userDataFile);
     }
@@ -154,14 +152,18 @@ Admin feature
      * This method set the Role for account
      */
     public String setRole(String uID, String role) {
-        String message = "Change role success";
+        String message = "CHANGE ROLE SUCCESS";
         if (Helper.getAllId(userDataFile).contains(uID)) {
-            switch (role) {
-                case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
-                case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
+            if (uID.equals("U0")){
+                message = "THIS USER CAN NOT CHANGE THE ROLE\t";
+            }else{
+                switch (role) {
+                    case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
+                    case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
+                }
             }
         } else {
-            message = "This users does not exist";
+            message = "THIS USER IS NOT EXIST";
         }
         return message;
     }
@@ -173,35 +175,6 @@ Admin feature
         return dataArr;
     }
 
-    public String totalPayment(String userID) {
-        double totalPayment = 0;
-
-        for (int i = 1; i < orderArr.size(); i++) {
-            String[] line = orderArr.get(i);
-            if (userID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("PAID")) {
-                double orderBill = Double.parseDouble(line[4]);
-                totalPayment += orderBill;
-            }
-        }
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line1 = dataArr.get(i);
-            if (userID.equalsIgnoreCase(line1[0])) {
-                double payment = Double.parseDouble(line1[7]);
-                totalPayment += payment;
-            }
-        }
-        return String.valueOf(totalPayment);
-    }
-
-    public void addTotalPayment(String userID) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            if (userID.equalsIgnoreCase(line[0])) {
-                Helper.modifyField(userDataFile, line[0], 7, totalPayment(userID));
-            }
-
-        }
-    }
 
     public String userViewInformation(String username) {
         String message = null;
@@ -212,7 +185,7 @@ Admin feature
                 String fname = line[3];
                 String phone = line[4];
                 String member = line[5];
-                message = "================================\n" + RED + "\t\tYour information\n" + RESET
+                message = "================================\n" + RED + "\t\t" + uname + "'s information\n" + RESET
                         + "Username: " + GREEN + uname + RESET + "\n"
                         + "Fullname: " + GREEN + fname + RESET + "\n"
                         + "Phone: " + GREEN + phone + RESET + "\n"

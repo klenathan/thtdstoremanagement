@@ -1,3 +1,3 @@
 customerId,username, password(hashed), fullName, phoneNum,membership,role
-U1,admin,21232f297a57a5a743894a0e4a801fc3,admin,0123456789,platinum,admin
-U2,thu,526e19af394628551701ca28f657af7f,anh thu,1234567890,platinum,user
+U0,admin,21232f297a57a5a743894a0e4a801fc3,admin,6868686868,none,admin
+

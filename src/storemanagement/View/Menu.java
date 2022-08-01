@@ -97,14 +97,14 @@ public class Menu {
                         System.out.println("Enter to continue");
                         adminScan.nextLine();
                     } else if (input == 8) {
-                        // TODO: 01/08/2022 CHECK THIS AGAIN 
+                        // TODO: 01/08/2022 CHECK THIS AGAIN
                         System.out.println("Please input customer ID");
                         String cusID = adminScan.nextLine();
-                        System.out.println("PLease input the role of this customer (admin or user)");
+                        System.out.print("PLease input the role of this customer (admin or user): ");
                         String role = adminScan.nextLine();
                         System.out.println(accController.setRole(cusID, role));
                     }else if (input == 9){
-                        System.out.println("PLease input customer name");
+                        System.out.print("PLease input customer name: ");
                         String username = adminScan.nextLine();
                         System.out.println(accController.userViewInformation(username));
                         System.out.println("Enter to continue");
