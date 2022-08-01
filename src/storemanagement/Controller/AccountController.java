@@ -7,12 +7,18 @@ import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
+    private final String RED = "\u001B[31m";
+    private final String GREEN = "\u001B[32m";
+    private final String BLACK_BACKGROUND = "\u001B[40m";
+    private final String RESET = "\u001B[0m";
+    public  final String YELLOW = "\u001B[33m";
     // TODO: 29/07/2022 User view their information 
-    private String userDataFile = "data/user.csv";
+    private  String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
     private ArrayList<String[]> dataArr;
@@ -37,6 +43,7 @@ public class AccountController {
                 this.account = new Account(line[0], line[1], line[3], line[4], line[5], line[6]);
             }
         }
+
     }
 
     /**
@@ -80,6 +87,7 @@ public class AccountController {
         }
         return new String[0];
     }
+
 
     /**
      * This method validate the username
@@ -234,4 +242,26 @@ Admin feature
 
         }
     }
+
+    public void userViewInformation(String username) {
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                String uname = line[1];
+                String fname = line[3];
+                String phone = line[4];
+                String member = line[5];
+                System.out.println("================================");
+                System.out.println(RED + "\t\tYour information" + RESET);
+                System.out.println("Username:" + GREEN + uname + RESET );
+                System.out.println("Fullname:"+  GREEN  + fname + RESET);
+                System.out.println("Your information:" +  GREEN  +  phone + RESET);
+                System.out.println("Your information:"+  GREEN  +   member + RESET);
+                System.out.println("================================");
+            }
+        }
+    }
+
+
+
 }
