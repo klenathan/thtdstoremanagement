@@ -3,14 +3,20 @@ package storemanagement.Controller;
 import storemanagement.Model.Account;
 import storemanagement.Service.Helper;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
+    private final String RED = "\u001B[31m";
+    private final String GREEN = "\u001B[32m";
+    private final String BLACK_BACKGROUND = "\u001B[40m";
+    private final String RESET = "\u001B[0m";
+    public final String YELLOW = "\u001B[33m";
     // TODO: 29/07/2022 User view their information 
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
@@ -37,6 +43,7 @@ public class AccountController {
                 this.account = new Account(line[0], line[1], line[3], line[4], line[5], line[6]);
             }
         }
+
     }
 
     /**
@@ -44,26 +51,19 @@ public class AccountController {
      */
     public boolean login(String username, String password) {
         String generate = hashPassword(password);
+        addTotalPayment(username);
         return (usernameValidate(username) && passwordValidate(generate));
     }
 
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) throws Exception {
+    public void signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String role = "user";
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role;
-        if (usernameValidate(username) || username.contains(" ")) {
-            return false;
-        } else if (!usernameValidate(username)) {
-            Helper.addData(userDataFile, dataAdd);
-            this.dataArr = Helper.readData(userDataFile);
-            return true;
-        } else {
-            System.out.println("Unknown error");
-            return false;
-        }
+        Helper.addData(userDataFile, dataAdd);
+        this.dataArr = Helper.readData(userDataFile);
     }
 
     /**
@@ -81,6 +81,7 @@ public class AccountController {
         return new String[0];
     }
 
+
     /**
      * This method validate the username
      * return true when username exist
@@ -97,6 +98,11 @@ public class AccountController {
         return false;
     }
 
+    /**
+     * This method validate the phone number 10 digits integer
+     *
+     * @return boolean
+     */
     public boolean phoneValidate(String phone) {
         Pattern pattern = Pattern.compile("^\\d{10}$");
         Matcher m = pattern.matcher(phone);
@@ -143,39 +149,25 @@ public class AccountController {
         }
         return generatedPassword;
     }
+
 /*
 Admin feature
  */
 
     /**
-     * This medthod check the role of account
-     *
-     * @return boolean
-     */
-    public boolean checkRole(String username) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1])) {
-                if (line[6].equalsIgnoreCase("admin")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * This method set the Role for account
      */
-    public void setRole(String uID, String role) {
+    public String setRole(String uID, String role) {
+        String message = "Change role success";
         if (Helper.getAllId(userDataFile).contains(uID)) {
             switch (role) {
-                case "admin":
-                    Helper.modifyField(userDataFile, uID, 6, "admin");
-                case "user":
-                    Helper.modifyField(userDataFile, uID, 6, "user");
+                case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
+                case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
             }
+        } else {
+            message = "This users does not exist";
         }
+        return message;
     }
 
     /**
@@ -185,26 +177,7 @@ Admin feature
         return dataArr;
     }
 
-    public void membership(String username) {
-        for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            if (username.equalsIgnoreCase(line[1])) {
-                double payment = Double.parseDouble(line[7]);
-                if (payment >= 5000000 && payment < 10000000) {
-                    Helper.modifyField(userDataFile, line[0], 5, "Silver");
-                } else if (payment >= 10000000 && payment < 25000000) {
-                    Helper.modifyField(userDataFile, line[0], 5, "Gold");
-                } else if (payment >= 25000000) {
-                    Helper.modifyField(userDataFile, line[0], 5, "Platinum");
-                } else {
-                    Helper.modifyField(userDataFile, line[0], 5, null);
-                }
-            }
-
-        }
-    }
-
-    public BigDecimal totalPayment(String userID) {
+    public String totalPayment(String userID) {
         double totalPayment = 0;
 
         for (int i = 1; i < orderArr.size(); i++) {
@@ -221,18 +194,36 @@ Admin feature
                 totalPayment += payment;
             }
         }
-        return BigDecimal.valueOf(totalPayment);
+        return String.valueOf(totalPayment);
     }
 
     public void addTotalPayment(String userID) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (userID.equalsIgnoreCase(line[0])) {
-                BigDecimal value = totalPayment(userID);
-                Helper.modifyField(userDataFile, line[0], 7, value.toPlainString());
+                Helper.modifyField(userDataFile, line[0], 7, totalPayment(userID));
             }
 
         }
     }
 
+    public String userViewInformation(String username) {
+        String message = null;
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                String uname = line[1];
+                String fname = line[3];
+                String phone = line[4];
+                String member = line[5];
+                message = "================================\n" + RED + "\t\tYour information\n" + RESET
+                        + "Username:" + GREEN + uname + RESET + "\n"
+                        + "Fullname:" + GREEN + fname + RESET + "\n"
+                        + "Phone:" + GREEN + phone + RESET + "\n"
+                        + "Membership:" + GREEN + member + RESET + "\n"
+                        + "================================";
+            }
+        }
+        return message;
+    }
 }

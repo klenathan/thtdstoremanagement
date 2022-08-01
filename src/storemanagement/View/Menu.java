@@ -38,6 +38,7 @@ public class Menu {
                 s3878246, Pham Anh Thu
                 s3891890, Nam Thai Tran
                 S3891968, Pham Vo Dong
+                s3928433, Ha Viet Bui
                 """);
         int input;
         while (true) {
@@ -94,14 +95,20 @@ public class Menu {
                     }else if (input == 7){
                         this.tableDisplay(accController.getDataArr());
                         System.out.println("Enter to continue");
-                        System.out.println(adminScan.nextLine());
+                        adminScan.nextLine();
                     } else if (input == 8) {
                         // TODO: 01/08/2022 CHECK THIS AGAIN 
                         System.out.println("Please input customer ID");
                         String cusID = adminScan.nextLine();
                         System.out.println("PLease input the role of this customer (admin or user)");
-                        String role =  adminScan.nextLine();
-                        accController.setRole(cusID, role);
+                        String role = adminScan.nextLine();
+                        System.out.println(accController.setRole(cusID, role));
+                    }else if (input == 9){
+                        System.out.println("PLease input customer name");
+                        String username = adminScan.nextLine();
+                        System.out.println(accController.userViewInformation(username));
+                        System.out.println("Enter to continue");
+                        adminScan.nextLine();
                     } else {
                         System.out.println("Invalid input!");
                     }
@@ -154,6 +161,11 @@ public class Menu {
                         res.add(orderController.getOrderInfo(orderId, accController.getAccount().getUserId()));
                         this.tableDisplay(res);
                         System.out.println();
+                    }else if (input == 6){
+                        String username = accController.getAccount().getUsername();
+                        System.out.println(accController.userViewInformation(username));
+                        System.out.println("Enter to continue");
+                        scan.nextLine();
                     } else {
                         System.out.println("Invalid input!");
                     }
@@ -226,6 +238,7 @@ public class Menu {
                 3. List all category
                 4. List my orders
                 5. Get order information
+                6. View your profile
                 ================================""";
 
         String adminOpttxt = """
@@ -240,7 +253,8 @@ public class Menu {
                 5. Change product price
                 6. Change order status (UNPAID -> PAID)
                 7. List all user information
-                8. Set role for account""";
+                8. Set role for account
+                9. View customer information""";
 
         if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
@@ -249,7 +263,7 @@ public class Menu {
         } else {
             System.out.println(optionsTxt);
         }
-        Integer[] optionArr = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
+        Integer[] optionArr = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
         while (true) {
             Scanner input = new Scanner(System.in);
@@ -292,14 +306,16 @@ public class Menu {
         String password = signupScan.nextLine();
         System.out.print("Enter your full name: ");
         String fullName = signupScan.nextLine();
-        System.out.print("Enter your phone number: ");
+        System.out.print("Enter your phone number(10 digits): ");
         String phoneNum = signupScan.nextLine();
-
-        if (accController.signup(fullName, username, password, phoneNum)) {
-            accController.setCurrentAccount(username);
-            System.out.println(this.green("Sign up successfully!"));
-        } else {
+        if(accController.usernameValidate(username) || username.contains(" ")){
             System.out.println(this.error("USERNAME EXIST OR INVALID USERNAME"));
+        }else if(!accController.phoneValidate(phoneNum)){
+            System.out.println(this.error("INVALID PHONE NUMBER"));
+        }else{
+            accController.signup(fullName, username, password, phoneNum);
+            accController.setCurrentAccount(username);
+            System.out.println(green("Sign up successfully!"));
         }
         System.out.print("\n");
     }
