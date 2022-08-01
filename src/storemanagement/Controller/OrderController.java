@@ -24,17 +24,23 @@ public class OrderController {
         return dataArr;
     }
 
+    public int quantityValidate(int quantity) {
+        if (quantity < 0) {
+            return 0;
+        } else {
+            return quantity;
+        }
+    }
     public void createOrder(String productId, String userId, int quantity, long price) {
-        double totalBill = (quantity * price) * (1 - membershipDiscount(userId));
-
+        int finalQuantity = quantityValidate(quantity);
+        double totalBill = (finalQuantity * price) * (1 - membershipDiscount(userId));
         String orderDetail = productId
-                + "," + userId + "," + quantity + "," + totalBill + "," + "UNPAID";
+                + "," + userId + "," + finalQuantity + "," + totalBill + "," + "UNPAID";
         Helper.addData(orderDataFile, orderDetail);
         this.dataArr = Helper.readData(orderDataFile);
     }
 
     public void updateOrderStatus(String orderId) {
-        // String tempData;
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
@@ -96,11 +102,10 @@ public class OrderController {
 
     public String[] getOrderInfo(String orderId, String userID) {
         String[] arr = Helper.getDataFromLine(orderDataFile, orderId.toUpperCase());
-        if (userID.equalsIgnoreCase(arr[2])) {
-            return arr;
-        } else {
-            return new String[0];
+        if (!userID.equalsIgnoreCase(arr[2])) {
+            arr = new String[0];
         }
+        return arr;
     }
 
 }

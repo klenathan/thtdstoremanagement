@@ -153,9 +153,9 @@ public class Helper {
             }
         } else {
             System.out.println("ID does not exist");
-            return null;
+            return new String[0];
         }
-        return null;
+        return new String[0];
     }
 
     // DONE
