@@ -3,14 +3,20 @@ package storemanagement.Controller;
 import storemanagement.Model.Account;
 import storemanagement.Service.Helper;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
+    private final String RED = "\u001B[31m";
+    private final String GREEN = "\u001B[32m";
+    private final String BLACK_BACKGROUND = "\u001B[40m";
+    private final String RESET = "\u001B[0m";
+    public final String YELLOW = "\u001B[33m";
     // TODO: 29/07/2022 User view their information 
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
@@ -37,6 +43,7 @@ public class AccountController {
                 this.account = new Account(line[0], line[1], line[3], line[4], line[5], line[6]);
             }
         }
+
     }
 
     /**
@@ -51,20 +58,12 @@ public class AccountController {
     /**
      * This method help user sign up our application
      */
-    public boolean signup(String fullName, String username, String password, String phone) throws Exception {
+    public void signup(String fullName, String username, String password, String phone) throws Exception {
         String generatePass = hashPassword(password);
         String role = "user";
         String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role;
-        if (usernameValidate(username) || username.contains(" ")) {
-            return false;
-        } else if (!usernameValidate(username)) {
-            Helper.addData(userDataFile, dataAdd);
-            this.dataArr = Helper.readData(userDataFile);
-            return true;
-        } else {
-            System.out.println("Unknown error");
-            return false;
-        }
+        Helper.addData(userDataFile, dataAdd);
+        this.dataArr = Helper.readData(userDataFile);
     }
 
     /**
@@ -82,6 +81,7 @@ public class AccountController {
         return new String[0];
     }
 
+
     /**
      * This method validate the username
      * return true when username exist
@@ -98,6 +98,11 @@ public class AccountController {
         return false;
     }
 
+    /**
+     * This method validate the phone number 10 digits integer
+     *
+     * @return boolean
+     */
     public boolean phoneValidate(String phone) {
         Pattern pattern = Pattern.compile("^\\d{10}$");
         Matcher m = pattern.matcher(phone);
@@ -144,6 +149,7 @@ public class AccountController {
         }
         return generatedPassword;
     }
+
 /*
 Admin feature
  */
@@ -158,8 +164,8 @@ Admin feature
                 case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
                 case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
             }
-        }else{
-            return message = "This users does not exist";
+        } else {
+            message = "This users does not exist";
         }
         return message;
     }
@@ -201,4 +207,23 @@ Admin feature
         }
     }
 
+    public String userViewInformation(String username) {
+        String message = null;
+        for (int i = 1; i < dataArr.size(); i++) {
+            String[] line = dataArr.get(i);
+            if (username.equalsIgnoreCase(line[1])) {
+                String uname = line[1];
+                String fname = line[3];
+                String phone = line[4];
+                String member = line[5];
+                message = "================================\n" + RED + "\t\tYour information\n" + RESET
+                        + "Username:" + GREEN + uname + RESET + "\n"
+                        + "Fullname:" + GREEN + fname + RESET + "\n"
+                        + "Phone:" + GREEN + phone + RESET + "\n"
+                        + "Membership:" + GREEN + member + RESET + "\n"
+                        + "================================";
+            }
+        }
+        return message;
+    }
 }

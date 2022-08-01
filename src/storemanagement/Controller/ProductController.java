@@ -2,7 +2,6 @@ package storemanagement.Controller;
 
 import storemanagement.Model.Product;
 import storemanagement.Service.Helper;
-import storemanagement.View.Menu;
 
 import java.util.*;
 
@@ -14,6 +13,10 @@ public class ProductController {
         this.dataArr = Helper.readData(productDataFile);
     }
 
+    public static void main(String[] args) {
+        ProductController a = new ProductController();
+        System.out.println(a.sortProduct("a"));
+    }
     /**
      * This method validates the product name
      *
@@ -88,7 +91,7 @@ public class ProductController {
      * @param input
      */
     // 5. A customer can sort all products by product price
-    public void sortProduct(String input) {
+    public ArrayList<String[]> sortProduct(String input) {
         ArrayList<String> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -101,14 +104,17 @@ public class ProductController {
             Collections.sort(priceArr, Collections.reverseOrder());
         }
 
+        ArrayList<String[]> res = new ArrayList<>();
+
         for (int j = 0; j < priceArr.size(); j++) {
             for (int i = 0; i < dataArr.size(); i++) {
                 String[] line = dataArr.get(i);
                 if (line[3] == priceArr.get(j)) {
-                    System.out.println(line[1] + ", " + line[2] + ", " + line[3]);
+                    res.add(dataArr.get(i));
                 }
             }
         }
+        return res;
     }
 
     /**
@@ -117,20 +123,15 @@ public class ProductController {
      * @param productName
      * @return product
      */
-    public String searchProduct(String productName) {
-        String product = "";
-        if (!productNameValidate(productName)) {
-            for (String[] line : dataArr) {
-                if (productName.equalsIgnoreCase(line[1])) {
-                    product = Menu.green("Product name: ") + line[1] + "\n" + Menu.green("Category: ") + line[2] + "\n" + Menu.green("Price: ") + line[3];
-                }
-            }
-        } else {
-            product = "Product \"" + productName + "\" does not exist.";
-        }
-        return product;
-    }
 
+    public String[] searchProduct(String productName) {
+        for (int i = 0; i < dataArr.size(); i++) {
+            if (this.dataArr.get(i)[1].equalsIgnoreCase(productName)) {
+                return dataArr.get(i);
+            }
+        }
+        return new String[0];
+    }
 
     public boolean checkProductExist(String id){
         return Helper.getAllId(this.productDataFile).contains(id);
