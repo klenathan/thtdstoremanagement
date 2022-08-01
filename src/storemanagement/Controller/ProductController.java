@@ -15,7 +15,7 @@ public class ProductController {
 
     public static void main(String[] args) {
         ProductController a = new ProductController();
-        System.out.println(a.sortProduct("a"));
+        a.sortProduct("a");
     }
     /**
      * This method validates the product name
@@ -76,7 +76,7 @@ public class ProductController {
      */
     public void updatePrice(String productID, long newPrice) {
         long finalPrice = priceValidate(newPrice);
-        if(Helper.getAllId(productDataFile).contains(productID)) {
+        if(Helper.getAllId(productDataFile).contains(productID.toUpperCase())) {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
             this.dataArr = Helper.readData(productDataFile);
         } else {
@@ -92,10 +92,9 @@ public class ProductController {
      */
     // 5. A customer can sort all products by product price
     public ArrayList<String[]> sortProduct(String input) {
-        ArrayList<String> priceArr = new ArrayList<>();
+        ArrayList<Long> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            priceArr.add(line[3]);
+            priceArr.add(Long.parseLong(dataArr.get(i)[3]));
         }
 
         if (input.equalsIgnoreCase("A")) {
@@ -105,11 +104,10 @@ public class ProductController {
         }
 
         ArrayList<String[]> res = new ArrayList<>();
-
         for (int j = 0; j < priceArr.size(); j++) {
-            for (int i = 0; i < dataArr.size(); i++) {
+            for (int i = 1; i < dataArr.size(); i++) {
                 String[] line = dataArr.get(i);
-                if (line[3] == priceArr.get(j)) {
+                if (Long.parseLong(line[3]) == priceArr.get(j)) {
                     res.add(dataArr.get(i));
                 }
             }

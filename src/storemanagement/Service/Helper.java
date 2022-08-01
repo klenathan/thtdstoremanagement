@@ -194,16 +194,4 @@ public class Helper {
             System.out.println(e);
         }
     }
-
-    public static void listAll(String datafile) {
-        ArrayList<String[]> dataArr = Helper.readData(datafile);
-        for (int i = 0; i < dataArr.size(); i++) {
-            String[] line = dataArr.get(i);
-            for (String j: line) {
-                System.out.print(j + " ");
-            }
-            System.out.println();
-        }
-    }
-
 }

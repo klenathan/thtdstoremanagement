@@ -66,6 +66,7 @@ public class Menu {
                         res.add(productController.searchProduct(productName));
                         this.tableDisplay(res);
                     } else if (input == 3) {
+                        // TODO: 01/08/2022 FIX INPUT 3
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
@@ -95,6 +96,7 @@ public class Menu {
                         System.out.println("Enter to continue");
                         System.out.println(adminScan.nextLine());
                     } else if (input == 8) {
+                        // TODO: 01/08/2022 CHECK THIS AGAIN 
                         System.out.println("Please input customer ID");
                         String cusID = adminScan.nextLine();
                         System.out.println("PLease input the role of this customer (admin or user)");
@@ -118,7 +120,7 @@ public class Menu {
                     } else if (input == 1) {
                         System.out.println("\nPRODUCT LIST | List all product from the store");
                         this.tableDisplay(productController.getDataArr());
-                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or any keys for NO");
+                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
                         String inp = scan.nextLine();
                         this.productSort(inp);
                         this.selectProduct();
@@ -172,7 +174,7 @@ public class Menu {
                     } else if (input == 1) {
                         System.out.println("\nPRODUCT LIST | Please Login to place orders");
                         this.tableDisplay(productController.getDataArr());
-                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or any keys for NO");
+                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
                         String inp = scan.nextLine();
                         this.productSort(inp);
 
@@ -213,7 +215,6 @@ public class Menu {
                 2. Search item by name
                 3. Log in your account
                 4. Sign up your account
-                5. Admin login
                 ================================""";
         String optionTxtWithName = """
                 ================================
@@ -225,7 +226,6 @@ public class Menu {
                 3. List all category
                 4. List my orders
                 5. Get order information
-                6. BLANK
                 ================================""";
 
         String adminOpttxt = """
@@ -238,7 +238,7 @@ public class Menu {
                 3. List user's orders from userID
                 4. Add new product
                 5. Change product price
-                6. Get order detail by orderID
+                6. Change order status (UNPAID -> PAID)
                 7. List all user information
                 8. Set role for account""";
 
