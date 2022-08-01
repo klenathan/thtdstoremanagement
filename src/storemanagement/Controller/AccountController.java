@@ -55,7 +55,7 @@ public class AccountController {
         String generatePass = hashPassword(password);
         String role = "user";
         long totalPayment = 0;
-        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role + totalPayment;
+        String dataAdd = username + "," + generatePass + "," + fullName + "," + phone + "," + "none" + "," + role + "," + totalPayment;
         Helper.addData(userDataFile, dataAdd);
         this.dataArr = Helper.readData(userDataFile);
     }
@@ -185,11 +185,13 @@ Admin feature
                 String fname = line[3];
                 String phone = line[4];
                 String member = line[5];
+                String totalPay = line[7];
                 message = "================================\n" + RED + "\t\t" + uname + "'s information\n" + RESET
                         + "Username: " + GREEN + uname + RESET + "\n"
                         + "Fullname: " + GREEN + fname + RESET + "\n"
                         + "Phone: " + GREEN + phone + RESET + "\n"
                         + "Membership: " + GREEN + member + RESET + "\n"
+                        + "Total Payment: " + GREEN + totalPay + RESET + "\n"
                         + "================================";
             }
         }
