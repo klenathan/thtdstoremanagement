@@ -2,6 +2,7 @@ package storemanagement.View;
 
 import storemanagement.Controller.*;
 import storemanagement.Model.Product;
+import storemanagement.Service.Helper;
 
 import java.util.*;
 
@@ -10,9 +11,9 @@ public class Menu {
     private AccountController accController;
     private OrderController orderController;
     private final String RED = "\u001B[31m";
-    private static final String GREEN = "\u001B[32m";
+    private final String GREEN = "\u001B[32m";
     private final String BLACK_BACKGROUND = "\u001B[40m";
-    private static final String RESET = "\u001B[0m";
+    private final String RESET = "\u001B[0m";
     public static void main(String[] args) {
         Menu menu = new Menu();
     }
@@ -23,12 +24,6 @@ public class Menu {
         welcomeScreen();
     }
 
-    public Menu(String a) {
-        System.out.println("Test purpose constructor");
-        this.accController = new AccountController();
-        this.productController = new ProductController();
-        this.orderController = new OrderController();
-    }
     public void welcomeScreen() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
@@ -143,7 +138,7 @@ public class Menu {
                         System.out.println("Invalid input!");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(error("Please input a number"));
+                    System.out.println(Helper.error("Please input a number"));
                 }  catch (Exception e) {
                     e.getStackTrace();
                     System.out.println(e);
@@ -241,7 +236,7 @@ public class Menu {
                 return n;
             } catch (Exception e) {
                 input.next();
-                System.out.println(error("invalid Input! Please try again"));
+                System.out.println(Helper.error("invalid Input! Please try again"));
             }
         }
     }
@@ -258,7 +253,7 @@ public class Menu {
             accController.setCurrentAccount(username);
             System.out.println("Login successfully!");
         } else {
-            System.out.println(this.error("WRONG USERNAME OR PASSWORD"));
+            System.out.println(Helper.error("WRONG USERNAME OR PASSWORD"));
         }
         System.out.print("\n");
     }
@@ -276,9 +271,9 @@ public class Menu {
 
         if (accController.signup(fullName, username, password, phoneNum)) {
             accController.setCurrentAccount(username);
-            System.out.println(this.green("Sign up successfully!"));
+            System.out.println(Helper.green("Sign up successfully!"));
         } else {
-            System.out.println(this.error("USERNAME EXIST OR INVALID USERNAME"));
+            System.out.println(Helper.error("USERNAME EXIST OR INVALID USERNAME"));
         }
         System.out.print("\n");
     }
@@ -295,8 +290,8 @@ public class Menu {
             long price = targetProduct.getPrice();
             orderController.createOrder(userInput, accController.getAccount().getUserId(), quantity, price);
             double discount = orderController.membershipDiscount(accController.getAccount().getUserId());
-            System.out.println("You have got " + green(discount * 100 + "% discount") + ".\nYou ordered: " + green(String.valueOf(quantity)) + " * " + green(String.valueOf(price))
-                    + " * " + green(String.valueOf((1 - discount))) + " for " + green(String.valueOf(quantity * price * (1 - discount))) + " VND");
+            System.out.println("You have got " + Helper.green(discount * 100 + "% discount") + ".\nYou ordered: " + Helper.green(String.valueOf(quantity)) + " * " + Helper.green(String.valueOf(price))
+                    + " * " + Helper.green(String.valueOf((1 - discount))) + " for " + Helper.green(String.valueOf(quantity * price * (1 - discount))) + " VND");
             System.out.println("Order created! Thank you for ordering from us!");
         } else if (userInput.equalsIgnoreCase("0")) {
             System.out.println("");
@@ -338,11 +333,6 @@ public class Menu {
         }
     }
 
-    public String error(String message) {
-        return RED + message + RESET;
-    }
 
-    public static String green(String mes) {
-        return GREEN + mes + RESET;
-    }
+
 }

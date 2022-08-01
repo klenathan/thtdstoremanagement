@@ -96,6 +96,7 @@ public class OrderController {
 
     public String[] getOrderInfo(String orderId, String userID) {
         String[] arr = Helper.getDataFromLine(orderDataFile, orderId.toUpperCase());
+        assert arr != null;
         if (userID.equalsIgnoreCase(arr[2])) {
             return arr;
         } else {

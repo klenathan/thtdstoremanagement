@@ -1,9 +1,17 @@
 package storemanagement.Service;
 
+import storemanagement.Controller.AccountController;
+import storemanagement.Controller.OrderController;
+import storemanagement.Controller.ProductController;
+
 import java.io.*;
 import java.util.*;
 
 public class Helper {
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String BLACK_BACKGROUND = "\u001B[40m";
+    private static final String RESET = "\u001B[0m";
 
     public static ArrayList<String[]> readData(String file) {
         ArrayList<String[]> dataArr = new ArrayList<>();
@@ -205,5 +213,10 @@ public class Helper {
             System.out.println();
         }
     }
-
+    public static String green(String mes) {
+        return GREEN + mes + RESET;
+    }
+    public static String error(String message) {
+        return RED + message + RESET;
+    }
 }

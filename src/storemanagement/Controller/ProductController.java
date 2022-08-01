@@ -122,7 +122,9 @@ public class ProductController {
         if (!productNameValidate(productName)) {
             for (String[] line : dataArr) {
                 if (productName.equalsIgnoreCase(line[1])) {
-                    product = Menu.green("Product name: ") + line[1] + "\n" + Menu.green("Category: ") + line[2] + "\n" + Menu.green("Price: ") + line[3];
+                    product = Helper.green("Product name: ") + line[1] + "\n"
+                            + Helper.green("Category: ") + line[2] + "\n"
+                            + Helper.green("Price: ") + line[3];
                 }
             }
         } else {
