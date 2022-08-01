@@ -6,6 +6,7 @@ import storemanagement.Service.Helper;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -16,9 +17,9 @@ public class AccountController {
     private final String GREEN = "\u001B[32m";
     private final String BLACK_BACKGROUND = "\u001B[40m";
     private final String RESET = "\u001B[0m";
-    public  final String YELLOW = "\u001B[33m";
+    public final String YELLOW = "\u001B[33m";
     // TODO: 29/07/2022 User view their information 
-    private  String userDataFile = "data/user.csv";
+    private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
     private ArrayList<String[]> dataArr;
@@ -151,6 +152,7 @@ public class AccountController {
         }
         return generatedPassword;
     }
+
 /*
 Admin feature
  */
@@ -243,7 +245,8 @@ Admin feature
         }
     }
 
-    public void userViewInformation(String username) {
+    public String userViewInformation(String username) {
+        String message = null;
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (username.equalsIgnoreCase(line[1])) {
@@ -251,17 +254,16 @@ Admin feature
                 String fname = line[3];
                 String phone = line[4];
                 String member = line[5];
-                System.out.println("================================");
-                System.out.println(RED + "\t\tYour information" + RESET);
-                System.out.println("Username:" + GREEN + uname + RESET );
-                System.out.println("Fullname:"+  GREEN  + fname + RESET);
-                System.out.println("Your information:" +  GREEN  +  phone + RESET);
-                System.out.println("Your information:"+  GREEN  +   member + RESET);
-                System.out.println("================================");
+                message = "================================\n" + RED + "\t\tYour information\n" + RESET
+                        + "Username:" + GREEN + uname + RESET + "\n"
+                        + "Fullname:" + GREEN + fname + RESET + "\n"
+                        + "Phone:" + GREEN + phone + RESET + "\n"
+                        + "Membership:" + GREEN + member + RESET + "\n"
+                        + "================================";
             }
         }
+        return message;
     }
-
 
 
 }
