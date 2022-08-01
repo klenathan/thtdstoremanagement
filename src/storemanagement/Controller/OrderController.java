@@ -44,6 +44,13 @@ public class OrderController {
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
+            String userID = "";
+            for (String[] line : dataArr) {
+                if (line[0].equalsIgnoreCase(orderId)) {
+                    userID = line[2];
+                }
+            }
+            membershipCheck(userID);
         } else {
             System.out.println("The product ID \"" + orderId + "\" does not exist in the store!");
         }

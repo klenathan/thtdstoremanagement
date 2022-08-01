@@ -5,19 +5,15 @@ import storemanagement.Service.Helper;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
     private final String RED = "\u001B[31m";
     private final String GREEN = "\u001B[32m";
-    private final String BLACK_BACKGROUND = "\u001B[40m";
     private final String RESET = "\u001B[0m";
-    public final String YELLOW = "\u001B[33m";
-    // TODO: 29/07/2022 User view their information 
+    // TODO: 29/07/2022 User view their information
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
@@ -217,10 +213,10 @@ Admin feature
                 String phone = line[4];
                 String member = line[5];
                 message = "================================\n" + RED + "\t\tYour information\n" + RESET
-                        + "Username:" + GREEN + uname + RESET + "\n"
-                        + "Fullname:" + GREEN + fname + RESET + "\n"
-                        + "Phone:" + GREEN + phone + RESET + "\n"
-                        + "Membership:" + GREEN + member + RESET + "\n"
+                        + "Username: " + GREEN + uname + RESET + "\n"
+                        + "Fullname: " + GREEN + fname + RESET + "\n"
+                        + "Phone: " + GREEN + phone + RESET + "\n"
+                        + "Membership: " + GREEN + member + RESET + "\n"
                         + "================================";
             }
         }

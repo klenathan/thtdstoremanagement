@@ -91,7 +91,7 @@ public class Menu {
                     } else if (input == 6) {
                         System.out.println("Please input order ID: ");
                         String orderId = adminScan.nextLine();
-                        orderController.updateOrderStatus(orderId);
+                        orderController.updateOrderStatus(orderId.toUpperCase());
                     }else if (input == 7){
                         this.tableDisplay(accController.getDataArr());
                         System.out.println("Enter to continue");
@@ -158,7 +158,7 @@ public class Menu {
                         ArrayList<String[]> res = new ArrayList<>();
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill", "Order Status"};
                         res.add(heading);
-                        res.add(orderController.getOrderInfo(orderId, accController.getAccount().getUserId()));
+                        res.add(orderController.getOrderInfo(orderId.toUpperCase(), accController.getAccount().getUserId()));
                         this.tableDisplay(res);
                         System.out.println();
                     }else if (input == 6){

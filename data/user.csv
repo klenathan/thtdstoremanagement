@@ -1,7 +1,3 @@
 customerId,username, password(hashed), fullName, phoneNum,membership,role
-U1,admin,21232f297a57a5a743894a0e4a801fc3,admin,0,platinum,user
-U2,Dong,c882562a8d769253400f7bc8b045573e,Pham Vo Dong,0392612231,Gold,user
-U3,qwe,76d80224611fc919a5d54f0ff9fba446,qwe,qwe,Silver,user
-U4,thu,526e19af394628551701ca28f657af7f,anh thu,1234567890,plat,user
-U5,Dong1,c882562a8d769253400f7bc8b045573e,Pham ,039213111,none,user
-U6,Dong02,c01abe74c44be79ce0bec6f042353064,Phambv,0392612231,none,user
+U1,admin,21232f297a57a5a743894a0e4a801fc3,admin,0123456789,platinum,admin
+U2,thu,526e19af394628551701ca28f657af7f,anh thu,1234567890,platinum,user

@@ -1,4 +1,2 @@
 orderId,productId,userId,quantity,totalBill,orderStatus
-O1,P1,U2,400,4800000.0,PAID
-O2,P2,U2,10,6000000.0,PAID
-O3,P4,U2,10,950000.0,UNPAID
+O1,P3,U2,10,1.3542E8,PAID
