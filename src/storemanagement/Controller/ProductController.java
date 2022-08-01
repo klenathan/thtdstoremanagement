@@ -15,7 +15,7 @@ public class ProductController {
 
     public static void main(String[] args) {
         ProductController a = new ProductController();
-        System.out.println(Arrays.toString(a.searchProduct("product1")));
+        System.out.println(a.sortProduct("a"));
     }
     /**
      * This method validates the product name
@@ -91,7 +91,7 @@ public class ProductController {
      * @param input
      */
     // 5. A customer can sort all products by product price
-    public void sortProduct(String input) {
+    public ArrayList<String[]> sortProduct(String input) {
         ArrayList<String> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -104,14 +104,17 @@ public class ProductController {
             Collections.sort(priceArr, Collections.reverseOrder());
         }
 
+        ArrayList<String[]> res = new ArrayList<>();
+
         for (int j = 0; j < priceArr.size(); j++) {
             for (int i = 0; i < dataArr.size(); i++) {
                 String[] line = dataArr.get(i);
                 if (line[3] == priceArr.get(j)) {
-                    System.out.println(line[1] + ", " + line[2] + ", " + line[3]);
+                    res.add(dataArr.get(i));
                 }
             }
         }
+        return res;
     }
 
     /**

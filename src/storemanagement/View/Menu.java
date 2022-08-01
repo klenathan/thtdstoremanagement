@@ -52,8 +52,10 @@ public class Menu {
                     } else if (input == 1) {
                         System.out.println("PRODUCT LIST | List all product from the store");
                         this.tableDisplay(productController.getDataArr());
+                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
+                        String inp = adminScan.nextLine();
+                        this.productSort(inp);
                         this.selectProduct();
-                        System.out.println("");
                     } else if (input == 2) {
                         System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
                         System.out.print("Input product name: ");
@@ -116,8 +118,10 @@ public class Menu {
                     } else if (input == 1) {
                         System.out.println("\nPRODUCT LIST | List all product from the store");
                         this.tableDisplay(productController.getDataArr());
+                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or any keys for NO");
+                        String inp = scan.nextLine();
+                        this.productSort(inp);
                         this.selectProduct();
-                        System.out.println();
                     } else if (input == 2) {
                         System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
                         System.out.print("Input product name: ");
@@ -168,7 +172,10 @@ public class Menu {
                     } else if (input == 1) {
                         System.out.println("\nPRODUCT LIST | Please Login to place orders");
                         this.tableDisplay(productController.getDataArr());
-                        System.out.println("");
+                        System.out.println("Do you want to sort the product list? Press \"Y\" for YES or any keys for NO");
+                        String inp = scan.nextLine();
+                        this.productSort(inp);
+
                     } else if (input == 2) {
                         System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
                         System.out.print("Input product name: ");
@@ -319,7 +326,7 @@ public class Menu {
                     + " * " + green(String.valueOf((1 - discount))) + " for " + green(String.valueOf(finalQuantity * price * (1 - discount))) + " VND");
             System.out.println("Order created! Thank you for ordering from us!");
         } else if (userInput.equalsIgnoreCase("0")) {
-            System.out.println("");
+            System.out.println();
         } else {
             System.out.println("Failed to find desired product, please try again");
         }
@@ -344,6 +351,17 @@ public class Menu {
         this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(userInput)));
     }
 
+    public void productSort(String inp) {
+        Scanner scan = new Scanner(System.in);
+        if (inp.equalsIgnoreCase("y")) {
+            System.out.println("Press \"D\" for sorting in descending order or \"A\" for ascending order: ");
+            String productOrder = scan.nextLine();
+            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
+            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+            this.tableDisplay(headingArr);
+            this.tableDisplay(productController.sortProduct(productOrder));
+        }
+    }
     private void tableDisplay(ArrayList<String[]> displayData) {
         int colWidth = 15;
         for (int i = 0; i < displayData.size(); i++) {
