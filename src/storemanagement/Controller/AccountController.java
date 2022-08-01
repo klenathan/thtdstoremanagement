@@ -10,14 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
-    private final String RED = "\u001B[31m";
-    private final String GREEN = "\u001B[32m";
-    private final String RESET = "\u001B[0m";
-    private String userDataFile = "data/user.csv";
-    private String order = "data/order.csv";
+    private final String userDataFile = "data/user.csv";
 
     private ArrayList<String[]> dataArr;
-    private ArrayList<String[]> orderArr;
 
     private Account account = null;
 
@@ -27,10 +22,11 @@ public class AccountController {
 
     public AccountController() {
         this.dataArr = Helper.readData(userDataFile);
-        this.orderArr = Helper.readData(order);
     }
 
-
+    /**
+     * This method take the customer who is logged in the application
+     */
     public void setCurrentAccount(String username) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -59,22 +55,6 @@ public class AccountController {
         Helper.addData(userDataFile, dataAdd);
         this.dataArr = Helper.readData(userDataFile);
     }
-
-    /**
-     * This method get user data
-     *
-     * @return String[]
-     */
-    public String[] getUserData(String username) {
-        ArrayList<String[]> userData = Helper.readData(userDataFile);
-        for (String[] userDatum : userData) {
-            if (userDatum[1].equalsIgnoreCase(username)) {
-                return userDatum;
-            }
-        }
-        return new String[0];
-    }
-
 
     /**
      * This method validate the username
@@ -154,9 +134,9 @@ Admin feature
     public String setRole(String uID, String role) {
         String message = "CHANGE ROLE SUCCESS";
         if (Helper.getAllId(userDataFile).contains(uID)) {
-            if (uID.equals("U0")){
+            if (uID.equals("U0")) {
                 message = "THIS USER CAN NOT CHANGE THE ROLE\t";
-            }else{
+            } else {
                 switch (role) {
                     case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
                     case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
@@ -175,20 +155,27 @@ Admin feature
         return dataArr;
     }
 
-
+    /**
+     * This method see the customer information
+     *
+     * @return String
+     */
     public String userViewInformation(String username) {
         String message = null;
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
             if (username.equalsIgnoreCase(line[1])) {
                 String uname = line[1];
-                String fname = line[3];
+                String fName = line[3];
                 String phone = line[4];
                 String member = line[5];
                 String totalPay = line[7];
+                String RED = "\u001B[31m";
+                String GREEN = "\u001B[32m";
+                String RESET = "\u001B[0m";
                 message = "================================\n" + RED + "\t\t" + uname + "'s information\n" + RESET
                         + "Username: " + GREEN + uname + RESET + "\n"
-                        + "Fullname: " + GREEN + fname + RESET + "\n"
+                        + "Full name: " + GREEN + fName + RESET + "\n"
                         + "Phone: " + GREEN + phone + RESET + "\n"
                         + "Membership: " + GREEN + member + RESET + "\n"
                         + "Total Payment: " + GREEN + totalPay + RESET + "\n"

@@ -2,6 +2,7 @@ package storemanagement.Controller;
 
 import storemanagement.Service.Helper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class OrderController {
@@ -57,8 +58,8 @@ public class OrderController {
                 totalBill += Double.parseDouble(line[4]);
             }
         }
-
-        Helper.modifyField(userDataFile, customerID, 7, Double.toString(totalBill));
+        BigDecimal value = BigDecimal.valueOf(totalBill);
+        Helper.modifyField(userDataFile, customerID, 7, value.toPlainString());
         return totalBill;
     }
 
