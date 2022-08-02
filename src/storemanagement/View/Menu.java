@@ -53,13 +53,14 @@ public class Menu {
                         String productName = adminScan.nextLine();
                         System.out.println(productController.searchProduct(productName));
                     } else if (input == 3) {
-                        // TODO: 01/08/2022 FIX INPUT 3
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status" };
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+                        System.out.print("Input desired user ID: ");
+                        String userId = adminScan.nextLine();
                         this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(adminScan.nextLine()));
+                        this.tableDisplay(orderController.getCurrenUserOrders(userId));
                     } else if (input == 4) {
                         System.out.println("NEW PRODUCT | Add new product to the store");
                         System.out.print("New product name: ");
@@ -78,8 +79,7 @@ public class Menu {
                         productController.updatePrice(productId, price);
                     } else if (input == 6) {
                         System.out.println("ORDER DETAILS | Get order detail by orderID");
-                        System.out.println();
-                        System.out.println("Please input order ID: ");
+                        System.out.print("Please input order ID: ");
                         String orderId = adminScan.nextLine();
                         orderController.updateOrderStatus(orderId.toUpperCase());
                     } else if (input == 7) {
@@ -88,11 +88,10 @@ public class Menu {
                         System.out.println("Enter to continue");
                         adminScan.nextLine();
                     } else if (input == 8) {
-                        // TODO: 01/08/2022 CHECK THIS AGAIN
                         System.out.println("MODIFY ROLE | Modify a user's role");
-                        System.out.println("Please input customer ID");
+                        System.out.println("Please input user ID: ");
                         String cusID = adminScan.nextLine();
-                        System.out.print("PLease input the role of this customer (admin or user): ");
+                        System.out.print("PLease input the role of this user (admin or user): ");
                         String role = adminScan.nextLine();
                         System.out.println(accController.setRole(cusID, role));
                     } else if (input == 9) {

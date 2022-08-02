@@ -29,7 +29,7 @@ public class OrderController {
 
     public void createOrder(String productId, String userId, int quantity, long price) {
         int finalQuantity = quantityValidate(quantity);
-        double totalBill = (finalQuantity * price) * (1 - membershipDiscount(userId));
+        long totalBill = (long) ((finalQuantity * price) * (1 - membershipDiscount(userId)));
         String orderDetail = productId
                 + "," + userId + "," + finalQuantity + "," + totalBill + "," + "UNPAID";
         Helper.addData(orderDataFile, orderDetail);
