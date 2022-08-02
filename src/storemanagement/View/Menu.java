@@ -10,19 +10,11 @@ public class Menu {
     private ProductController productController;
     private AccountController accController;
     private OrderController orderController;
-    private final String RED = "\u001B[31m";
-    private final String GREEN = "\u001B[32m";
-    private final String BLACK_BACKGROUND = "\u001B[40m";
-    private final String RESET = "\u001B[0m";
 
-    public static void main(String[] args) {
-        Menu menu = new Menu();
-    }
-
-    public Menu() {
-        this.accController = new AccountController();
-        this.productController = new ProductController();
-        this.orderController = new OrderController();
+    public Menu(ProductController productController, AccountController accController, OrderController orderController) {
+        this.productController = productController;
+        this.accController = accController;
+        this.orderController = orderController;
         welcomeScreen();
     }
 
@@ -61,13 +53,14 @@ public class Menu {
                         String productName = adminScan.nextLine();
                         System.out.println(productController.searchProduct(productName));
                     } else if (input == 3) {
-                        // TODO: 01/08/2022 FIX INPUT 3
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status" };
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+                        System.out.print("Input desired user ID: ");
+                        String userId = adminScan.nextLine();
                         this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(adminScan.nextLine()));
+                        this.tableDisplay(orderController.getCurrenUserOrders(userId));
                     } else if (input == 4) {
                         System.out.println("NEW PRODUCT | Add new product to the store");
                         System.out.print("New product name: ");
@@ -86,8 +79,7 @@ public class Menu {
                         productController.updatePrice(productId, price);
                     } else if (input == 6) {
                         System.out.println("ORDER DETAILS | Get order detail by orderID");
-                        System.out.println();
-                        System.out.println("Please input order ID: ");
+                        System.out.print("Please input order ID: ");
                         String orderId = adminScan.nextLine();
                         orderController.updateOrderStatus(orderId.toUpperCase());
                     } else if (input == 7) {
@@ -96,11 +88,10 @@ public class Menu {
                         System.out.println("Enter to continue");
                         adminScan.nextLine();
                     } else if (input == 8) {
-                        // TODO: 01/08/2022 CHECK THIS AGAIN
                         System.out.println("MODIFY ROLE | Modify a user's role");
-                        System.out.println("Please input customer ID");
+                        System.out.println("Please input user ID: ");
                         String cusID = adminScan.nextLine();
-                        System.out.print("PLease input the role of this customer (admin or user): ");
+                        System.out.print("PLease input the role of this user (admin or user): ");
                         String role = adminScan.nextLine();
                         System.out.println(accController.setRole(cusID, role));
                     } else if (input == 9) {
@@ -228,7 +219,7 @@ public class Menu {
                 ================================""";
         String optionTxtWithName = """
                 ================================
-                Welcome,""" + GREEN + BLACK_BACKGROUND + username + RESET + "! " + """
+                Welcome,""" + Helper.green(username)+ "! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
@@ -241,7 +232,7 @@ public class Menu {
 
         String adminOpttxt = """
                 ================================
-                Welcome to admin menu,""" + GREEN + BLACK_BACKGROUND + username + RESET + "! " + """
+                Welcome to admin menu,""" + Helper.green(username) + "! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
