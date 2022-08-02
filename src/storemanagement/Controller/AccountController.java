@@ -10,14 +10,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
-    private final String RED = "\u001B[31m";
-    private final String GREEN = "\u001B[32m";
-    private final String RESET = "\u001B[0m";
     private String userDataFile = "data/user.csv";
     private String order = "data/order.csv";
 
     private ArrayList<String[]> dataArr;
-    private ArrayList<String[]> orderArr;
 
     private Account account = null;
 
@@ -27,10 +23,13 @@ public class AccountController {
 
     public AccountController() {
         this.dataArr = Helper.readData(userDataFile);
-        this.orderArr = Helper.readData(order);
     }
 
 
+    /**
+     * This method is to set current account
+     * @param username: type String
+     */
     public void setCurrentAccount(String username) {
         for (int i = 1; i < dataArr.size(); i++) {
             String[] line = dataArr.get(i);
@@ -41,7 +40,10 @@ public class AccountController {
     }
 
     /**
-     * This is the method help user login to our application
+     * This method helps user login to our application
+     * @param username: type String
+     * @param password: type String
+     * @return true/false when the username and password is correct or not: type boolean
      */
     public boolean login(String username, String password) {
         String generate = hashPassword(password);
@@ -50,6 +52,10 @@ public class AccountController {
 
     /**
      * This method help user sign up our application
+     * @param fullName: type String
+     * @param username: type String
+     * @param password: type String
+     * @param phone: type String
      */
     public void signup(String fullName, String username, String password, String phone) {
         String generatePass = hashPassword(password);
@@ -62,9 +68,8 @@ public class AccountController {
 
     /**
      * This method validate the username
-     * return true when username exist
-     *
-     * @return boolean
+     * @param username: type String
+     * @return true/false if the username exists or not: type boolean
      */
     public boolean usernameValidate(String username) {
         for (int i = 1; i < this.dataArr.size(); i++) {
@@ -77,9 +82,9 @@ public class AccountController {
     }
 
     /**
-     * This method validate the phone number 10 digits integer
-     *
-     * @return boolean
+     * This method validates whether the phone number contains 10-digit number
+     * @param phone: type String
+     * @return true/false if the phone number contains 10-digit number or not: type boolean
      */
     public boolean phoneValidate(String phone) {
         Pattern pattern = Pattern.compile("^\\d{10}$");
@@ -88,9 +93,9 @@ public class AccountController {
     }
 
     /**
-     * This method validate password
-     *
-     * @return boolean
+     * This method validates password
+     * @param password: type String
+     * @return true/false if the password is correct or not: type boolean
      */
     public boolean passwordValidate(String password) {
         for (int i = 1; i < dataArr.size(); i++) {
@@ -103,9 +108,9 @@ public class AccountController {
     }
 
     /**
-     * This method hash the user password
-     *
-     * @return String
+     * This method hashes the user password
+     * @param password: type String
+     * @return generatedPassword: type String
      */
     public String hashPassword(String password) {
         String generatedPassword = null;
@@ -128,12 +133,13 @@ public class AccountController {
         return generatedPassword;
     }
 
-/*
-Admin feature
- */
+//    ADMIN FEATURE
 
     /**
-     * This method set the Role for account
+     * This method is to set role for account (admin/user)
+     * @param uID: type String
+     * @param role: type String
+     * @return message: type String
      */
     public String setRole(String uID, String role) {
         String message = "CHANGE ROLE SUCCESS";
@@ -153,13 +159,19 @@ Admin feature
     }
 
     /**
-     * This method list all the user information
+     * This method lists all user information
+     * @return dataArr: type ArrayList<String[]>
      */
     public ArrayList<String[]> getDataArr() {
         return dataArr;
     }
 
 
+    /**
+     * This method is to view user information
+     * @param username: type String
+     * @return message: type String
+     */
     public String userViewInformation(String username) {
         String message = null;
         for (int i = 1; i < dataArr.size(); i++) {
@@ -168,14 +180,14 @@ Admin feature
                 String uname = line[1];
                 String fname = line[3];
                 String phone = line[4];
-                String member = line[5];
+                String member = new OrderController().membershipCheck(line[0]);
                 double totalBill = new OrderController().totalPayment(line[0]);
-                message = "================================\n" + RED + "\t\t" + uname + "'s information\n" + RESET
-                        + "Username: " + GREEN + uname + RESET + "\n"
-                        + "Fullname: " + GREEN + fname + RESET + "\n"
-                        + "Phone: " + GREEN + phone + RESET + "\n"
-                        + "Membership: " + GREEN + member + RESET + "\n"
-                        + "Total Payment: " + GREEN + totalBill + RESET + "\n"
+                message = "================================\n" + Helper.error("\t\t" + uname + "'s information\n")
+                        + "Username: " + Helper.green(uname) + "\n"
+                        + "Fullname: " + Helper.green(fname) + "\n"
+                        + "Phone: " + Helper.green(phone) + "\n"
+                        + "Membership: " + Helper.green(member) + "\n"
+                        + "Total Payment: " + Helper.green(String.valueOf(totalBill)) + "\n"
                         + "================================";
             }
         }

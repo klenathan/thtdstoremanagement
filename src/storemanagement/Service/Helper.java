@@ -6,9 +6,13 @@ import java.util.*;
 public class Helper {
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
-    private static final String BLACK_BACKGROUND = "\u001B[40m";
     private static final String RESET = "\u001B[0m";
 
+    /**
+     * This method is to read data from a file
+     * @param file: type string
+     * @return dataArr: type ArrayList<String[]>
+     */
     public static ArrayList<String[]> readData(String file) {
         ArrayList<String[]> dataArr = new ArrayList<>();
         try {
@@ -27,6 +31,11 @@ public class Helper {
         return dataArr;
     }
 
+    /**
+     * This method is to get all primary key (id) from a file
+     * @param file: type string
+     * @return idArr: type ArrayList<String>
+     */
     public static ArrayList<String> getAllId(String file) {
         ArrayList<String> idArr = new ArrayList<>();
 
@@ -46,6 +55,26 @@ public class Helper {
         return idArr;
     }
 
+    /**
+     * This method is to get the latest id in a file
+     * @param file: type string
+     * @return the latest id if it exists, otherwise return 0: type int
+     */
+    public static int getLatestId(String file) {
+        ArrayList<String> idArray = getAllId(file);
+        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
+        try {
+            return Integer.parseInt(latestStringId);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    /**
+     * This method is to generate id in a file
+     * @param file: type string
+     * @return firstChar + latestID (the final id): type String
+     */
     public static String generatedID(String file) {
         int latestID = getLatestId(file) + 1;
         String firstChar = "";
@@ -59,6 +88,11 @@ public class Helper {
         return firstChar + latestID;
     }
 
+    /**
+     * This method is to add new data to a file
+     * @param file: type string
+     * @param newData: type string
+     */
     public static void addData(String file, String newData) {
         try {
             File inputFile = new File(file);
@@ -93,21 +127,16 @@ public class Helper {
         }
     }
 
-    public static int getLatestId(String file) {
-        ArrayList<String> idArray = getAllId(file);
-        String latestStringId = idArray.get(idArray.size() - 1).substring(1);
-        try {
-            return Integer.parseInt(latestStringId);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
+    /**
+     * This method is to get data from line in a file based on the primary key (id)
+     * @param file: type string
+     * @param id: type string
+     * @return lineArr if the id exists, otherwise return String[0]: type String[]
+     */
     public static String[] getDataFromLine(String file, String id) {
         if (getAllId(file).contains(id)) {
             try {
                 File inputFile = new File(file);
-                String res = "";
                 Scanner reader = new Scanner(inputFile);
                 while (reader.hasNext()) {
                     String line = reader.nextLine();
@@ -128,6 +157,13 @@ public class Helper {
         return new String[0];
     }
 
+    /**
+     * This method is to modify field of an data line in a file based on its id
+     * @param file: type string
+     * @param id: type string
+     * @param index: type string
+     * @param newValue: type string
+     */
     public static void modifyField(String file, String id, int index, String newValue) {
         StringBuilder tempRes = new StringBuilder();
         try {
@@ -163,10 +199,20 @@ public class Helper {
         }
     }
 
+    /**
+     * This method generates red message
+     * @param mes: type string
+     * @return RED + mes + RESET (red text): type string
+     */
     public static String error(String mes) {
         return RED + mes + RESET;
     }
 
+    /**
+     * This method generates green message
+     * @param mes: type string
+     * @return GREEN + mes + RESET (green text): type string
+     */
     public static String green(String mes) {
         return GREEN + mes + RESET;
     }

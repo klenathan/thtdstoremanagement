@@ -18,6 +18,9 @@ public class Menu {
         welcomeScreen();
     }
 
+    /**
+     * This method prints the screen based on user input
+     */
     public void welcomeScreen() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
@@ -160,6 +163,10 @@ public class Menu {
         }
     }
 
+    /**
+     * This method gets the user input for the welcome screen
+     * @return n (user input): type int
+     */
     public int userOption() {
         String username = accController.getAccount() != null ? accController.getAccount().getUsername() : "";
         String commonTxt = """
@@ -227,6 +234,9 @@ public class Menu {
         }
     }
 
+    /**
+     * This method asks for user input for login to the application
+     */
     private void inputLogin() {
         Scanner loginScan = new Scanner(System.in);
         String username;
@@ -244,6 +254,9 @@ public class Menu {
         System.out.print("\n");
     }
 
+    /**
+     * This method asks for user input for signup to the application
+     */
     private void inputSignup() {
         Scanner signupScan = new Scanner(System.in);
         System.out.print("Enter your username (username cannot contain space): ");
@@ -266,6 +279,9 @@ public class Menu {
         System.out.print("\n");
     }
 
+    /**
+     * This method selects the product and prints out the total bill
+     */
     private void selectProduct() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Input product ID to create order or \"0\" to escape: ");
@@ -297,6 +313,10 @@ public class Menu {
         }
     }
 
+    /**
+     * This method prints all the products in a chosen category number
+     * @return
+     */
     public boolean categoryView() {
         Scanner scan = new Scanner(System.in);
         int count = 1;
@@ -321,6 +341,10 @@ public class Menu {
         }
     }
 
+    /**
+     * This method prints out the sorted product list based on the user option
+     * @param inp: type string
+     */
     public void productSort(String inp) {
         Scanner scan = new Scanner(System.in);
         if (inp.equalsIgnoreCase("y")) {
@@ -333,6 +357,10 @@ public class Menu {
         }
     }
 
+    /**
+     * This method is to display the data as a table
+     * @param displayData: type ArrayList<String[]>
+     */
     private void tableDisplay(ArrayList<String[]> displayData) {
         int colWidth = 15;
         for (String[] line : displayData) {
