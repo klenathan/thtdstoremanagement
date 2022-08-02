@@ -15,14 +15,10 @@ public class Menu {
     private final String BLACK_BACKGROUND = "\u001B[40m";
     private final String RESET = "\u001B[0m";
 
-    public static void main(String[] args) {
-        Menu menu = new Menu();
-    }
-
-    public Menu() {
-        this.accController = new AccountController();
-        this.productController = new ProductController();
-        this.orderController = new OrderController();
+    public Menu(ProductController productController, AccountController accController, OrderController orderController) {
+        this.productController = productController;
+        this.accController = accController;
+        this.orderController = orderController;
         welcomeScreen();
     }
 
