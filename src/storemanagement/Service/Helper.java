@@ -93,40 +93,6 @@ public class Helper {
         }
     }
 
-    public static void deleteLine(String file, String id) {
-        if (getAllId(file).contains(id)) {
-            try {
-                File inputFile = new File(file);
-                StringBuilder res = new StringBuilder();
-                Scanner reader = new Scanner(inputFile);
-                // Read current data to String res
-                while (reader.hasNext()) {
-                    String line = reader.nextLine();
-                    String[] lineArray = line.split(",", -1);
-                    // Only add non-equal id line
-                    if (!Objects.equals(lineArray[0], id)) {
-                        for (int i = 0; i < lineArray.length - 1; i++) {
-                            res.append(lineArray[i]).append(",");
-                        }
-                        res.append(lineArray[lineArray.length - 1]);
-                        res.append("\n");
-                    }
-                }
-                // Write new data to file combine with new line
-                FileWriter fileWr = new FileWriter(file);
-                fileWr.write(res.toString());
-                // close stream
-                fileWr.flush();
-                fileWr.close();
-            } catch (IOException e) {
-                System.out.println(e);
-                e.getStackTrace();
-            }
-        } else {
-            System.out.println("ID does not exist");
-        }
-    }
-
     public static int getLatestId(String file) {
         ArrayList<String> idArray = getAllId(file);
         String latestStringId = idArray.get(idArray.size() - 1).substring(1);

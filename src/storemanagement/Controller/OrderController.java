@@ -43,6 +43,8 @@ public class OrderController {
             String[] line = Helper.getDataFromLine(orderDataFile, orderId);
             userID = (line[2]);
             membershipCheck(userID);
+            Helper.modifyField(userDataFile, userID, 7, Double.toString(totalPayment(userID)));
+            System.out.println("Successfully updated!");
         } else {
             System.out.println("The product ID \"" + orderId + "\" does not exist!");
         }
@@ -56,8 +58,6 @@ public class OrderController {
                 totalBill += Double.parseDouble(line[4]);
             }
         }
-
-        Helper.modifyField(userDataFile, customerID, 7, Double.toString(totalBill));
         return totalBill;
     }
 

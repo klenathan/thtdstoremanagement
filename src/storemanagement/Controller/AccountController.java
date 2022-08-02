@@ -61,22 +61,6 @@ public class AccountController {
     }
 
     /**
-     * This method get user data
-     *
-     * @return String[]
-     */
-    public String[] getUserData(String username) {
-        ArrayList<String[]> userData = Helper.readData(userDataFile);
-        for (String[] userDatum : userData) {
-            if (userDatum[1].equalsIgnoreCase(username)) {
-                return userDatum;
-            }
-        }
-        return new String[0];
-    }
-
-
-    /**
      * This method validate the username
      * return true when username exist
      *
@@ -153,8 +137,8 @@ Admin feature
      */
     public String setRole(String uID, String role) {
         String message = "CHANGE ROLE SUCCESS";
-        if (Helper.getAllId(userDataFile).contains(uID)) {
-            if (uID.equals("U0")){
+        if (Helper.getAllId(userDataFile).contains(uID.toUpperCase())) {
+            if (uID.equalsIgnoreCase("U1")){
                 message = "THIS USER CAN NOT CHANGE THE ROLE\t";
             }else{
                 switch (role) {
@@ -185,13 +169,13 @@ Admin feature
                 String fname = line[3];
                 String phone = line[4];
                 String member = line[5];
-                String totalPay = line[7];
+                double totalBill = new OrderController().totalPayment(line[0]);
                 message = "================================\n" + RED + "\t\t" + uname + "'s information\n" + RESET
                         + "Username: " + GREEN + uname + RESET + "\n"
                         + "Fullname: " + GREEN + fname + RESET + "\n"
                         + "Phone: " + GREEN + phone + RESET + "\n"
                         + "Membership: " + GREEN + member + RESET + "\n"
-                        + "Total Payment: " + GREEN + totalPay + RESET + "\n"
+                        + "Total Payment: " + GREEN + totalBill + RESET + "\n"
                         + "================================";
             }
         }

@@ -13,11 +13,6 @@ public class ProductController {
         this.dataArr = Helper.readData(productDataFile);
     }
 
-    public static void main(String[] args) {
-        ProductController a = new ProductController();
-        a.sortProduct("a");
-    }
-
     /**
      * This method validates the product name
      *
@@ -81,7 +76,7 @@ public class ProductController {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
             this.dataArr = Helper.readData(productDataFile);
         } else {
-            System.out.println("The product ID \"" + productID + "\" does not exists in the store!");
+            System.out.println("The product ID \"" + Helper.error(productID) + "\" does not exist!");
         }
 
     }
