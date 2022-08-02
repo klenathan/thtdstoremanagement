@@ -1,17 +1,16 @@
 package storemanagement;
 
 import storemanagement.Controller.AccountController;
+import storemanagement.Controller.OrderController;
+import storemanagement.Controller.ProductController;
+import storemanagement.Model.Account;
+import storemanagement.View.Menu;
 
 public class Main {
     public static void main(String[] args) {
-//        String userFile = "../data/user.csv";
-//        ArrayList<String[]> dataArr = Helper.readData(userFile);
-//        for (int i = 0; i < dataArr.size(); i++) {
-//            String[] line = dataArr.get(i);
-//            System.out.println(line[0] + " " + line[1] + " " + line[2] + " " + line[3]);
-//        }
-
-
-
+        ProductController productController = new ProductController();
+        AccountController accountController = new AccountController();
+        OrderController orderController = new OrderController();
+        Menu menu = new Menu(productController, accountController, orderController);
     }
 }

@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.*;
 
 public class Helper {
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String BLACK_BACKGROUND = "\u001B[40m";
+    private static final String RESET = "\u001B[0m";
 
     public static ArrayList<String[]> readData(String file) {
         ArrayList<String[]> dataArr = new ArrayList<>();
@@ -191,5 +195,13 @@ public class Helper {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public static String error(String mes) {
+        return RED + mes + RESET;
+    }
+
+    public static String green(String mes) {
+        return GREEN + mes + RESET;
     }
 }

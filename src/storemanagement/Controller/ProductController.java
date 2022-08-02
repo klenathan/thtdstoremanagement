@@ -17,6 +17,7 @@ public class ProductController {
         ProductController a = new ProductController();
         a.sortProduct("a");
     }
+
     /**
      * This method validates the product name
      *
@@ -76,7 +77,7 @@ public class ProductController {
      */
     public void updatePrice(String productID, long newPrice) {
         long finalPrice = priceValidate(newPrice);
-        if(Helper.getAllId(productDataFile).contains(productID.toUpperCase())) {
+        if (Helper.getAllId(productDataFile).contains(productID.toUpperCase())) {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
             this.dataArr = Helper.readData(productDataFile);
         } else {
@@ -86,7 +87,8 @@ public class ProductController {
     }
 
     /**
-     * This method helps customer sort the product in an ascending order or descending order
+     * This method helps customer sort the product in an ascending order or
+     * descending order
      *
      * @param input
      */
@@ -116,29 +118,35 @@ public class ProductController {
     }
 
     /**
-     * This method helps customer to search for available products for a particular category
+     * This method helps customer to search for available products for a particular
+     * category
      *
      * @param productName
      * @return product
      */
-
-    public String[] searchProduct(String productName) {
-        for (int i = 0; i < dataArr.size(); i++) {
-            if (this.dataArr.get(i)[1].equalsIgnoreCase(productName)) {
-                return dataArr.get(i);
+    public String searchProduct(String productName) {
+        String product = "";
+        if (!productNameValidate(productName)) {
+            for (String[] line : dataArr) {
+                if (productName.equalsIgnoreCase(line[1])) {
+                    product = Helper.green("Product name: ") + line[1] + "\n"
+                            + Helper.green("Category: ") + line[2] + "\n"
+                            + Helper.green("Price: ") + line[3];
+                }
             }
+        } else {
+            product = "Product \"" + Helper.error(productName) + "\" does not exist.";
         }
-        return new String[0];
+        return product;
     }
 
-    public boolean checkProductExist(String id){
+    public boolean checkProductExist(String id) {
         return Helper.getAllId(this.productDataFile).contains(id);
     }
 
     public Product getProductDetails(String productId) {
         if (checkProductExist(productId)) {
             String[] lineData = Helper.getDataFromLine(productDataFile, productId);
-            assert lineData != null;
             return new Product(lineData[0], lineData[1], lineData[2], Long.parseLong(lineData[3]));
         } else {
             return null;
