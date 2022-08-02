@@ -10,10 +10,6 @@ public class Menu {
     private ProductController productController;
     private AccountController accController;
     private OrderController orderController;
-    private final String RED = "\u001B[31m";
-    private final String GREEN = "\u001B[32m";
-    private final String BLACK_BACKGROUND = "\u001B[40m";
-    private final String RESET = "\u001B[0m";
 
     public Menu(ProductController productController, AccountController accController, OrderController orderController) {
         this.productController = productController;
@@ -224,7 +220,7 @@ public class Menu {
                 ================================""";
         String optionTxtWithName = """
                 ================================
-                Welcome,""" + GREEN + BLACK_BACKGROUND + username + RESET + "! " + """
+                Welcome,""" + Helper.green(username)+ "! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
@@ -237,7 +233,7 @@ public class Menu {
 
         String adminOpttxt = """
                 ================================
-                Welcome to admin menu,""" + GREEN + BLACK_BACKGROUND + username + RESET + "! " + """
+                Welcome to admin menu,""" + Helper.green(username) + "! " + """
                 Choose one of these options:
                 0. Exit
                 1. List all products
