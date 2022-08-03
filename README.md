@@ -15,3 +15,8 @@ s3928433, Ha Viet Bui - 25%<br>
 
 ### Demonstration video
 
+---
+
+### Class diagram
+
+![Class diagram)](assets/Class_diagram.png)
