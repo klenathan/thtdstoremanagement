@@ -20,11 +20,7 @@ public class OrderController {
      * @return 0 if quantity < 0, otherwise return quantity: type int
      */
     public int quantityValidate(int quantity) {
-        if (quantity < 0) {
-            return 0;
-        } else {
-            return quantity;
-        }
+        return Math.max(0, quantity);
     }
 
     /**

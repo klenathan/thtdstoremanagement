@@ -140,8 +140,6 @@ public class Menu {
                         System.out.println("USER PROFILE");
                         String username = accController.getAccount().getUsername();
                         System.out.println(accController.userViewInformation(username));
-                        System.out.println("Enter to continue");
-                        scan.nextLine();
                     }
                 } else {
                     // GUEST MENU
