@@ -7,9 +7,9 @@ import storemanagement.Service.Helper;
 import java.util.*;
 
 public class Menu {
-    private final ProductController productController;
-    private final AccountController accController;
-    private final OrderController orderController;
+    private ProductController productController;
+    private AccountController accController;
+    private OrderController orderController;
 
     public Menu(ProductController productController, AccountController accController, OrderController orderController) {
         this.productController = productController;

@@ -60,7 +60,7 @@ public class ProductController {
             this.dataArr = Helper.readData(productDataFile);
             System.out.println("Successfully added new product to the store!");
         } else {
-            System.out.println("The product \"" + productName + "\" already exists in the store!");
+            System.out.println(Helper.error("The product \"" + productName + "\" already exists in the store!"));
         }
     }
 
@@ -77,7 +77,7 @@ public class ProductController {
             this.dataArr = Helper.readData(productDataFile);
             System.out.println("Successfully updated!");
         } else {
-            System.out.println("The product ID \"" + Helper.error(productID) + "\" does not exist!");
+            System.out.println(Helper.error("The product ID \"" + productID + "\" does not exist!"));
         }
 
     }
@@ -98,14 +98,14 @@ public class ProductController {
         if (input.equalsIgnoreCase("A")) {
             Collections.sort(priceArr);
         } else if (input.equalsIgnoreCase(("D"))) {
-            Collections.sort(priceArr, Collections.reverseOrder());
+            priceArr.sort(Collections.reverseOrder());
         }
 
         ArrayList<String[]> res = new ArrayList<>();
-        for (int j = 0; j < priceArr.size(); j++) {
+        for (Long aLong : priceArr) {
             for (int i = 1; i < dataArr.size(); i++) {
                 String[] line = dataArr.get(i);
-                if (Long.parseLong(line[3]) == priceArr.get(j)) {
+                if (Long.parseLong(line[3]) == aLong) {
                     res.add(dataArr.get(i));
                 }
             }
@@ -131,7 +131,7 @@ public class ProductController {
                 }
             }
         } else {
-            product = "Product \"" + Helper.error(productName) + "\" does not exist.";
+            product = Helper.error("Product \"" + productName + "\" does not exist.");
         }
         return product;
     }
@@ -178,9 +178,9 @@ public class ProductController {
      */
     public ArrayList<String[]> getAllFromCat(String category) {
         ArrayList<String[]> res = new ArrayList<>();
-        for (int i = 0; i < dataArr.size(); i++) {
-            if (this.dataArr.get(i)[2].equalsIgnoreCase(category)) {
-                res.add(dataArr.get(i));
+        for (String[] strings : dataArr) {
+            if (strings[2].equalsIgnoreCase(category)) {
+                res.add(strings);
             }
         }
         return res;
