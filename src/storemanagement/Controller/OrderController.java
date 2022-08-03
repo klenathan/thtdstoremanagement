@@ -8,7 +8,6 @@ public class OrderController {
 
     private final String orderDataFile = "data/order.csv";
     private final String userDataFile = "data/user.csv";
-
     private ArrayList<String[]> dataArr;
 
     public OrderController() {
@@ -18,7 +17,7 @@ public class OrderController {
     /**
      * This method validate whether the quantity input is >= 0 or not
      * @param quantity: type int
-     * @return 0 if quatity < 0, otherwise return quantity: type int
+     * @return 0 if quantity < 0, otherwise return quantity: type int
      */
     public int quantityValidate(int quantity) {
         if (quantity < 0) {
@@ -46,7 +45,7 @@ public class OrderController {
 
 
     /**
-     * This method is to update orther status from UNPAID to PAID
+     * This method is to update other status from UNPAID to PAID
      * @param orderId: type String
      */
     public void updateOrderStatus(String orderId) {

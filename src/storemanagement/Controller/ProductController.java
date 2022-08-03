@@ -147,7 +147,7 @@ public class ProductController {
 
     /**
      * This method is to get all product detail by product id
-     * @param productId
+     * @param productId String
      * @return new Product if product exist, otherwise return null: type Product
      */
     public Product getProductDetails(String productId) {

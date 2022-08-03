@@ -15,13 +15,12 @@ public class Menu {
         this.productController = productController;
         this.accController = accController;
         this.orderController = orderController;
-        welcomeScreen();
     }
 
     /**
      * This method prints the screen based on user input
      */
-    public void welcomeScreen() {
+    public void run() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
                 STORE ORDER MANAGEMENT SYSTEM
@@ -34,6 +33,7 @@ public class Menu {
                 """);
         int input;
         while (true) {
+            // Common menu
             try {
                 input = userOption();
                 Scanner scan = new Scanner(System.in);
@@ -44,7 +44,7 @@ public class Menu {
                     System.out.println("PRODUCT LIST | List all product from the store");
                     this.tableDisplay(productController.getDataArr());
                     System.out.println(
-                            "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
+                            "Do you want to sort the product list by price? Press \"Y\" for YES or \"enter/return\" for NO");
                     String inp = scan.nextLine();
                     this.productSort(inp);
                     if (accController.getAccount() != null) {
@@ -168,7 +168,7 @@ public class Menu {
      * @return n (user input): type int
      */
     public int userOption() {
-        String username = accController.getAccount() != null ? accController.getAccount().getUsername() : "";
+        String username = accController.getAccount() != null ? accController.getAccount().getFullName() : "";
         String commonTxt = """
                 Choose one of these options:
                 0. Exit
@@ -177,7 +177,7 @@ public class Menu {
                 3. List all categories
                 """;
         String optionsTxt = """
-                ================================
+                ================================================================
                 """
                 + commonTxt +
                 """
@@ -185,7 +185,7 @@ public class Menu {
                 5. Sign up your account
                 ================================""";
         String optionTxtWithName = """
-                ================================
+                ================================================================
                 Welcome,""" + Helper.green(username) + "! " + """
                 """
                 + commonTxt +
@@ -196,7 +196,7 @@ public class Menu {
                 ================================""";
 
         String adminOpttxt = """
-                ================================
+                ================================================================
                 Welcome to admin menu,""" + Helper.green(username) + "! " + """
                 """
                 + commonTxt +

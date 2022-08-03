@@ -10,8 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AccountController {
-    private String userDataFile = "data/user.csv";
-    private String order = "data/order.csv";
+    private final String userDataFile = "data/user.csv";
+    private final String order = "data/order.csv";
 
     private ArrayList<String[]> dataArr;
 

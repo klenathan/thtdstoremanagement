@@ -8,9 +8,11 @@ import storemanagement.View.Menu;
 
 public class Main {
     public static void main(String[] args) {
+        // TODO: 03/08/2022 Add products to database 
         ProductController productController = new ProductController();
         AccountController accountController = new AccountController();
         OrderController orderController = new OrderController();
-        new Menu(productController, accountController, orderController);
+        Menu menu = new Menu(productController, accountController, orderController);
+        menu.run();
     }
 }
