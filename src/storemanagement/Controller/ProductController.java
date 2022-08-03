@@ -13,16 +13,11 @@ public class ProductController {
         this.dataArr = Helper.readData(productDataFile);
     }
 
-    public static void main(String[] args) {
-        ProductController a = new ProductController();
-        a.sortProduct("a");
-    }
-
     /**
      * This method validates the product name
      *
-     * @param productName product name input in String
-     * @return true false when product name is found
+     * @param productName: type String
+     * @return true/false when product name exists or not
      */
     public boolean productNameValidate(String productName) {
         for (int i = 1; i < dataArr.size(); i++) {
@@ -37,8 +32,8 @@ public class ProductController {
     /**
      * This method validates the price
      *
-     * @param price
-     * @return true/false
+     * @param price type long
+     * @return 0 if the price < 0, otherwise return price
      */
     public long priceValidate(long price) {
         if (price < 0) {
@@ -51,9 +46,9 @@ public class ProductController {
     /**
      * This method helps admin add new product to the store
      *
-     * @param productName: new product's information
-     * @param category
-     * @param price
+     * @param productName: type String
+     * @param category: type String
+     * @param price: type long
      */
     public void addProduct(String productName, String category, long price) {
 
@@ -72,27 +67,28 @@ public class ProductController {
     /**
      * This method helps admin update price for a particular product
      *
-     * @param productID
-     * @param newPrice
+     * @param productID: type String
+     * @param newPrice: type long
      */
     public void updatePrice(String productID, long newPrice) {
         long finalPrice = priceValidate(newPrice);
         if (Helper.getAllId(productDataFile).contains(productID.toUpperCase())) {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
             this.dataArr = Helper.readData(productDataFile);
+            System.out.println("Successfully updated!");
         } else {
-            System.out.println("The product ID \"" + productID + "\" does not exists in the store!");
+            System.out.println("The product ID \"" + Helper.error(productID) + "\" does not exist!");
         }
 
     }
 
     /**
-     * This method helps customer sort the product in an ascending order or
+     * This method helps customer sort the product list in ascending order or
      * descending order
      *
-     * @param input
+     * @param input: type String
+     * @return res: type ArrayList<String[]>
      */
-    // 5. A customer can sort all products by product price
     public ArrayList<String[]> sortProduct(String input) {
         ArrayList<Long> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
@@ -118,11 +114,11 @@ public class ProductController {
     }
 
     /**
-     * This method helps customer to search for available products for a particular
+     * This method helps customer to search for available product by name
      * category
      *
-     * @param productName
-     * @return product
+     * @param productName: type String
+     * @return product: type String
      */
     public String searchProduct(String productName) {
         String product = "";
@@ -140,10 +136,20 @@ public class ProductController {
         return product;
     }
 
+    /**
+     * This method checks whether product exists or not
+     * @param id: type String
+     * @return true/false if product exists or not
+     */
     public boolean checkProductExist(String id) {
         return Helper.getAllId(this.productDataFile).contains(id);
     }
 
+    /**
+     * This method is to get all product detail by product id
+     * @param productId String
+     * @return new Product if product exist, otherwise return null: type Product
+     */
     public Product getProductDetails(String productId) {
         if (checkProductExist(productId)) {
             String[] lineData = Helper.getDataFromLine(productDataFile, productId);
@@ -153,6 +159,10 @@ public class ProductController {
         }
     }
 
+    /**
+     * This method is to list all categories
+     * @return res: type HashSet<String>
+     */
     public HashSet<String> getAllCategory() {
         HashSet<String> res = new HashSet<>();
         for (int i = 1; i < this.dataArr.size(); i++) {
@@ -161,6 +171,11 @@ public class ProductController {
         return res;
     }
 
+    /**
+     * This method is to get all products by category
+     * @param category: type String
+     * @return res: type ArrayList<String[]>
+     */
     public ArrayList<String[]> getAllFromCat(String category) {
         ArrayList<String[]> res = new ArrayList<>();
         for (int i = 0; i < dataArr.size(); i++) {
@@ -170,6 +185,11 @@ public class ProductController {
         }
         return res;
     }
+
+    /**
+     * This method is to get all products
+     * @return dataArr: type ArrayList<String[]>
+     */
 
     public ArrayList<String[]> getDataArr() {
         return dataArr;
