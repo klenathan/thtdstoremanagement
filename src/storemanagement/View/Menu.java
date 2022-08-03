@@ -7,9 +7,9 @@ import storemanagement.Service.Helper;
 import java.util.*;
 
 public class Menu {
-    private ProductController productController;
-    private AccountController accController;
-    private OrderController orderController;
+    private final ProductController productController;
+    private final AccountController accController;
+    private final OrderController orderController;
 
     public Menu(ProductController productController, AccountController accController, OrderController orderController) {
         this.productController = productController;
@@ -18,6 +18,9 @@ public class Menu {
         welcomeScreen();
     }
 
+    /**
+     * This method prints the screen based on user input
+     */
     public void welcomeScreen() {
         System.out.println("""
                 COSC2081 GROUP ASSIGNMENT
@@ -31,112 +34,92 @@ public class Menu {
                 """);
         int input;
         while (true) {
-            if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
-                // ADMIN MENU
-                try {
-                    input = userOption();
-                    Scanner adminScan = new Scanner(System.in);
-                    if (input == 0) {
-                        System.out.println("Program exited");
-                        break;
-                    } else if (input == 1) {
-                        System.out.println("PRODUCT LIST | List all product from the store");
-                        this.tableDisplay(productController.getDataArr());
-                        System.out.println(
-                                "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
-                        String inp = adminScan.nextLine();
-                        this.productSort(inp);
+            try {
+                input = userOption();
+                Scanner scan = new Scanner(System.in);
+                if (input == 0) {
+                    System.out.println("Thank you for using our application!");
+                    break;
+                } else if (input == 1) {
+                    System.out.println("PRODUCT LIST | List all product from the store");
+                    this.tableDisplay(productController.getDataArr());
+                    System.out.println(
+                            "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
+                    String inp = scan.nextLine();
+                    this.productSort(inp);
+                    if (accController.getAccount() != null) {
                         this.selectProduct();
-                    } else if (input == 2) {
-                        System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
-                        System.out.print("Input product name: ");
-                        String productName = adminScan.nextLine();
-                        System.out.println(productController.searchProduct(productName));
-                    } else if (input == 3) {
+                    }
+                } else if (input == 2) {
+                    System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
+                    System.out.print("Input product name: ");
+                    String productName = scan.nextLine();
+                    System.out.println(productController.searchProduct(productName));
+                } else if (input == 3) {
+                    System.out.println("CATEGORY VIEW | View by category");
+                    boolean checkInp = this.categoryView();
+                    if (accController.getAccount() != null && checkInp) {
+                        this.selectProduct();
+                    }
+                }
+                if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
+                    // ADMIN MENU
+                    if (input == 4) {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
-                        String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status" };
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
+                                "Order Status"};
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         System.out.print("Input desired user ID: ");
-                        String userId = adminScan.nextLine();
+                        String userId = scan.nextLine();
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(userId));
-                    } else if (input == 4) {
+                    } else if (input == 5) {
                         System.out.println("NEW PRODUCT | Add new product to the store");
                         System.out.print("New product name: ");
-                        String productName = adminScan.nextLine();
+                        String productName = scan.nextLine();
                         System.out.print("New product category: ");
-                        String category = adminScan.nextLine();
+                        String category = scan.nextLine();
                         System.out.print("New product price: ");
-                        long price = Long.parseLong(adminScan.nextLine());
+                        long price = Long.parseLong(scan.nextLine());
                         productController.addProduct(productName, category, price);
-                    } else if (input == 5) {
+                    } else if (input == 6) {
                         System.out.println("UPDATE PRODUCT PRICE | Modify product's price");
                         System.out.print("Input product ID: ");
-                        String productId = adminScan.nextLine();
+                        String productId = scan.nextLine();
                         System.out.print("New product price: ");
-                        long price = Long.parseLong(adminScan.nextLine());
+                        long price = Long.parseLong(scan.nextLine());
                         productController.updatePrice(productId, price);
-                    } else if (input == 6) {
-                        System.out.println("ORDER DETAILS | Get order detail by orderID");
-                        System.out.print("Please input order ID: ");
-                        String orderId = adminScan.nextLine();
-                        orderController.updateOrderStatus(orderId.toUpperCase());
                     } else if (input == 7) {
+                        System.out.println("UPDATE ORDER STATUS | Change order status (UNPAID -> PAID)");
+                        System.out.print("Please input order ID: ");
+                        String orderId = scan.nextLine();
+                        orderController.updateOrderStatus(orderId.toUpperCase());
+                    } else if (input == 8) {
                         System.out.println("ALL USER INFO | List all user information");
                         this.tableDisplay(accController.getDataArr());
                         System.out.println("Enter to continue");
-                        adminScan.nextLine();
-                    } else if (input == 8) {
+                        scan.nextLine();
+                    } else if (input == 9) {
                         System.out.println("MODIFY ROLE | Modify a user's role");
                         System.out.println("Please input user ID: ");
-                        String cusID = adminScan.nextLine();
+                        String cusID = scan.nextLine();
                         System.out.print("PLease input the role of this user (admin or user): ");
-                        String role = adminScan.nextLine();
+                        String role = scan.nextLine();
                         System.out.println(accController.setRole(cusID, role));
-                    } else if (input == 9) {
+                    } else if (input == 10) {
                         System.out.println("CUSTOMER INFORMATION | View customer information");
                         System.out.print("PLease input customer name: ");
-                        String username = adminScan.nextLine();
+                        String username = scan.nextLine();
                         System.out.println(accController.userViewInformation(username));
                         System.out.println("Enter to continue");
-                        adminScan.nextLine();
-                    } else {
-                        System.out.println("Invalid input!");
+                        scan.nextLine();
                     }
-                } catch (Exception e) {
-                    e.getStackTrace();
-                    System.out.println(e);
-                }
-            } else if (accController.getAccount() != null) {
-                // LOGGED IN MENU
-                Scanner scan = new Scanner(System.in);
-                try {
-                    input = userOption();
-                    if (input == 0) {
-                        System.out.println("Thank you for visiting our store! Hope to see you again!");
-                        break;
-                    } else if (input == 1) {
-                        System.out.println("\nPRODUCT LIST | List all product from the store");
-                        this.tableDisplay(productController.getDataArr());
-                        System.out.println(
-                                "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
-                        String inp = scan.nextLine();
-                        this.productSort(inp);
-                        this.selectProduct();
-                    } else if (input == 2) {
-                        System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
-                        System.out.print("Input product name: ");
-                        String productName = scan.nextLine();
-                        System.out.println(productController.searchProduct(productName));
-                    } else if (input == 3) {
-                        System.out.println("CATEGORY VIEW | View by category");
-                        this.categoryView();
-                        this.selectProduct();
-                    } else if (input == 4) {
+                } else if (accController.getAccount() != null) {
+                    // LOGGED IN MENU
+                    if (input == 4) {
                         System.out.println("ORDERS LIST | This is your order list");
-                        String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status" };
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
+                                "Order Status"};
                         ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         this.tableDisplay(headingArr);
                         this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
@@ -146,8 +129,8 @@ public class Menu {
                         System.out.print("Please input order ID: ");
                         String orderId = scan.nextLine();
                         ArrayList<String[]> res = new ArrayList<>();
-                        String[] heading = { "Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status" };
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
+                                "Order Status"};
                         res.add(heading);
                         res.add(orderController.getOrderInfo(orderId.toUpperCase(),
                                 accController.getAccount().getUserId()));
@@ -159,72 +142,54 @@ public class Menu {
                         System.out.println(accController.userViewInformation(username));
                         System.out.println("Enter to continue");
                         scan.nextLine();
-                    } else {
-                        System.out.println("Invalid input!");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println(Helper.error("Please input a number"));
-                } catch (Exception e) {
-                    e.getStackTrace();
-                    System.out.println(e);
-                }
-            } else {
-                // GUEST MENU
-                try {
-                    input = userOption();
-                    Scanner scan = new Scanner(System.in);
-                    if (input == 0) {
-                        System.out.println("Thank you for visiting our store! Hope to see you again!");
-                        break;
-                    } else if (input == 1) {
-                        System.out.println("\nPRODUCT LIST | Please Login to place orders");
-                        this.tableDisplay(productController.getDataArr());
-                        System.out.println(
-                                "Do you want to sort the product list? Press \"Y\" for YES or \"enter/return\" for NO");
-                        String inp = scan.nextLine();
-                        this.productSort(inp);
-                    } else if (input == 2) {
-                        System.out.println("SEARCH PRODUCT | Search a product from the store by its name ");
-                        System.out.print("Input product name: ");
-                        String productName = scan.nextLine();
-                        System.out.println(productController.searchProduct(productName));
-                    } else if (input == 3) {
+                } else {
+                    // GUEST MENU
+                    if (input == 4) {
                         System.out.println("================================");
                         System.out.println("LOGIN | Please type in your account");
                         this.inputLogin();
-                    } else if (input == 4) {
+                    } else if (input == 5) {
                         System.out.println("SIGN UP | Please type in your information");
                         this.inputSignup();
-                    } else {
-                        System.out.println("Invalid input!");
                     }
-                } catch (Exception e) {
-                    e.getStackTrace();
-                    System.out.println(e);
                 }
+            } catch (NumberFormatException e) {
+                System.out.println(Helper.error("Please input a number"));
+            } catch (Exception e) {
+                e.getStackTrace();
+                System.out.println(e);
             }
         }
     }
 
+    /**
+     * This method gets the user input for the welcome screen
+     * @return n (user input): type int
+     */
     public int userOption() {
         String username = accController.getAccount() != null ? accController.getAccount().getUsername() : "";
-        String optionsTxt = """
-                ================================
+        String commonTxt = """
                 Choose one of these options:
                 0. Exit
                 1. List all products
                 2. Search item by name
-                3. Log in your account
-                4. Sign up your account
+                3. List all categories
+                """;
+        String optionsTxt = """
+                ================================
+                """
+                + commonTxt +
+                """
+                4. Log in your account
+                5. Sign up your account
                 ================================""";
         String optionTxtWithName = """
                 ================================
-                Welcome,""" + Helper.green(username)+ "! " + """
-                Choose one of these options:
-                0. Exit
-                1. List all products
-                2. Search item by name
-                3. List all category
+                Welcome,""" + Helper.green(username) + "! " + """
+                """
+                + commonTxt +
+                """
                 4. List my orders
                 5. Get order information
                 6. View your profile
@@ -233,17 +198,16 @@ public class Menu {
         String adminOpttxt = """
                 ================================
                 Welcome to admin menu,""" + Helper.green(username) + "! " + """
-                Choose one of these options:
-                0. Exit
-                1. List all products
-                2. Search item by name
-                3. List user's orders from userID
-                4. Add new product
-                5. Change product price
-                6. Change order status (UNPAID -> PAID)
-                7. List all user information
-                8. Set role for account
-                9. View customer information""";
+                """
+                + commonTxt +
+                """
+                4. List user's orders from userID
+                5. Add new product
+                6. Change product price
+                7. Change order status (UNPAID -> PAID)
+                8. List all user information
+                9. Set role for account
+                10. View customer information""";
 
         if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
@@ -252,7 +216,7 @@ public class Menu {
         } else {
             System.out.println(optionsTxt);
         }
-        Integer[] optionArr = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
         while (true) {
             Scanner input = new Scanner(System.in);
@@ -270,6 +234,9 @@ public class Menu {
         }
     }
 
+    /**
+     * This method asks for user input for login to the application
+     */
     private void inputLogin() {
         Scanner loginScan = new Scanner(System.in);
         String username;
@@ -287,7 +254,10 @@ public class Menu {
         System.out.print("\n");
     }
 
-    private void inputSignup() throws Exception {
+    /**
+     * This method asks for user input for signup to the application
+     */
+    private void inputSignup() {
         Scanner signupScan = new Scanner(System.in);
         System.out.print("Enter your username (username cannot contain space): ");
         String username = signupScan.nextLine();
@@ -309,6 +279,9 @@ public class Menu {
         System.out.print("\n");
     }
 
+    /**
+     * This method selects the product and prints out the total bill
+     */
     private void selectProduct() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Input product ID to create order or \"0\" to escape: ");
@@ -340,7 +313,11 @@ public class Menu {
         }
     }
 
-    public void categoryView() {
+    /**
+     * This method prints all the products in a chosen category number
+     * @return
+     */
+    public boolean categoryView() {
         Scanner scan = new Scanner(System.in);
         int count = 1;
 
@@ -351,30 +328,42 @@ public class Menu {
             count++;
         }
         System.out.print("Choose desired category number or \"0\" to exit: ");
-        int userInput = scan.nextInt();
-
-        String[] heading = { "ProductId", "ProductName", "Category", "Price" };
-        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-        this.tableDisplay(headingArr);
-        this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(userInput)));
+        String userInput = scan.nextLine();
+        if (categoryMenuMap.containsKey(Integer.parseInt(userInput))) {
+            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
+            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+            this.tableDisplay(headingArr);
+            this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput))));
+            return true;
+        } else {
+            System.out.println("The category number \"" + Helper.error(userInput) + "\" does not exist!");
+            return false;
+        }
     }
 
+    /**
+     * This method prints out the sorted product list based on the user option
+     * @param inp: type string
+     */
     public void productSort(String inp) {
         Scanner scan = new Scanner(System.in);
         if (inp.equalsIgnoreCase("y")) {
             System.out.println("Press \"D\" for sorting in descending order or \"A\" for ascending order: ");
             String productOrder = scan.nextLine();
-            String[] heading = { "ProductId", "ProductName", "Category", "Price" };
+            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
             ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
             this.tableDisplay(headingArr);
             this.tableDisplay(productController.sortProduct(productOrder));
         }
     }
 
+    /**
+     * This method is to display the data as a table
+     * @param displayData: type ArrayList<String[]>
+     */
     private void tableDisplay(ArrayList<String[]> displayData) {
         int colWidth = 15;
-        for (int i = 0; i < displayData.size(); i++) {
-            String[] line = displayData.get(i);
+        for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
                 if (line[j].length() > 15) {
                     line[j] = line[j].substring(0, Math.min(line[j].length(), 12)) + "...";

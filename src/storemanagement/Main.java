@@ -3,7 +3,7 @@ package storemanagement;
 import storemanagement.Controller.AccountController;
 import storemanagement.Controller.OrderController;
 import storemanagement.Controller.ProductController;
-import storemanagement.Model.Account;
+
 import storemanagement.View.Menu;
 
 public class Main {
@@ -11,6 +11,6 @@ public class Main {
         ProductController productController = new ProductController();
         AccountController accountController = new AccountController();
         OrderController orderController = new OrderController();
-        Menu menu = new Menu(productController, accountController, orderController);
+        new Menu(productController, accountController, orderController);
     }
 }
