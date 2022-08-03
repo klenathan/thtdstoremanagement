@@ -52,7 +52,7 @@ public class OrderController {
             String[] line = Helper.getDataFromLine(orderDataFile, orderId);
             userID = (line[2]);
             membershipCheck(userID);
-            Helper.modifyField(userDataFile, userID, 7, Double.toString(totalPayment(userID)));
+            Helper.modifyField(userDataFile, userID, 7, Long.toString(totalPayment(userID)));
             System.out.println("Successfully updated!");
         } else {
             System.out.println("The product ID \"" + orderId + "\" does not exist!");
@@ -64,8 +64,8 @@ public class OrderController {
      * @param customerID: type String
      * @return totalBill: type double
      */
-    public double totalPayment(String customerID) {
-        double totalBill = 0;
+    public long totalPayment(String customerID) {
+        long totalBill = 0;
 
         for (String[] line : dataArr) {
             if (customerID.equalsIgnoreCase(line[2]) && line[5].equalsIgnoreCase("paid")) {
