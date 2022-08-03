@@ -2,24 +2,24 @@ package storemanagement.Controller;
 
 import storemanagement.Service.Helper;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class OrderController {
 
     private final String orderDataFile = "data/order.csv";
     private final String userDataFile = "data/user.csv";
-
     private ArrayList<String[]> dataArr;
 
     public OrderController() {
         this.dataArr = Helper.readData(orderDataFile);
     }
 
-    public ArrayList<String[]> getDataArr() {
-        return dataArr;
-    }
-
+    /**
+     * This method validate whether the quantity input is >= 0 or not
+     *
+     * @param quantity: type int
+     * @return 0 if quantity < 0, otherwise return quantity: type int
+     */
     public int quantityValidate(int quantity) {
         if (quantity < 0) {
             return 0;
@@ -28,6 +28,14 @@ public class OrderController {
         }
     }
 
+    /**
+     * This method is to create order
+     *
+     * @param productId: type String
+     * @param userId:    type String
+     * @param quantity:  type int
+     * @param price:     type long
+     */
     public void createOrder(String productId, String userId, int quantity, long price) {
         int finalQuantity = quantityValidate(quantity);
         long totalBill = (long) ((finalQuantity * price) * (1 - membershipDiscount(userId)));
@@ -37,6 +45,12 @@ public class OrderController {
         this.dataArr = Helper.readData(orderDataFile);
     }
 
+
+    /**
+     * This method is to update other status from UNPAID to PAID
+     *
+     * @param orderId: type String
+     */
     public void updateOrderStatus(String orderId) {
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
@@ -45,11 +59,19 @@ public class OrderController {
             String[] line = Helper.getDataFromLine(orderDataFile, orderId);
             userID = (line[2]);
             membershipCheck(userID);
+            Helper.modifyField(userDataFile, userID, 7, Double.toString(totalPayment(userID)));
+            System.out.println("Successfully updated!");
         } else {
             System.out.println("The product ID \"" + orderId + "\" does not exist!");
         }
     }
 
+    /**
+     * This method is to get the total payment of a customer based on customer id
+     *
+     * @param customerID: type String
+     * @return totalBill: type double
+     */
     public double totalPayment(String customerID) {
         double totalBill = 0;
 
@@ -58,11 +80,15 @@ public class OrderController {
                 totalBill += Double.parseDouble(line[4]);
             }
         }
-        BigDecimal value = BigDecimal.valueOf(totalBill);
-        Helper.modifyField(userDataFile, customerID, 7, value.toPlainString());
         return totalBill;
     }
 
+    /**
+     * This method is to update the membership of a customer based on their total bill
+     *
+     * @param customerID: type String
+     * @return membership: type String
+     */
     public String membershipCheck(String customerID) {
         double totalBill = totalPayment(customerID);
         String membership;
@@ -82,21 +108,31 @@ public class OrderController {
         return membership;
     }
 
+    /**
+     * This method checks the discount of a user based on their membership
+     *
+     * @param customerID: type String
+     * @return discount: type double
+     */
     public double membershipDiscount(String customerID) {
         String membership = membershipCheck(customerID);
-        double discount;
+        double discount = 0;
         if (membership.equalsIgnoreCase("silver")) {
             discount = 0.05;
         } else if (membership.equalsIgnoreCase("gold")) {
             discount = 0.1;
         } else if (membership.equalsIgnoreCase("platinum")) {
             discount = 0.15;
-        } else {
-            discount = 0;
         }
         return discount;
     }
 
+    /**
+     * This method is to get current user order
+     *
+     * @param userId: type String
+     * @return res: type ArrayList<String[]>
+     */
     public ArrayList<String[]> getCurrenUserOrders(String userId) {
         ArrayList<String[]> res = new ArrayList<>();
         String orderUserId;
@@ -109,6 +145,14 @@ public class OrderController {
         return res;
     }
 
+
+    /**
+     * This method is to get order information of a user
+     *
+     * @param orderId: type string
+     * @param userID:  type string
+     * @return arr: type String[]
+     */
     public String[] getOrderInfo(String orderId, String userID) {
         String[] arr = Helper.getDataFromLine(orderDataFile, orderId.toUpperCase());
         if (!userID.equalsIgnoreCase(arr[2])) {
