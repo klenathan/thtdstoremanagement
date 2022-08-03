@@ -1,9 +1,17 @@
 productId,productName,category,price
-P1,product1,test,12000
-P2,product2,cat2,13400
-P3,product3,test,13542000
-P4,product4,test,1000
-P5,Product69,,123123123123123
-P6,product5,test,21321
-P7,Product6,sadasd,12312
-P8,product7,test,0
+P1,MacBook Pro 13 inch M2 2022,test,12000
+P2,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
+P3,MacBook Pro 13 inch M2 2022,test,13542000
+P4,MacBook Pro 13 inch M2 2022,test,1000
+P5,product1,test,12000
+P6,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
+P7,product3,test,13542000
+P8,product4,test,1000
+P9,product1,test,12000
+P10,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
+P11,product3,test,13542000
+P11,product4,test,1000
+P12,product1,test,12000
+P13,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
+P14,product3,test,13542000
+P15,product4,test,1000

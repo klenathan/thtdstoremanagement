@@ -140,8 +140,6 @@ public class Menu {
                         System.out.println("USER PROFILE");
                         String username = accController.getAccount().getUsername();
                         System.out.println(accController.userViewInformation(username));
-                        System.out.println("Enter to continue");
-                        scan.nextLine();
                     }
                 } else {
                     // GUEST MENU
@@ -362,11 +360,11 @@ public class Menu {
      * @param displayData: type ArrayList<String[]>
      */
     private void tableDisplay(ArrayList<String[]> displayData) {
-        int colWidth = 15;
+        int colWidth = 30;
         for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
-                if (line[j].length() > 15) {
-                    line[j] = line[j].substring(0, Math.min(line[j].length(), 12)) + "...";
+                if (line[j].length() > colWidth) {
+                    line[j] = line[j].substring(0, Math.min(line[j].length(), colWidth-3)) + "...";
                 }
                 System.out.print(" " + line[j] + " ".repeat(colWidth - line[j].length()) + "||");
             }
