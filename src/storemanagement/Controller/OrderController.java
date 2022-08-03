@@ -83,15 +83,13 @@ public class OrderController {
 
     public double membershipDiscount(String customerID) {
         String membership = membershipCheck(customerID);
-        double discount;
+        double discount = 0;
         if (membership.equalsIgnoreCase("silver")) {
             discount = 0.05;
         } else if (membership.equalsIgnoreCase("gold")) {
             discount = 0.1;
         } else if (membership.equalsIgnoreCase("platinum")) {
             discount = 0.15;
-        } else {
-            discount = 0;
         }
         return discount;
     }

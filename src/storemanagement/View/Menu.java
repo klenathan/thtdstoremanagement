@@ -331,7 +331,7 @@ public class Menu {
             System.out.println("You have got " + Helper.green(discount * 100 + "% discount") + ".\nYou ordered: "
                     + Helper.green(String.valueOf(finalQuantity)) + " * " + Helper.green(String.valueOf(price))
                     + " * " + Helper.green(String.valueOf((1 - discount))) + " for "
-                    + Helper.green(String.valueOf(finalQuantity * price * (1 - discount))) + " VND");
+                    + Helper.green(String.valueOf((long) finalQuantity * price * (1 - discount))) + " VND");
             System.out.println("Order created! Thank you for ordering from us!");
         } else if (userInput.equalsIgnoreCase("0")) {
             System.out.println();
