@@ -122,8 +122,47 @@ public class Helper {
             fileWr.flush();
             fileWr.close();
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println(error(String.valueOf(e)));
             e.getStackTrace();
+        }
+    }
+
+    /**
+     * This method deletes line in a file based on the id
+     * @param file: type string
+     * @param id: type string
+     */
+    public static void deleteLine(String file, String id) {
+        if (getAllId(file).contains(id)) {
+            try {
+                File inputFile = new File(file);
+                StringBuilder res = new StringBuilder();
+                Scanner reader = new Scanner(inputFile);
+                // Read current data to String res
+                while (reader.hasNext()) {
+                    String line = reader.nextLine();
+                    String[] lineArray = line.split(",", -1);
+                    // Only add non-equal id line
+                    if (!Objects.equals(lineArray[0], id)) {
+                        for (int i = 0; i < lineArray.length - 1; i++) {
+                            res.append(lineArray[i]).append(",");
+                        }
+                        res.append(lineArray[lineArray.length - 1]);
+                        res.append("\n");
+                    }
+                }
+                // Write new data to file combine with new line
+                FileWriter fileWr = new FileWriter(file);
+                fileWr.write(res.toString());
+                // close stream
+                fileWr.flush();
+                fileWr.close();
+            } catch (IOException e) {
+                System.out.println(error(String.valueOf(e)));
+                e.getStackTrace();
+            }
+        } else {
+            System.out.println(error("ID does not exist"));
         }
     }
 
@@ -147,11 +186,11 @@ public class Helper {
                     }
                 }
             } catch (IOException e) {
-                System.out.println(e);
+                System.out.println(error(String.valueOf(e)));
                 e.getStackTrace();
             }
         } else {
-            System.out.println("ID does not exist");
+            System.out.println(error("ID does not exist"));
             return new String[0];
         }
         return new String[0];
@@ -193,9 +232,9 @@ public class Helper {
             fileWr.close();
             reader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File does not exist");
+            System.out.println(error("File does not exist"));
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(error(String.valueOf(e)));
         }
     }
 

@@ -44,24 +44,50 @@ public class ProductController {
     }
 
     /**
+     * This method checks whether product exists or not
+     * @param id: type String
+     * @return true/false if product exists or not
+     */
+    public boolean checkProductExist(String id) {
+        return Helper.getAllId(this.productDataFile).contains(id.toUpperCase());
+    }
+
+    /**
      * This method helps admin add new product to the store
      *
      * @param productName: type String
      * @param category: type String
      * @param price: type long
      */
-    public void addProduct(String productName, String category, long price) {
+    public String addProduct(String productName, String category, long price) {
 
         long finalPrice = priceValidate(price);
         String dataAdd = productName + "," + category + "," + finalPrice;
-
+        String message;
         if (productNameValidate(productName)) {
             Helper.addData(productDataFile, dataAdd);
             this.dataArr = Helper.readData(productDataFile);
-            System.out.println("Successfully added new product to the store!");
+            message = Helper.green("Successfully added new product to the store!");
         } else {
-            System.out.println("The product \"" + productName + "\" already exists in the store!");
+            message = Helper.error("The product \"" + productName + "\" already exists in the store!");
         }
+        return message;
+    }
+
+    /**
+     * This method will delete the product based on the product ID
+     * @param productID
+     * @return
+     */
+    public String deleteProduct(String productID) {
+        String message;
+        if (checkProductExist(productID)) {
+            Helper.deleteLine(productDataFile, productID.toUpperCase());
+            message = Helper.green("Successfully deleted!");
+        } else {
+            message = Helper.error("The product ID \"" + productID + "\" does not exist!");
+        }
+        return message;
     }
 
     /**
@@ -70,17 +96,19 @@ public class ProductController {
      * @param productID: type String
      * @param newPrice: type long
      */
-    public void updatePrice(String productID, long newPrice) {
+    public String updatePrice(String productID, long newPrice) {
         long finalPrice = priceValidate(newPrice);
-        if (Helper.getAllId(productDataFile).contains(productID.toUpperCase())) {
+        String message;
+        if (checkProductExist(productID)) {
             Helper.modifyField(productDataFile, productID, 3, String.valueOf(finalPrice));
             this.dataArr = Helper.readData(productDataFile);
-            System.out.println("Successfully updated!");
+            message = Helper.green("Successfully updated!");
         } else {
-            System.out.println("The product ID \"" + Helper.error(productID) + "\" does not exist!");
+            message = Helper.error("The product ID \"" + productID + "\" does not exist!");
         }
-
+        return message;
     }
+
 
     /**
      * This method helps customer sort the product list in ascending order or
@@ -101,12 +129,13 @@ public class ProductController {
             Collections.sort(priceArr, Collections.reverseOrder());
         }
 
+        HashMap<String, String[]> a = new HashMap<>();
         ArrayList<String[]> res = new ArrayList<>();
         for (int j = 0; j < priceArr.size(); j++) {
             for (int i = 1; i < dataArr.size(); i++) {
-                String[] line = dataArr.get(i);
-                if (Long.parseLong(line[3]) == priceArr.get(j)) {
-                    res.add(dataArr.get(i));
+                if (Long.parseLong(dataArr.get(i)[3]) == priceArr.get(j) && !a.containsKey(dataArr.get(i)[0])) {
+                    a.put(dataArr.get(i)[0], dataArr.get(i));
+                    res.add(a.get(dataArr.get(i)[0]));
                 }
             }
         }
@@ -131,18 +160,9 @@ public class ProductController {
                 }
             }
         } else {
-            product = "Product \"" + Helper.error(productName) + "\" does not exist.";
+            product = Helper.error("Product \"" + productName + "\" does not exist.");
         }
         return product;
-    }
-
-    /**
-     * This method checks whether product exists or not
-     * @param id: type String
-     * @return true/false if product exists or not
-     */
-    public boolean checkProductExist(String id) {
-        return Helper.getAllId(this.productDataFile).contains(id);
     }
 
     /**
@@ -190,7 +210,6 @@ public class ProductController {
      * This method is to get all products
      * @return dataArr: type ArrayList<String[]>
      */
-
     public ArrayList<String[]> getDataArr() {
         return dataArr;
     }

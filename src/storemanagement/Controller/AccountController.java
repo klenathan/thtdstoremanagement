@@ -145,7 +145,7 @@ public class AccountController {
         String message = "CHANGE ROLE SUCCESS";
         if (Helper.getAllId(userDataFile).contains(uID.toUpperCase())) {
             if (uID.equalsIgnoreCase("U1")){
-                message = "THIS USER CAN NOT CHANGE THE ROLE\t";
+                message = Helper.error("THIS USER CAN NOT CHANGE THE ROLE\t");
             }else{
                 switch (role) {
                     case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
@@ -153,7 +153,7 @@ public class AccountController {
                 }
             }
         } else {
-            message = "THIS USER IS NOT EXIST";
+            message = Helper.error("THIS USER IS NOT EXIST");
         }
         return message;
     }
@@ -181,7 +181,7 @@ public class AccountController {
                 String fname = line[3];
                 String phone = line[4];
                 String member = new OrderController().membershipCheck(line[0]);
-                double totalBill = new OrderController().totalPayment(line[0]);
+                long totalBill = new OrderController().totalPayment(line[0]);
                 message = "================================\n" + Helper.error("\t\t" + uname + "'s information\n")
                         + "Username: " + Helper.green(uname) + "\n"
                         + "Fullname: " + Helper.green(fname) + "\n"
