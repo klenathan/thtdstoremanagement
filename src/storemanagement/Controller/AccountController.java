@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 public class AccountController {
     private final String userDataFile = "data/user.csv";
-    private final String order = "data/order.csv";
 
     private ArrayList<String[]> dataArr;
 
