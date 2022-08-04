@@ -81,32 +81,38 @@ public class Menu {
                         String category = scan.nextLine();
                         System.out.print("New product price: ");
                         long price = Long.parseLong(scan.nextLine());
-                        productController.addProduct(productName, category, price);
+                        System.out.println(productController.addProduct(productName, category, price));
                     } else if (input == 6) {
+                        System.out.println("DELETE EXISTING PRODUCT | Delete existing product in a store");
+                        System.out.println("Input product ID: ");
+                        String productId = scan.nextLine();
+                        System.out.println(productController.deleteProduct(productId));
+                    }
+                    else if (input == 7) {
                         System.out.println("UPDATE PRODUCT PRICE | Modify product's price");
                         System.out.print("Input product ID: ");
                         String productId = scan.nextLine();
                         System.out.print("New product price: ");
                         long price = Long.parseLong(scan.nextLine());
-                        productController.updatePrice(productId, price);
-                    } else if (input == 7) {
+                        System.out.println(productController.updatePrice(productId, price));
+                    } else if (input == 8) {
                         System.out.println("UPDATE ORDER STATUS | Change order status (UNPAID -> PAID)");
                         System.out.print("Please input order ID: ");
                         String orderId = scan.nextLine();
-                        orderController.updateOrderStatus(orderId.toUpperCase());
-                    } else if (input == 8) {
+                        System.out.println(orderController.updateOrderStatus(orderId.toUpperCase()));
+                    } else if (input == 9) {
                         System.out.println("ALL USER INFO | List all user information");
                         this.tableDisplay(accController.getDataArr());
                         System.out.println("Enter to continue");
                         scan.nextLine();
-                    } else if (input == 9) {
+                    } else if (input == 10) {
                         System.out.println("MODIFY ROLE | Modify a user's role");
                         System.out.println("Please input user ID: ");
                         String cusID = scan.nextLine();
                         System.out.print("PLease input the role of this user (admin or user): ");
                         String role = scan.nextLine();
                         System.out.println(accController.setRole(cusID, role));
-                    } else if (input == 10) {
+                    } else if (input == 11) {
                         System.out.println("CUSTOMER INFORMATION | View customer information");
                         System.out.print("PLease input customer name: ");
                         String username = scan.nextLine();
@@ -201,11 +207,13 @@ public class Menu {
                 """
                 4. List user's orders from userID
                 5. Add new product
-                6. Change product price
-                7. Change order status (UNPAID -> PAID)
-                8. List all user information
-                9. Set role for account
-                10. View customer information""";
+                6. Delete existing product
+                7. Change product price
+                8. Change order status (UNPAID -> PAID)
+                9. List all user information
+                10. Set role for account
+                11. View customer information""";
+
 
         if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
             System.out.println(adminOpttxt);
@@ -214,7 +222,7 @@ public class Menu {
         } else {
             System.out.println(optionsTxt);
         }
-        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
         while (true) {
             Scanner input = new Scanner(System.in);
@@ -223,11 +231,14 @@ public class Menu {
                 do {
                     System.out.print("Enter one of the options above: ");
                     n = input.nextInt();
+                    if (!Arrays.asList(optionArr).contains(n)) {
+                        System.out.println(Helper.error("Invalid Input! Please try again"));
+                    }
                 } while (!Arrays.asList(optionArr).contains(n));
                 return n;
             } catch (Exception e) {
                 input.next();
-                System.out.println(Helper.error("invalid Input! Please try again"));
+                System.out.println(Helper.error("Invalid Input! Please try again"));
             }
         }
     }
@@ -302,12 +313,12 @@ public class Menu {
             System.out.println("You have got " + Helper.green(discount * 100 + "% discount") + ".\nYou ordered: "
                     + Helper.green(String.valueOf(finalQuantity)) + " * " + Helper.green(String.valueOf(price))
                     + " * " + Helper.green(String.valueOf((1 - discount))) + " for "
-                    + Helper.green(String.valueOf((long) finalQuantity * price * (1 - discount))) + " VND");
+                    + Helper.green(String.valueOf((long) (finalQuantity * price * (1 - discount)))) + " VND");
             System.out.println("Order created! Thank you for ordering from us!");
         } else if (userInput.equalsIgnoreCase("0")) {
             System.out.println();
         } else {
-            System.out.println("Failed to find desired product, please try again");
+            System.out.println(Helper.error("Failed to find desired product, please try again"));
         }
     }
 
@@ -334,7 +345,7 @@ public class Menu {
             this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput))));
             return true;
         } else {
-            System.out.println("The category number \"" + Helper.error(userInput) + "\" does not exist!");
+            System.out.println(Helper.error("The category number \"" + userInput + "\" does not exist!"));
             return false;
         }
     }
