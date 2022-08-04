@@ -374,8 +374,8 @@ public class Menu {
         int colWidth = 30;
         for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
-                if (line[j].length() > 15) {
-                    line[j] = line[j].substring(0, Math.min(line[j].length(), 12)) + "...";
+                if (line[j].length() > colWidth) {
+                    line[j] = line[j].substring(0, Math.min(line[j].length(), colWidth-3)) + "...";
                 }
                 System.out.print(" " + line[j] + " ".repeat(colWidth - line[j].length()) + "||");
             }
