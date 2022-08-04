@@ -47,7 +47,8 @@ public class OrderController {
      *
      * @param orderId: type String
      */
-    public void updateOrderStatus(String orderId) {
+    public String updateOrderStatus(String orderId) {
+        String message;
         if (Helper.getAllId(orderDataFile).contains(orderId)) {
             Helper.modifyField(orderDataFile, orderId, 5, "PAID");
             this.dataArr = Helper.readData(orderDataFile);
@@ -56,10 +57,11 @@ public class OrderController {
             userID = (line[2]);
             membershipCheck(userID);
             Helper.modifyField(userDataFile, userID, 7, Long.toString(totalPayment(userID)));
-            System.out.println("Successfully updated!");
+            message = Helper.green("Successfully updated!");
         } else {
-            System.out.println("The product ID \"" + orderId + "\" does not exist!");
+            message = Helper.error("The product ID \"" + orderId + "\" does not exist!");
         }
+        return message;
     }
 
     /**

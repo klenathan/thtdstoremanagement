@@ -12,8 +12,6 @@ public class Main {
 
         // Thai: TODO: 03/08/2022 : Revenue on that day, info of orders on that day
 
-        // Thu: TODO: 03/08/2022: Delete product (Helper)
-
         ProductController productController = new ProductController();
         AccountController accountController = new AccountController();
         OrderController orderController = new OrderController();
