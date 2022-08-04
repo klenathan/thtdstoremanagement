@@ -7,9 +7,9 @@ import storemanagement.Service.Helper;
 import java.util.*;
 
 public class Menu {
-    private final ProductController productController;
-    private final AccountController accController;
-    private final OrderController orderController;
+    private ProductController productController;
+    private AccountController accController;
+    private OrderController orderController;
 
     public Menu(ProductController productController, AccountController accController, OrderController orderController) {
         this.productController = productController;
@@ -371,7 +371,7 @@ public class Menu {
      * @param displayData: type ArrayList<String[]>
      */
     private void tableDisplay(ArrayList<String[]> displayData) {
-        int colWidth = 15;
+        int colWidth = 30;
         for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
                 if (line[j].length() > 15) {

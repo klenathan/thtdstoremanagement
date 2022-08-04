@@ -1,7 +1,6 @@
 package storemanagement.Model;
 
 public class Account {
-//    private String cusID;
     private String userId;
     private String username;
     private String fullName;

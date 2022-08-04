@@ -1,17 +1,25 @@
 productId,productName,category,price
-P1,MacBook Pro 13 inch M2 2022,test,12000
-P2,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
-P3,MacBook Pro 13 inch M2 2022,test,13542000
-P4,MacBook Pro 13 inch M2 2022,test,1000
-P5,product1,test,12000
-P6,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
-P7,product3,test,13542000
-P8,product4,test,1000
-P9,product1,test,12000
-P10,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
-P11,product3,test,13542000
-P11,product4,test,1000
-P12,product1,test,12000
-P13,Dây Nguồn có Jack DC 5.5*2.1mm,cat2,13400
-P14,product3,test,13542000
-P15,product4,test,1000
+P1,iPhone SE (2022),iPhone,13490000
+P2,iPhone 13 Pro Max,iPhone,33990000
+P3,iPhone 13 Pro,iPhone,30990000
+P4,iPhone 13,iPhone,24990000
+P5,MacBook Pro 13 inch M2 2022 (16GB RAM - 256GB  SSD),Mac,41990000
+P6,MacBook Air M2 2002 8-core GPU,Mac,32990000
+P7,MacBook Pro 13 inch M2 2022 (8GB RAM - 256GB  SSD),Mac,35990000
+P8,MacBook Pro 13 inch M2 2022 (8GB RAM - 512GB  SSD),Mac,41990000
+P9,iPad Air 5 WiFi + Cellular 64GB,iPad,20999000
+P10,iPad Air 5 WiFi 64GB,iPad,16990000
+P11,iPad Air 5 WiFi 256GB,iPad,20990000
+P12,iPad 9 10.2 inch WiFi,iPad,9990000
+P13,Apple Watch Nike Serires 7 GPS + Cellular 41mm,Watch,14990000
+P14,Apple Watch Nike Serires 7 GPS 41mm,Watch,11990000
+P15,Apple Watch Serires 7 GPS + Cellular 41mm,Watch,20990000
+P16,Apple Watch Serires 7 GPS + Cellular,Watch,14990000
+P17,AirPods Pro MagSafe,AirPods,6790000
+P18,AirPods 3,AirPods,5490000
+P19,AirPods Max,AirPods,13990000
+P20,AirPods Pro,AirPods,67900000
+P21,Magsafe battery pack,Accessory,2999000
+P22,Adapter Apple 2 Type C 35W,Accessory,1690000
+P23,Adapter Apple Type C 20W,Accessory,690000
+P24,Magsafe Duo,Accessory,3990000

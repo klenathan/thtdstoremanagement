@@ -126,14 +126,14 @@ public class ProductController {
         if (input.equalsIgnoreCase("A")) {
             Collections.sort(priceArr);
         } else if (input.equalsIgnoreCase(("D"))) {
-            Collections.sort(priceArr, Collections.reverseOrder());
+            priceArr.sort(Collections.reverseOrder());
         }
 
         HashMap<String, String[]> a = new HashMap<>();
         ArrayList<String[]> res = new ArrayList<>();
-        for (int j = 0; j < priceArr.size(); j++) {
+        for (Long aLong : priceArr) {
             for (int i = 1; i < dataArr.size(); i++) {
-                if (Long.parseLong(dataArr.get(i)[3]) == priceArr.get(j) && !a.containsKey(dataArr.get(i)[0])) {
+                if (Long.parseLong(dataArr.get(i)[3]) == priceArr.get(i) && !a.containsKey(dataArr.get(i)[0])) {
                     a.put(dataArr.get(i)[0], dataArr.get(i));
                     res.add(a.get(dataArr.get(i)[0]));
                 }
@@ -198,9 +198,9 @@ public class ProductController {
      */
     public ArrayList<String[]> getAllFromCat(String category) {
         ArrayList<String[]> res = new ArrayList<>();
-        for (int i = 0; i < dataArr.size(); i++) {
-            if (this.dataArr.get(i)[2].equalsIgnoreCase(category)) {
-                res.add(dataArr.get(i));
+        for (String[] strings : dataArr) {
+            if (strings[2].equalsIgnoreCase(category)) {
+                res.add(strings);
             }
         }
         return res;

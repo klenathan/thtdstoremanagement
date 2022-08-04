@@ -8,8 +8,6 @@ import storemanagement.View.Menu;
 
 public class Main {
     public static void main(String[] args) {
-        // DONG - HA: TODO: 03/08/2022 Add products to database
-
         // Thai: TODO: 03/08/2022 : Revenue on that day, info of orders on that day
 
         ProductController productController = new ProductController();
