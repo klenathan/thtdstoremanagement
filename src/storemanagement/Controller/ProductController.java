@@ -104,11 +104,7 @@ public class ProductController {
             this.dataArr = Helper.readData(productDataFile);
             message = Helper.green("Successfully updated!");
         } else {
-<<<<<<<
-            System.out.println(Helper.error("The product ID \"" + productID + "\" does not exist!"));
-=======
             message = Helper.error("The product ID \"" + productID + "\" does not exist!");
->>>>>>>
         }
         return message;
     }
@@ -137,15 +133,9 @@ public class ProductController {
         ArrayList<String[]> res = new ArrayList<>();
         for (Long aLong : priceArr) {
             for (int i = 1; i < dataArr.size(); i++) {
-<<<<<<<
-                String[] line = dataArr.get(i);
-                if (Long.parseLong(line[3]) == aLong) {
-                    res.add(dataArr.get(i));
-=======
-                if (Long.parseLong(dataArr.get(i)[3]) == priceArr.get(j) && !a.containsKey(dataArr.get(i)[0])) {
+                if (Long.parseLong(dataArr.get(i)[3]) == priceArr.get(i) && !a.containsKey(dataArr.get(i)[0])) {
                     a.put(dataArr.get(i)[0], dataArr.get(i));
                     res.add(a.get(dataArr.get(i)[0]));
->>>>>>>
                 }
             }
         }
