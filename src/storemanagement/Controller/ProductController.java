@@ -130,8 +130,6 @@ public class ProductController {
             priceArr.sort(Collections.reverseOrder());
         }
 
-        System.out.println(priceArr.size());
-
         HashMap<String, String[]> a = new HashMap<>();
         ArrayList<String[]> res = new ArrayList<>();
         for (Long aLong : priceArr) {
@@ -142,7 +140,6 @@ public class ProductController {
                 }
             }
         }
-        System.out.println(res.size());
         return res;
     }
 

@@ -42,7 +42,11 @@ public class Menu {
                     break;
                 } else if (input == 1) {
                     System.out.println("PRODUCT LIST | List all product from the store");
-                    this.tableDisplay(productController.getDataArr());
+                    String[] heading = {"Product ID", "Product Name", "Category", "Price"};
+                    ArrayList<String[]> displayData = productController.getDataArr();
+                    displayData.remove(0);
+                    displayData.add(0, heading);
+                    this.tableDisplay(displayData);
                     System.out.println(
                             "Do you want to sort the product list by price? Press \"Y\" for YES or \"enter/return\" for NO");
                     String inp = scan.nextLine();
@@ -129,7 +133,7 @@ public class Menu {
                         ArrayList<String[]> displayData = orderController.getCurrenUserOrders(accController.getAccount().getUserId());
                         displayData.add(0, heading);
                         this.tableDisplay(displayData);
-                        System.out.println();
+                        System.out.println(" ");
                     } else if (input == 5) {
                         System.out.println("ORDER INFORMATION | Get order's information");
                         System.out.print("Please input order ID: ");
@@ -339,9 +343,7 @@ public class Menu {
         System.out.print("Choose desired category number or \"0\" to exit: ");
         String userInput = scan.nextLine();
         if (categoryMenuMap.containsKey(Integer.parseInt(userInput))) {
-            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
-//            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-//            this.tableDisplay(headingArr);
+            String[] heading = {"Product ID", "Product Name", "Category", "Price"};
             ArrayList<String[]> displayData = productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput)));
             displayData.add(0, heading);
             this.tableDisplay(displayData);
@@ -361,10 +363,10 @@ public class Menu {
         if (inp.equalsIgnoreCase("y")) {
             System.out.println("Press \"D\" for sorting in descending order or \"A\" for ascending order: ");
             String productOrder = scan.nextLine();
-//            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
-//            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-//            this.tableDisplay(headingArr);
-            this.tableDisplay(productController.sortProduct(productOrder));
+            String[] heading = {"productId","productName","category","price"};
+            ArrayList<String[]> displayData = productController.sortProduct(productOrder);
+            displayData.add(0, heading);
+            this.tableDisplay(displayData);
         }
     }
 
@@ -376,21 +378,25 @@ public class Menu {
         int colWidth;
         int totalWidth = 0;
         HashMap<Integer, Integer> colWidthData = new HashMap<>();
-
-        for (int i = 0; i < displayData.size(); i++) {
-            for (int z = 0; z < displayData.get(i).length; z++) {
+        // Format price to every thousand
+        for (String[] displayDatum : displayData) {
+            for (int z = 0; z < displayDatum.length; z++) {
+                if (checkLong(displayDatum[z])) {
+                    Integer price = Integer.parseInt(displayDatum[z]);
+                    displayDatum[z] = String.format("%,d", price);
+                }
                 if (colWidthData.get(z) == null) {
-                    colWidthData.put(z, displayData.get(i)[z].length());
-                } else if (displayData.get(i)[z].length() > colWidthData.get(z)) {
-                    colWidthData.put(z, displayData.get(i)[z].length());
+                    colWidthData.put(z, displayDatum[z].length());
+                } else if (displayDatum[z].length() > colWidthData.get(z)) {
+                    colWidthData.put(z, displayDatum[z].length());
                 }
             }
         }
-
+        // Calculate total width of the table
         for (int width : colWidthData.values()) {
             totalWidth += width;
         }
-
+        // Modify data so it displayed as a table
         for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
                 colWidth = colWidthData.get(j);
@@ -398,6 +404,15 @@ public class Menu {
             }
             System.out.print("\n" + "=".repeat(totalWidth + line.length * 4));
             System.out.print("\n");
+        }
+    }
+
+    private boolean checkLong(String value) {
+        try {
+            Long.parseLong(value);
+            return true;
+        } catch (NumberFormatException ignored) {
+            return false;
         }
     }
 }
