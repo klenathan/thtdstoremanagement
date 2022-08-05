@@ -102,7 +102,6 @@ public class OrderController {
         } else {
             membership = "none";
         }
-
         return membership;
     }
 

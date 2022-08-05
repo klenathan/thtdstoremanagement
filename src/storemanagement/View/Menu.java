@@ -68,11 +68,11 @@ public class Menu {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status"};
-                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         System.out.print("Input desired user ID: ");
                         String userId = scan.nextLine();
-                        this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(userId));
+                        ArrayList<String[]> displayData = orderController.getCurrenUserOrders(userId);
+                        displayData.add(0, heading);
+                        this.tableDisplay(displayData);
                     } else if (input == 5) {
                         System.out.println("NEW PRODUCT | Add new product to the store");
                         System.out.print("New product name: ");
@@ -126,9 +126,9 @@ public class Menu {
                         System.out.println("ORDERS LIST | This is your order list");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status"};
-                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-                        this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
+                        ArrayList<String[]> displayData = orderController.getCurrenUserOrders(accController.getAccount().getUserId());
+                        displayData.add(0, heading);
+                        this.tableDisplay(displayData);
                         System.out.println();
                     } else if (input == 5) {
                         System.out.println("ORDER INFORMATION | Get order's information");
@@ -324,7 +324,7 @@ public class Menu {
 
     /**
      * This method prints all the products in a chosen category number
-     * @return
+     * @return true when no error occurs
      */
     public boolean categoryView() {
         Scanner scan = new Scanner(System.in);
@@ -340,9 +340,11 @@ public class Menu {
         String userInput = scan.nextLine();
         if (categoryMenuMap.containsKey(Integer.parseInt(userInput))) {
             String[] heading = {"ProductId", "ProductName", "Category", "Price"};
-            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-            this.tableDisplay(headingArr);
-            this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput))));
+//            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+//            this.tableDisplay(headingArr);
+            ArrayList<String[]> displayData = productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput)));
+            displayData.add(0, heading);
+            this.tableDisplay(displayData);
             return true;
         } else {
             System.out.println(Helper.error("The category number \"" + userInput + "\" does not exist!"));
@@ -359,9 +361,9 @@ public class Menu {
         if (inp.equalsIgnoreCase("y")) {
             System.out.println("Press \"D\" for sorting in descending order or \"A\" for ascending order: ");
             String productOrder = scan.nextLine();
-            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
-            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-            this.tableDisplay(headingArr);
+//            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
+//            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
+//            this.tableDisplay(headingArr);
             this.tableDisplay(productController.sortProduct(productOrder));
         }
     }
@@ -371,15 +373,30 @@ public class Menu {
      * @param displayData: type ArrayList<String[]>
      */
     private void tableDisplay(ArrayList<String[]> displayData) {
-        int colWidth = 30;
+        int colWidth;
+        int totalWidth = 0;
+        HashMap<Integer, Integer> colWidthData = new HashMap<>();
+
+        for (int i = 0; i < displayData.size(); i++) {
+            for (int z = 0; z < displayData.get(i).length; z++) {
+                if (colWidthData.get(z) == null) {
+                    colWidthData.put(z, displayData.get(i)[z].length());
+                } else if (displayData.get(i)[z].length() > colWidthData.get(z)) {
+                    colWidthData.put(z, displayData.get(i)[z].length());
+                }
+            }
+        }
+
+        for (int width : colWidthData.values()) {
+            totalWidth += width;
+        }
+
         for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
-                if (line[j].length() > colWidth) {
-                    line[j] = line[j].substring(0, Math.min(line[j].length(), colWidth-3)) + "...";
-                }
-                System.out.print(" " + line[j] + " ".repeat(colWidth - line[j].length()) + "||");
+                colWidth = colWidthData.get(j);
+                System.out.print(" " + line[j] + " ".repeat(colWidth - line[j].length()) + " ||");
             }
-            System.out.print("\n" + "=".repeat((colWidth + 3) * line.length));
+            System.out.print("\n" + "=".repeat(totalWidth + line.length * 4));
             System.out.print("\n");
         }
     }
