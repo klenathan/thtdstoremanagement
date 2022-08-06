@@ -123,6 +123,15 @@ public class Menu {
                         System.out.println(accController.userViewInformation(username));
                         System.out.println("Enter to continue");
                         scan.nextLine();
+                    } else if (input == 12) {
+                        System.out.println("TODAY'S ORDER | View today's order");
+                        ArrayList<String[]> res = orderController.dayOrder();
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
+                                "Order Status", "Date"};
+                        res.add(0,heading);
+//                        res.add(orderController.dayOrder())
+                        tableDisplay(res);
+//                        this.tableDisplay(orderController.dayOrder());
                     }
                 } else if (accController.getAccount() != null) {
                     // LOGGED IN MENU
@@ -216,7 +225,9 @@ public class Menu {
                 8. Change order status (UNPAID -> PAID)
                 9. List all user information
                 10. Set role for account
-                11. View customer information""";
+                11. View customer information
+                12. Check order in a day
+                """;
 
 
         if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
@@ -226,7 +237,7 @@ public class Menu {
         } else {
             System.out.println(optionsTxt);
         }
-        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
         while (true) {
             Scanner input = new Scanner(System.in);
