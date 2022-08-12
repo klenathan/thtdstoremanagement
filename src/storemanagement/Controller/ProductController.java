@@ -118,6 +118,7 @@ public class ProductController {
      * @return res: type ArrayList<String[]>
      */
     public ArrayList<String[]> sortProduct(String input) {
+
         ArrayList<Long> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
             priceArr.add(Long.parseLong(dataArr.get(i)[3]));
@@ -132,8 +133,8 @@ public class ProductController {
         HashMap<String, String[]> a = new HashMap<>();
         ArrayList<String[]> res = new ArrayList<>();
         for (Long aLong : priceArr) {
-            for (int i = 1; i < dataArr.size(); i++) {
-                if (Long.parseLong(dataArr.get(i)[3]) == priceArr.get(i) && !a.containsKey(dataArr.get(i)[0])) {
+            for (int i = 1; i < dataArr.size()-1; i++) {
+                if (Long.parseLong(dataArr.get(i)[3]) == aLong && !a.containsKey(dataArr.get(i)[0])) {
                     a.put(dataArr.get(i)[0], dataArr.get(i));
                     res.add(a.get(dataArr.get(i)[0]));
                 }

@@ -8,7 +8,7 @@ import storemanagement.View.Menu;
 
 public class Main {
     public static void main(String[] args) {
-        // Thai: TODO: 03/08/2022 : Revenue on that day, info of orders on that day
+        // Ha / Dong: TODO: 03/08/2022 : Revenue on that day, info of orders on that day
 
         ProductController productController = new ProductController();
         AccountController accountController = new AccountController();
