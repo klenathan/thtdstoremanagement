@@ -1,8 +1,11 @@
 package storemanagement.Controller;
 
 import storemanagement.Service.Helper;
-
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class OrderController {
 
@@ -33,10 +36,12 @@ public class OrderController {
      * @param price:     type long
      */
     public void createOrder(String productId, String userId, int quantity, long price) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
         int finalQuantity = quantityValidate(quantity);
         long totalBill = (long) ((finalQuantity * price) * (1 - membershipDiscount(userId)));
         String orderDetail = productId
-                + "," + userId + "," + finalQuantity + "," + totalBill + "," + "UNPAID";
+                + "," + userId + "," + finalQuantity + "," + totalBill + "," + "UNPAID" + "," + dtf.format(now);
         Helper.addData(orderDataFile, orderDetail);
         this.dataArr = Helper.readData(orderDataFile);
     }
@@ -102,7 +107,6 @@ public class OrderController {
         } else {
             membership = "none";
         }
-
         return membership;
     }
 
@@ -157,6 +161,29 @@ public class OrderController {
             arr = new String[0];
         }
         return arr;
+    }
+
+    /**
+     * This method return the order at the end of a day & its total bill
+     * @return res: type ArrayList<String[]>
+     */
+    public ArrayList<String[]> dayOrder(){
+        long totalBill = 0;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        String currentTime = dtf.format(now);
+        ArrayList<String[]> res = new ArrayList<>();
+        for(String[] line : dataArr){
+            if (currentTime.equalsIgnoreCase(line[6]) && line[5].equalsIgnoreCase("PAID")){
+                String id = line[0];
+                totalBill += Long.parseLong(line[4]);
+                res.add(Helper.getDataFromLine(orderDataFile,id));
+            }
+        }
+        String total = String.format("%,d", totalBill);
+        String[] arr = {"Total bill", "", "", "", total, "", currentTime};
+        res.add(arr);
+        return res;
     }
 
 }

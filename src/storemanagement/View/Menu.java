@@ -42,7 +42,11 @@ public class Menu {
                     break;
                 } else if (input == 1) {
                     System.out.println("PRODUCT LIST | List all product from the store");
-                    this.tableDisplay(productController.getDataArr());
+                    String[] heading = {"Product ID", "Product Name", "Category", "Price"};
+                    ArrayList<String[]> displayData = productController.getDataArr();
+                    displayData.remove(0);
+                    displayData.add(0, heading);
+                    this.tableDisplay(displayData);
                     System.out.println(
                             "Do you want to sort the product list by price? Press \"Y\" for YES or \"enter/return\" for NO");
                     String inp = scan.nextLine();
@@ -68,11 +72,11 @@ public class Menu {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status"};
-                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
                         System.out.print("Input desired user ID: ");
                         String userId = scan.nextLine();
-                        this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(userId));
+                        ArrayList<String[]> displayData = orderController.getCurrenUserOrders(userId);
+                        displayData.add(0, heading);
+                        this.tableDisplay(displayData);
                     } else if (input == 5) {
                         System.out.println("NEW PRODUCT | Add new product to the store");
                         System.out.print("New product name: ");
@@ -119,6 +123,15 @@ public class Menu {
                         System.out.println(accController.userViewInformation(username));
                         System.out.println("Enter to continue");
                         scan.nextLine();
+                    } else if (input == 12) {
+                        System.out.println("TODAY'S ORDER | View today's order");
+                        ArrayList<String[]> res = orderController.dayOrder();
+                        String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
+                                "Order Status", "Date"};
+                        res.add(0,heading);
+//                        res.add(orderController.dayOrder())
+                        tableDisplay(res);
+//                        this.tableDisplay(orderController.dayOrder());
                     }
                 } else if (accController.getAccount() != null) {
                     // LOGGED IN MENU
@@ -126,10 +139,10 @@ public class Menu {
                         System.out.println("ORDERS LIST | This is your order list");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
                                 "Order Status"};
-                        ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-                        this.tableDisplay(headingArr);
-                        this.tableDisplay(orderController.getCurrenUserOrders(accController.getAccount().getUserId()));
-                        System.out.println();
+                        ArrayList<String[]> displayData = orderController.getCurrenUserOrders(accController.getAccount().getUserId());
+                        displayData.add(0, heading);
+                        this.tableDisplay(displayData);
+                        System.out.println(" ");
                     } else if (input == 5) {
                         System.out.println("ORDER INFORMATION | Get order's information");
                         System.out.print("Please input order ID: ");
@@ -212,7 +225,9 @@ public class Menu {
                 8. Change order status (UNPAID -> PAID)
                 9. List all user information
                 10. Set role for account
-                11. View customer information""";
+                11. View customer information
+                12. Check order in a day
+                """;
 
 
         if (accController.getAccount() != null && accController.getAccount().getRole().equalsIgnoreCase("admin")) {
@@ -222,7 +237,7 @@ public class Menu {
         } else {
             System.out.println(optionsTxt);
         }
-        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        Integer[] optionArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
         while (true) {
             Scanner input = new Scanner(System.in);
@@ -324,7 +339,7 @@ public class Menu {
 
     /**
      * This method prints all the products in a chosen category number
-     * @return
+     * @return true when no error occurs
      */
     public boolean categoryView() {
         Scanner scan = new Scanner(System.in);
@@ -339,10 +354,10 @@ public class Menu {
         System.out.print("Choose desired category number or \"0\" to exit: ");
         String userInput = scan.nextLine();
         if (categoryMenuMap.containsKey(Integer.parseInt(userInput))) {
-            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
-            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-            this.tableDisplay(headingArr);
-            this.tableDisplay(productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput))));
+            String[] heading = {"Product ID", "Product Name", "Category", "Price"};
+            ArrayList<String[]> displayData = productController.getAllFromCat(categoryMenuMap.get(Integer.parseInt(userInput)));
+            displayData.add(0, heading);
+            this.tableDisplay(displayData);
             return true;
         } else {
             System.out.println(Helper.error("The category number \"" + userInput + "\" does not exist!"));
@@ -359,10 +374,10 @@ public class Menu {
         if (inp.equalsIgnoreCase("y")) {
             System.out.println("Press \"D\" for sorting in descending order or \"A\" for ascending order: ");
             String productOrder = scan.nextLine();
-            String[] heading = {"ProductId", "ProductName", "Category", "Price"};
-            ArrayList<String[]> headingArr = new ArrayList<>(Collections.singleton(heading));
-            this.tableDisplay(headingArr);
-            this.tableDisplay(productController.sortProduct(productOrder));
+            String[] heading = {"productId","productName","category","price"};
+            ArrayList<String[]> displayData = productController.sortProduct(productOrder);
+            displayData.add(0, heading);
+            this.tableDisplay(displayData);
         }
     }
 
@@ -371,16 +386,44 @@ public class Menu {
      * @param displayData: type ArrayList<String[]>
      */
     private void tableDisplay(ArrayList<String[]> displayData) {
-        int colWidth = 30;
+        int colWidth;
+        int totalWidth = 0;
+        HashMap<Integer, Integer> colWidthData = new HashMap<>();
+        // Format price to every thousand
+        for (String[] displayDatum : displayData) {
+            for (int z = 0; z < displayDatum.length; z++) {
+                if (checkLong(displayDatum[z])) {
+                    Integer price = Integer.parseInt(displayDatum[z]);
+                    displayDatum[z] = String.format("%,d", price);
+                }
+                if (colWidthData.get(z) == null) {
+                    colWidthData.put(z, displayDatum[z].length());
+                } else if (displayDatum[z].length() > colWidthData.get(z)) {
+                    colWidthData.put(z, displayDatum[z].length());
+                }
+            }
+        }
+        // Calculate total width of the table
+        for (int width : colWidthData.values()) {
+            totalWidth += width;
+        }
+        // Modify data so it displayed as a table
         for (String[] line : displayData) {
             for (int j = 0; j < line.length; j++) {
-                if (line[j].length() > 30) {
-                    line[j] = line[j].substring(0, Math.min(line[j].length(), 27)) + "...";
-                }
-                System.out.print(" " + line[j] + " ".repeat(colWidth - line[j].length()) + "||");
+                colWidth = colWidthData.get(j);
+                System.out.print(" " + line[j] + " ".repeat(colWidth - line[j].length()) + " ||");
             }
-            System.out.print("\n" + "=".repeat((colWidth + 3) * line.length));
+            System.out.print("\n" + "=".repeat(totalWidth + line.length * 4));
             System.out.print("\n");
+        }
+    }
+
+    private boolean checkLong(String value) {
+        try {
+            Long.parseLong(value);
+            return true;
+        } catch (NumberFormatException ignored) {
+            return false;
         }
     }
 }

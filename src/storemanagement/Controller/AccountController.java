@@ -179,9 +179,10 @@ public class AccountController {
                 String uname = line[1];
                 String fname = line[3];
                 String phone = line[4];
-                String member = new OrderController().membershipCheck(line[0]);
-                long totalBill = new OrderController().totalPayment(line[0]);
-                message = "================================\n" + Helper.error("\t\t" + uname + "'s information\n")
+                OrderController orderController = new OrderController();
+                String member = orderController.membershipCheck(line[0]);
+                long totalBill = orderController.totalPayment(line[0]);
+                message = "================================\n" + Helper.green("\t\t" + uname + "'s information\n")
                         + "Username: " + Helper.green(uname) + "\n"
                         + "Fullname: " + Helper.green(fname) + "\n"
                         + "Phone: " + Helper.green(phone) + "\n"
