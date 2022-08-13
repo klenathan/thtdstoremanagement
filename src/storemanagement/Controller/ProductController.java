@@ -118,14 +118,12 @@ public class ProductController {
      * @return res: type ArrayList<String[]>
      */
     public ArrayList<String[]> sortProduct(String input) {
-        Map<Long, String[]> productHashMap = new HashMap<>();
         TreeMap<Long, String[]> sortTreeMap = new TreeMap<>();
         ArrayList<String[]> sortList = new ArrayList<>();
 
         for (int i = 1; i < dataArr.size(); i++) {
-            productHashMap.put(Long.parseLong(dataArr.get(i)[3]), dataArr.get(i));
+            sortTreeMap.put(Long.parseLong(dataArr.get(i)[3]), dataArr.get(i));
         }
-        sortTreeMap.putAll(productHashMap);
 
         if (input.equalsIgnoreCase("a")) {
             for(Long key : sortTreeMap.keySet()) {
