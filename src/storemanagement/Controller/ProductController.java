@@ -118,29 +118,25 @@ public class ProductController {
      * @return res: type ArrayList<String[]>
      */
     public ArrayList<String[]> sortProduct(String input) {
+        Map<Long, String[]> productHashMap = new HashMap<>();
+        TreeMap<Long, String[]> sortTreeMap = new TreeMap<>();
+        ArrayList<String[]> sortList = new ArrayList<>();
 
-        ArrayList<Long> priceArr = new ArrayList<>();
         for (int i = 1; i < dataArr.size(); i++) {
-            priceArr.add(Long.parseLong(dataArr.get(i)[3]));
+            productHashMap.put(Long.parseLong(dataArr.get(i)[3]), dataArr.get(i));
         }
+        sortTreeMap.putAll(productHashMap);
 
-        if (input.equalsIgnoreCase("A")) {
-            Collections.sort(priceArr);
-        } else if (input.equalsIgnoreCase(("D"))) {
-            priceArr.sort(Collections.reverseOrder());
-        }
-
-        HashMap<String, String[]> a = new HashMap<>();
-        ArrayList<String[]> res = new ArrayList<>();
-        for (Long aLong : priceArr) {
-            for (int i = 1; i < dataArr.size()-1; i++) {
-                if (Long.parseLong(dataArr.get(i)[3]) == aLong && !a.containsKey(dataArr.get(i)[0])) {
-                    a.put(dataArr.get(i)[0], dataArr.get(i));
-                    res.add(a.get(dataArr.get(i)[0]));
-                }
+        if (input.equalsIgnoreCase("a")) {
+            for(Long key : sortTreeMap.keySet()) {
+                sortList.add(sortTreeMap.get(key));
+            }
+        } else if (input.equalsIgnoreCase("d")) {
+            for(Long key : sortTreeMap.descendingKeySet()) {
+                sortList.add(sortTreeMap.get(key));
             }
         }
-        return res;
+        return sortList;
     }
 
     /**

@@ -392,10 +392,6 @@ public class Menu {
         // Format price to every thousand
         for (String[] displayDatum : displayData) {
             for (int z = 0; z < displayDatum.length; z++) {
-                if (checkLong(displayDatum[z])) {
-                    Integer price = Integer.parseInt(displayDatum[z]);
-                    displayDatum[z] = String.format("%,d", price);
-                }
                 if (colWidthData.get(z) == null) {
                     colWidthData.put(z, displayDatum[z].length());
                 } else if (displayDatum[z].length() > colWidthData.get(z)) {
@@ -415,15 +411,6 @@ public class Menu {
             }
             System.out.print("\n" + "=".repeat(totalWidth + line.length * 4));
             System.out.print("\n");
-        }
-    }
-
-    private boolean checkLong(String value) {
-        try {
-            Long.parseLong(value);
-            return true;
-        } catch (NumberFormatException ignored) {
-            return false;
         }
     }
 }
