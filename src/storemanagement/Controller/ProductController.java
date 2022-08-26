@@ -83,6 +83,7 @@ public class ProductController {
         String message;
         if (checkProductExist(productID)) {
             Helper.deleteLine(productDataFile, productID.toUpperCase());
+            this.dataArr = Helper.readData(productDataFile);
             message = Helper.green("Successfully deleted!");
         } else {
             message = Helper.error("The product ID \"" + productID + "\" does not exist!");
