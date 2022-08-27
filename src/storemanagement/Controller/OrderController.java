@@ -4,8 +4,6 @@ import storemanagement.Service.Helper;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class OrderController {
 
@@ -180,8 +178,7 @@ public class OrderController {
                 res.add(Helper.getDataFromLine(orderDataFile,id));
             }
         }
-        String total = String.format("%,d", totalBill);
-        String[] arr = {"Total bill", "", "", "", total, "", currentTime};
+        String[] arr = {"Total bill", "", "", "", String.valueOf(totalBill), "", currentTime};
         res.add(arr);
         return res;
     }

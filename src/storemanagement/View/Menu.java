@@ -71,7 +71,7 @@ public class Menu {
                     if (input == 4) {
                         System.out.println("ORDERS LIST | Get all orders from user ID");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status"};
+                                "Order Status", "Order Time"};
                         System.out.print("Input desired user ID: ");
                         String userId = scan.nextLine();
                         ArrayList<String[]> displayData = orderController.getCurrenUserOrders(userId);
@@ -127,18 +127,16 @@ public class Menu {
                         System.out.println("TODAY'S ORDER | View today's order");
                         ArrayList<String[]> res = orderController.dayOrder();
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status", "Date"};
+                                "Order Status", "Order Time"};
                         res.add(0,heading);
-//                        res.add(orderController.dayOrder())
                         tableDisplay(res);
-//                        this.tableDisplay(orderController.dayOrder());
                     }
                 } else if (accController.getAccount() != null) {
                     // LOGGED IN MENU
                     if (input == 4) {
                         System.out.println("ORDERS LIST | This is your order list");
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status"};
+                                "Order Status", "Order Time"};
                         ArrayList<String[]> displayData = orderController.getCurrenUserOrders(accController.getAccount().getUserId());
                         displayData.add(0, heading);
                         this.tableDisplay(displayData);
@@ -149,7 +147,7 @@ public class Menu {
                         String orderId = scan.nextLine();
                         ArrayList<String[]> res = new ArrayList<>();
                         String[] heading = {"Order ID", "Product ID", "User ID", "Quantity", "Total Bill",
-                                "Order Status"};
+                                "Order Status", "Order Time"};
                         res.add(heading);
                         res.add(orderController.getOrderInfo(orderId.toUpperCase(),
                                 accController.getAccount().getUserId()));
@@ -374,7 +372,7 @@ public class Menu {
         if (inp.equalsIgnoreCase("y")) {
             System.out.println("Press \"D\" for sorting in descending order or \"A\" for ascending order: ");
             String productOrder = scan.nextLine();
-            String[] heading = {"productId","productName","category","price"};
+            String[] heading = {"Product ID", "Product Name", "Category", "Price"};
             ArrayList<String[]> displayData = productController.sortProduct(productOrder);
             displayData.add(0, heading);
             this.tableDisplay(displayData);
@@ -389,7 +387,6 @@ public class Menu {
         int colWidth;
         int totalWidth = 0;
         HashMap<Integer, Integer> colWidthData = new HashMap<>();
-        // Format price to every thousand
         for (String[] displayDatum : displayData) {
             for (int z = 0; z < displayDatum.length; z++) {
                 if (colWidthData.get(z) == null) {
