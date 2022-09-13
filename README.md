@@ -6,6 +6,9 @@ Instructor: Mr. Minh Vu<br>
 ### [GitHub Repository](https://github.com/klenathan/thtdstoremanagement)
 https://github.com/klenathan/thtdstoremanagement
 
+### [Youtube Demonstration Video](https://youtu.be/RkQKeBMHsYM)
+https://youtu.be/RkQKeBMHsYM
+
 ### Group member & contribution
 
 s3891890, Nam Thai Tran - 25%<br>
