@@ -1,2 +1,4 @@
 customerId,username,password(hashed),fullName,phoneNum,membership,role,totalPayment
 U1,admin,21232f297a57a5a743894a0e4a801fc3,admin,1234567890,none,admin,0
+U2,customer1,202cb962ac59075b964b07152d234b70,Customer 1,1231231230,silver,user,7980000
+U3,customer3,202cb962ac59075b964b07152d234b70,Customer 3,1231231230,none,admin,0

@@ -150,6 +150,7 @@ public class AccountController {
                     case "admin" -> Helper.modifyField(userDataFile, uID, 6, "admin");
                     case "user" -> Helper.modifyField(userDataFile, uID, 6, "user");
                 }
+                this.dataArr = Helper.readData(userDataFile);
             }
         } else {
             message = Helper.error("THIS USER IS NOT EXIST");
